@@ -155,12 +155,25 @@ namespace Card_Lib
         /// Flag for trump usage. If true, trumps are valued higher
         /// than cards of other suits.
         /// </summary>
-        public static bool useTrumps = false;
+        public static bool useTrumps = true;
 
+        //MODIFY INTO 
+        private static int trumpSuit;
+        public static int TrumpSuit
+        {
+            set
+            {
+                trumpSuit = value;
+            }
+            get
+            {
+                return trumpSuit;
+            }
+        }
         /// <summary>
         /// Trump suit to use if useTrumps is true.
         /// </summary>
-        public static Suit trump = Suit.Club;
+        public static Suit trump = (Suit)TrumpSuit;
 
         /// <summary>
         /// Flag that determines whether aces are higher than kings or lower
