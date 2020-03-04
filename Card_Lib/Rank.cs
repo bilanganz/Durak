@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Ch13CardLib
+namespace Card_lib
 {
     /// <summary>
     /// Rank Enum, for set card rank
