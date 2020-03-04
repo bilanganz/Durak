@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.1022
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardLib", "Card_Lib\CardLib.csproj", "{90F987EE-8B8A-4F0E-B4FA-246027D40DB4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Card_Lib", "Card_Lib\Card_Lib.csproj", "{90F987EE-8B8A-4F0E-B4FA-246027D40DB4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
