@@ -10,50 +10,10 @@ using System.Text;
 
 namespace Card_Lib
 {
-    public class Deck : ICloneable
+    public class Deck
     {
-        public event EventHandler LastCardDrawn;
-        /// <summary>
-        /// Nondefault constructor. Allows aces to be set high.
-        /// </summary>
-        public Deck(bool isAceHigh) : this()
-        {
-            Card.isAceHigh = isAceHigh;
-        }
-
-        /// <summary>
-        /// Nondefault constructor. Allows a trump suit to be used.
-        /// </summary>
-        public Deck(bool useTrumps, Suit trump) : this()
-        {
-            Card.useTrumps = useTrumps;
-            Card.trump = trump;
-        }
-        /// <summary>
-        /// Nondefault constructor. Allows aces to be set high and a trump suit
-        /// to be used.
-        /// </summary>
-        public Deck(bool isAceHigh, bool useTrumps, Suit trump) : this()
-        {
-            Card.isAceHigh = isAceHigh;
-            Card.useTrumps = useTrumps;
-            Card.trump = trump;
-        }
-        /// <summary>
-        /// Clone - clone the deck of card
-        /// </summary>
-        /// <returns>object of the deck</returns>
-        public object Clone()
-        {
-            Deck newDeck = new Deck(cards.Clone() as Cards);
-            return newDeck;
-        }
-
-        private Deck(Cards newCards)
-        {
-            cards = newCards;
-        }
         private Cards cards = new Cards();
+        private const int numOfCards = 36;
         /// <summary>
         /// Default Constructor - create a deck of 52 cards
         /// </summary>
@@ -61,7 +21,7 @@ namespace Card_Lib
         {
             for (int suitVal = 0; suitVal < 4; suitVal++)
             {
-                for (int rankVal = 1; rankVal < 14; rankVal++)
+                for (int rankVal = 1; rankVal < 9; rankVal++)
                 {
                     cards.Add(new Card((Suit)suitVal, (Rank)rankVal));
                 }
@@ -74,10 +34,8 @@ namespace Card_Lib
         /// <returns>card on that index</returns>
         public Card GetCard(int cardNum)
         {
-            if (cardNum >= 0 && cardNum <= 51)
+            if (cardNum >= 0 && cardNum <= numOfCards)
             {
-                if ((cardNum == 51) && (LastCardDrawn != null))
-                    LastCardDrawn(this, EventArgs.Empty);
                 return cards[cardNum];
             }
             else
@@ -89,15 +47,15 @@ namespace Card_Lib
         public void Shuffle()
         {
             Cards newDeck = new Cards();
-            bool[] assigned = new bool[52];
+            bool[] assigned = new bool[numOfCards];
             Random sourceGen = new Random();
-            for (int i = 0; i < 52; i++)
+            for (int i = 0; i < numOfCards; i++)
             {
                 int sourceCard = 0;
                 bool foundCard = false;
                 while (foundCard == false)
                 {
-                    sourceCard = sourceGen.Next(52);
+                    sourceCard = sourceGen.Next(numOfCards);
                     if (assigned[sourceCard] == false)
                         foundCard = true;
                 }

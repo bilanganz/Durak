@@ -8,19 +8,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Card_lib
+namespace Card_Lib
 {
     /// <summary>
     /// Rank Enum, for set card rank
     /// </summary>
     public enum Rank
     {
-        Ace = 1,
-        Deuce,
-        Three,
-        Four,
-        Five,
-        Six,
+        Six=1,
         Seven,
         Eight,
         Nine,
