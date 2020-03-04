@@ -1,5 +1,5 @@
 ﻿/**Card.cs - card class
- * 
+ * d
  * Author: Group #2
  * Since : 2020 - 03 - 03
  */
