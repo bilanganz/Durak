@@ -15,13 +15,18 @@ namespace Card_Lib
     /// </summary>
     public enum Rank
     {
-        Six=1,
+        Deuce=1,
+        Three,
+        Four,
+        Five,
+        Six,
         Seven,
         Eight,
         Nine,
         Ten,
         Jack,
         Queen,
-        King
+        King,
+        Ace
     }
 }
