@@ -17,7 +17,15 @@ namespace Card_Lib
         {
             set
             {
-                minRange = value;
+                //add validation
+                if(value >= 1 && value <= 14)
+                {
+                    minRange = value;
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException("Invalid value for minimum range.");
+                }
             }
             get
             {
@@ -30,7 +38,14 @@ namespace Card_Lib
         {
             set
             {
-                maxRange = value;
+                if (value >= 1 && value <= 14 && minRange<maxRange)
+                {
+                    maxRange = value;
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException("Invalid value for maximum range.");
+                }
             }
             get
             {

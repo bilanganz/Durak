@@ -158,23 +158,22 @@ namespace Card_Lib
         public static bool useTrumps = true;
 
         //MODIFY INTO 
-        private static int trumpSuit;
-        public static int TrumpSuit
-        {
-            set
-            {
-                trumpSuit = value;
-            }
-            get
-            {
-                return trumpSuit;
-            }
-        }
         /// <summary>
         /// Trump suit to use if useTrumps is true.
         /// </summary>
-        public static Suit trump = (Suit)TrumpSuit;
-
+        public static Suit trump;
+        public static Suit Trump
+        {
+            set
+            {
+                trump = value;
+            }
+            get
+            {
+                return trump;
+            }
+        }
+        
         /// <summary>
         /// Flag that determines whether aces are higher than kings or lower
         /// than deuces.
