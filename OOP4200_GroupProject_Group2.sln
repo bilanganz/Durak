@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.1022
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Card_Lib", "Card_Lib\Card_Lib.csproj", "{90F987EE-8B8A-4F0E-B4FA-246027D40DB4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardBox", "CardBox\CardBox.csproj", "{0422AC99-0798-4C75-AFDA-83CE81FA5349}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{90F987EE-8B8A-4F0E-B4FA-246027D40DB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90F987EE-8B8A-4F0E-B4FA-246027D40DB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90F987EE-8B8A-4F0E-B4FA-246027D40DB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0422AC99-0798-4C75-AFDA-83CE81FA5349}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0422AC99-0798-4C75-AFDA-83CE81FA5349}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0422AC99-0798-4C75-AFDA-83CE81FA5349}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0422AC99-0798-4C75-AFDA-83CE81FA5349}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

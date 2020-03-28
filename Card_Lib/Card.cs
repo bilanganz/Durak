@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Drawing;
 
 namespace Card_Lib
 {
@@ -16,6 +17,45 @@ namespace Card_Lib
     /// </summary>
     public class Card : ICloneable
     {
+        /// <summary>
+        /// GetCardImage
+        /// Gets the image associated with the card from the resource file.
+        /// </summary>
+        /// <returns>an Image corresponding to the playing card.</returns>
+        public Image GetCardImage()
+        {
+            string imageName; // the name of the image in the resouces file
+            Image cardImage; // holds the image
+            // if the card is not face up
+            if (!faceUp)
+            {
+                //set the image name to "Back"
+                imageName = "Back"; //  sets it to the image name for the back of the card
+            }
+            else // otherwise, the card is face up and not joker
+            {
+                // set the image name to {suit}_{rank}
+                imageName = rank.ToString().ToLower() + "_of_" + suit.ToString().ToLower(); // enumerations are handy!
+            }
+            // Set the image to the appropriate object we get from the resources file
+            cardImage = Properties.Resources.ResourceManager.GetObject(imageName) as Image;
+            //return the image
+            return cardImage;
+        }
+
+        /// <summary>
+        /// DebugString
+        /// Generates a string showing the state of the card object; useful for debug purposes.
+        /// </summary>
+        /// <returns>a string showing the state of this card object</returns>
+        public String DebugString()
+        {
+            string cardState = (string)(rank.ToString() + " of " + suit.ToString()).PadLeft(20);
+            cardState += (string)((faceUp) ? "(Face Up)" : "(Face Down)").PadLeft(12);
+            return cardState;
+        }
+
+
         /// <summary>
         /// == operator check if card 1 and card 2 are the same
         /// </summary>
@@ -185,8 +225,10 @@ namespace Card_Lib
             return MemberwiseClone();
         }
 
+        public readonly bool faceUp;
         public readonly Rank rank;
         public readonly Suit suit;
+
         /// <summary>
         /// Constructor
         /// </summary>
