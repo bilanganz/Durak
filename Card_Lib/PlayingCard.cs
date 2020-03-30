@@ -199,7 +199,7 @@ namespace Card_Lib
             else // otherwise, the card is face up and not joker
             {
                 // set the image name to {suit}_{rank}
-                imageName = myRank.ToString().ToLower() + "_of_" + mySuit.ToString().ToLower(); // enumerations are handy!
+                imageName = mySuit.ToString() + "_" + myRank.ToString(); // enumerations are handy!
             }
             // Set the image to the appropriate object we get from the resources file
             cardImage = Properties.Resources.ResourceManager.GetObject(imageName) as Image;

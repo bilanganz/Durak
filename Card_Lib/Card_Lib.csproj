@@ -45,6 +45,7 @@
     <Compile Include="Card.cs" />
     <Compile Include="CardOutOfRangeException.cs" />
     <Compile Include="Cards.cs" />
+    <Compile Include="ComputerPlayer.cs" />
     <Compile Include="Deck.cs" />
     <Compile Include="PlayingCard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -268,6 +269,171 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\six_of_hearts.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Back1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Black_Joker.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AC.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\8C.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\5C.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\4C.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\JC.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KC.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\9C.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\QC.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\7C.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\6C.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\10C.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3C.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\2C.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AD.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\8D.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\5D.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\4D.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\JD.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KD.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\9D.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\QD.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\7D.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\6D.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\10D.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3D.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\2D.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AH.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\8H.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\5H.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\4H.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\JH.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KH.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\9H.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\QH.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\7H.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\6H.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\10H.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3H.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\2H.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Red_Joker.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AS.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\8S.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\5S.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\4S.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\JS.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KS.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\9S.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\QS.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\7S.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\6S.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\10S.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3S.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\2S.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

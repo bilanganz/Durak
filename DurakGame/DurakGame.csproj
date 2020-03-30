@@ -85,6 +85,10 @@
       <Project>{81d9b79d-9074-4758-9028-7ba03b1472c6}</Project>
       <Name>CardBox</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Card_Lib\Card_Lib.csproj">
+      <Project>{90f987ee-8b8a-4f0e-b4fa-246027d40db4}</Project>
+      <Name>Card_Lib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PlayCard\PlayCard.csproj">
       <Project>{c419bb73-8e27-4595-91b4-8230acd66e27}</Project>
       <Name>PlayCard</Name>

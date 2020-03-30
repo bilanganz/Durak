@@ -54,6 +54,36 @@ namespace Card_Lib
         }
 
         public event EventHandler LastCardDrawn;
+        
+        public Deck(int deckSize)
+        {
+            int startingRank = 1;
+            if (deckSize == 36)
+            {
+                startingRank = 6;
+                for (int suit = 0; suit < 3; suit++)
+                {
+                    cards.Add(new Card((Suit)suit, (Rank)1));
+                }
+            }
+            else if (deckSize == 20)
+            {
+                startingRank = 10;
+                for (int suit = 0; suit < 3; suit++)
+                {
+                    cards.Add(new Card((Suit)suit, (Rank)1));
+                }
+            }
+
+            for (int suitVal = 0; suitVal < 4; suitVal++)
+            {
+                for (int rankVal = startingRank; rankVal < MaxRange; rankVal++)
+                {
+                    cards.Add(new Card((Suit)suitVal, (Rank)rankVal));
+                }
+            }
+        }
+
         /// <summary>
         /// Nondefault constructor. Allows aces to be set high.
         /// </summary>
@@ -127,18 +157,18 @@ namespace Card_Lib
         /// <summary>
         /// Shuffle - randomize the sequence of the deck
         /// </summary>
-        public void Shuffle()
+        public void Shuffle(int deckSize)
         {
             Cards newDeck = new Cards();
-            bool[] assigned = new bool[(MinRange * MaxRange)];
+            bool[] assigned = new bool[deckSize];
             Random sourceGen = new Random();
-            for (int i = 0; i < (MinRange * MaxRange); i++)
+            for (int i = 0; i < deckSize; i++)
             {
                 int sourceCard = 0;
                 bool foundCard = false;
                 while (foundCard == false)
                 {
-                    sourceCard = sourceGen.Next((MinRange * MaxRange));
+                    sourceCard = sourceGen.Next(deckSize);
                     if (assigned[sourceCard] == false)
                         foundCard = true;
                 }
@@ -146,6 +176,20 @@ namespace Card_Lib
                 newDeck.Add(cards[sourceCard]);
             }
             newDeck.CopyTo(cards);
+        }
+
+        public Card DrawCard()
+        {
+            Card card;
+
+            card = cards.First();
+            cards.RemoveAt(0);
+            return card;
+        }
+
+        public Suit SetTrump(Card card)
+        {
+            return card.suit;
         }
     }
 }

@@ -8,11 +8,26 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CardBox;
+using Card_Lib;
 
 namespace DurakGame
 {
     public partial class frmDurakGame : Form
     {
+        static int deckSize = 52;
+        
+        /// <summary>
+        /// The amount, in points, that CardBox controls are enlarged when hovered over. 
+        /// </summary>
+        private const int POP = 25;
+
+        /// <summary>
+        /// The regular size of a CardBox control
+        /// </summary>
+        static private Size regularSize = new Size(80, 98);
+
+        private Deck myDeck = new Deck(deckSize);
+
         //initialize components of the form
         public frmDurakGame()
         {
@@ -20,7 +35,7 @@ namespace DurakGame
 
         }
 
-        int deckSize = 52;
+        
 
         //resets game
         public void ResetGame()
@@ -31,6 +46,7 @@ namespace DurakGame
         //on form load reset game
         private void frmDurakGame_Load(object sender, EventArgs e)
         {
+            pbDeck.Image = (new PlayingCard()).GetCardImage();
             ResetGame();
             this.BackgroundImage = Properties.Resources.bg1;
         }
