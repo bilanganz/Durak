@@ -14,14 +14,15 @@ namespace DurakGame
 {
     public partial class frmDurakGame : Form
     {
+        #region VARIABLE
         private int currentCard;
         private Deck playDeck;
-        //change 1
         private Player HumanPlayer = new Player("Player One");
         private Player ComputerPlayer = new Player("Computer");
         private Cards discardedCards;
         static int deckSize = 52;
         private CardBox.CardBox dragCard;
+
 
         /// <summary>
         /// The amount, in points, that CardBox controls are enlarged when hovered over. 
@@ -34,9 +35,9 @@ namespace DurakGame
         static private Size regularSize = new Size(250, 100);
 
         private Deck myDeck = new Deck(deckSize);
+        #endregion
 
-
-
+        #region FORM AND CONTROL EVENT HANDLER
         //initialize components of the form
         public frmDurakGame()
         {
@@ -44,30 +45,7 @@ namespace DurakGame
 
         }
 
-        private void DealHands()
-        {            
-            for (int c = 0; c < 6; c++)
-            {
-                HumanPlayer.PlayHand.Add(playDeck.GetCard(currentCard++));
-                CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(currentCard));
-                flowHumanHand.Controls.Add(aCardBox);
-            }
-
-            for (int c = 0; c < 6; c++)
-            {
-                ComputerPlayer.PlayHand.Add(playDeck.GetCard(currentCard++));
-                CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(currentCard));
-                flowComputerHand.Controls.Add(aCardBox);
-            }
-            //RealignCards(flowHumanHand);
-        }
-
-        //resets game
-        public void ResetGame(object source, EventArgs args)
-        {
-
-        }
-
+        
         //on form load reset game
         private void frmDurakGame_Load(object sender, EventArgs e)
         {
@@ -86,7 +64,7 @@ namespace DurakGame
         //starts a new game
         private void btnStartGame_Click(object sender, EventArgs e)
         {
-            //ResetGame();
+            ResetGame();
 
             DisplayAllCardLists();
 
@@ -95,21 +73,6 @@ namespace DurakGame
 
         }
 
-
-        public void AttackDefendPhase()
-        {
-            //int userInput = 1;
-            //Attacking/defendingPhase   
-            //myPlayerOne.AttackingPhase(myRiver, userInput);
-
-            //myPlayerTwo.DefendingPhase(myRiver);
-
-            DisplayAllCardLists();
-
-        }
-
-
-
         //on card click will raise event in card image control class
         //clicked card will go through player attack/defend phase method
         private void Card_Click(object sender, EventArgs e)
@@ -117,42 +80,6 @@ namespace DurakGame
 
         }
 
-
-        //will display all card lists on the windows form
-        public void DisplayAllCardLists()
-        {
-
-        }
-
-        //displays discard cards
-        public void DisplayDiscardCards()
-        {
-
-        }
-
-        //displays trump card
-        public void DisplayTrumpCards()
-        {
-
-        }
-
-        //displays player one cards
-        public void DisplayPlayerOneCards()
-        {
-
-        }
-
-        //displays player two cards
-        public void DisplayPlayerTwoCards()
-        {
-
-        }
-
-        //displays river cards
-        public void DisplayRiverCards()
-        {
-
-        }
 
         //button pickup clicked ends human turn and picks up cards
         private void btnPickUp_Click(object sender, EventArgs e)
@@ -197,6 +124,126 @@ namespace DurakGame
 
         }
 
+        #endregion
+
+        #region CARDBOX EVENT HANDLER
+        void CardBox_Click(object sender, EventArgs e)
+        {
+            // Convert sender to a CardBox
+            CardBox.CardBox aCardBox = sender as CardBox.CardBox;
+
+            // If the conversion worked
+            if (aCardBox != null)
+            {
+                // if the card is in the home panel...
+                if (aCardBox.Parent == flowHumanHand)
+                {
+                    flowHumanHand.Controls.Remove(aCardBox); // Remove the card from the home panel
+                    flowRiver.Controls.Add(aCardBox); // Add the control to the play panel
+                }
+                else if (aCardBox.Parent == flowComputerHand)
+                {
+                    flowComputerHand.Controls.Remove(aCardBox); // Remove the card from the play panel
+                    flowRiver.Controls.Add(aCardBox); // Add the control to the home panel
+                }
+                // Realign the cards 
+                //RealignCards(pnlCardHome);
+                //RealignCards(pnlPlay);
+            }
+        }
+
+        #endregion
+
+        #region GAME METHOD
+        private void DealHands()
+        {
+            for (int c = 0; c < 6; c++)
+            {
+                HumanPlayer.PlayHand.Add(playDeck.GetCard(currentCard++));
+                CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(currentCard), true);
+                aCardBox.Click += CardBox_Click;
+                flowHumanHand.Controls.Add(aCardBox);
+            }
+
+            for (int c = 0; c < 6; c++)
+            {
+                ComputerPlayer.PlayHand.Add(playDeck.GetCard(currentCard++));
+                CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(currentCard), false);
+                aCardBox.Click += CardBox_Click;
+                flowComputerHand.Controls.Add(aCardBox);
+            }
+            //RealignCards(flowHumanHand);
+        }
+
+        //resets game
+        public void ResetGame()
+        {
+            flowComputerHand.Controls.Clear();
+            flowHumanHand.Controls.Clear();
+            flowRiver.Controls.Clear();
+
+            pbDeck.Image = (new Card()).GetCardImage();
+            currentCard = 0;
+            playDeck = new Deck(deckSize);
+            //playDeck.LastCardDrawn += ResetGame;
+            playDeck.Shuffle(deckSize);
+            discardedCards = new Cards();
+            txtDeckCardsRemaining.Text = playDeck.CardsRemaining.ToString();
+            DealHands();
+            this.BackgroundImage = Properties.Resources.bg1;
+        }
+
+
+        public void AttackDefendPhase()
+        {
+            //int userInput = 1;
+            //Attacking/defendingPhase   
+            //myPlayerOne.AttackingPhase(myRiver, userInput);
+
+            //myPlayerTwo.DefendingPhase(myRiver);
+
+            DisplayAllCardLists();
+
+        }
+        
+        //will display all card lists on the windows form
+        public void DisplayAllCardLists()
+        {
+
+        }
+
+        //displays discard cards
+        public void DisplayDiscardCards()
+        {
+
+        }
+
+        //displays trump card
+        public void DisplayTrumpCards()
+        {
+
+        }
+
+        //displays player one cards
+        public void DisplayPlayerOneCards()
+        {
+
+        }
+
+        //displays player two cards
+        public void DisplayPlayerTwoCards()
+        {
+
+        }
+
+        //displays river cards
+        public void DisplayRiverCards()
+        {
+
+        }
+        #endregion
+
+        #region HELPER METHOD
         private void RealignCards(Panel panelHand)
         {
             // Determine the number of cards/controls in the panel.
@@ -254,5 +301,6 @@ namespace DurakGame
             }
         }
 
+        #endregion
     }
 }

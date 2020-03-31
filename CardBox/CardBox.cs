@@ -49,6 +49,11 @@ namespace CardBox
         /// </summary>
         public Suit Suit
         {
+            set
+            {
+                Card.Suit = value;
+                UpdateCardImage(); // update the card image
+            }
             get { return Card.Suit; }
         }
 
@@ -57,6 +62,11 @@ namespace CardBox
         /// </summary>
         public Rank Rank
         {
+            set
+            {
+                Card.Rank = value;
+                UpdateCardImage(); // update the card image
+            }
             get { return Card.Rank; }
         }
 
@@ -65,6 +75,20 @@ namespace CardBox
         /// </summary>
         public bool FaceUp
         {
+            set
+            {
+                // if value is different than the underlying card's FaceUp property
+                if (myCard.FaceUp != value) // then the card is flipping over
+                {
+                    myCard.FaceUp = value; // change the card's FaceUp property
+
+                    UpdateCardImage(); // update the card iamge (back or front)
+
+                    // if there is an event handler for CardFlipped in the client program
+                    if (CardFlipped != null)
+                        CardFlipped(this, new EventArgs()); // call it
+                }
+            }
             get { return Card.FaceUp; }
         }
 
@@ -120,11 +144,11 @@ namespace CardBox
         /// </summary>
         /// <param name="card">Underlying Card Object</param>
         /// <param name="orientation">Orientation enumeration. Vertical by default</param>
-        public CardBox(Card card, Orientation orientation = Orientation.Vertical)
+        public CardBox(Card card, bool faceUp, Orientation orientation = Orientation.Vertical)
         {
             InitializeComponent(); // required method for Designer support
             myOrientation = orientation; // set the orientation
-            card.FaceUp = true;
+            card.FaceUp = faceUp;
             Card = card; // set the underlying card
             
         }
