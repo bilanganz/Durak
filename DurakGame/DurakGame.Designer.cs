@@ -347,7 +347,7 @@
             this.flowHumanHand.Location = new System.Drawing.Point(167, 434);
             this.flowHumanHand.Margin = new System.Windows.Forms.Padding(2);
             this.flowHumanHand.Name = "flowHumanHand";
-            this.flowHumanHand.Size = new System.Drawing.Size(555, 98);
+            this.flowHumanHand.Size = new System.Drawing.Size(634, 98);
             this.flowHumanHand.TabIndex = 11;
             // 
             // pbDeck

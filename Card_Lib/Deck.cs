@@ -145,7 +145,7 @@ namespace Card_Lib
         /// <returns>card on that index</returns>
         public Card GetCard(int cardNum)
         {
-            if (cardNum >= 0 && cardNum < (MinRange*MaxRange))
+            if (cardNum >= 0 && cardNum <= (MinRange*MaxRange))
             {
                 if ((cardNum == (MinRange * MaxRange)-1) && (LastCardDrawn != null))
                     LastCardDrawn(this, EventArgs.Empty);

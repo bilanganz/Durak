@@ -15,9 +15,9 @@ namespace Card_Lib
     /// </summary>
     public enum Suit
     {
-        Club,
-        Diamond,
-        Heart,
-        Spade
+        Clubs,
+        Diamonds,
+        Hearts,
+        Spades
     }
 }

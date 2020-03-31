@@ -34,8 +34,8 @@ namespace CardBox
         /// <summary>
         /// Card property: sets/gets the underlying Card object.
         /// </summary>
-        private PlayingCard myCard;
-        public PlayingCard Card
+        private Card myCard;
+        public Card Card
         {
             set
             {
@@ -49,12 +49,7 @@ namespace CardBox
         /// </summary>
         public Suit Suit
         {
-            set
-            {
-                Card.Suit = value;
-                UpdateCardImage(); // update the card image
-            }
-            get { return Card.Suit; }
+            get { return Card.suit; }
         }
 
         /// <summary>
@@ -62,12 +57,7 @@ namespace CardBox
         /// </summary>
         public Rank Rank
         {
-            set
-            {
-                Card.Rank = value;
-                UpdateCardImage(); // update the card image
-            }
-            get { return Card.Rank; }
+            get { return Card.rank; }
         }
 
         /// <summary>
@@ -75,21 +65,7 @@ namespace CardBox
         /// </summary>
         public bool FaceUp
         {
-            set
-            {
-                // if value is different than the underlying card's FaceUp property
-                if (myCard.FaceUp != value) // then the card is flipping over
-                {
-                    myCard.FaceUp = value; // change the card's FaceUp property
-
-                    UpdateCardImage(); // update the card iamge (back or front)
-
-                    // if there is an event handler for CardFlipped in the client program
-                    if (CardFlipped != null)
-                        CardFlipped(this, new EventArgs()); // call it
-                }
-            }
-            get { return Card.FaceUp; }
+            get { return Card.faceUp; }
         }
 
         /// <summary>
@@ -120,11 +96,11 @@ namespace CardBox
             pbMyPictureBox.Image = myCard.GetCardImage();
 
             // if orientation is horizontal
-            if (myOrientation == Orientation.Horizontal)
-            {
-                // rotate the image
-                pbMyPictureBox.Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
-            }
+            //if (myOrientation == Orientation.Horizontal)
+            //{
+            //    // rotate the image
+            //    pbMyPictureBox.Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
+            //}
         }
         #endregion
 
@@ -136,7 +112,7 @@ namespace CardBox
         {
             InitializeComponent(); // required method for Designer support
             myOrientation = Orientation.Vertical; // set the orientation to vertical
-            myCard = new PlayingCard(); // create a new underlying card.
+            Card = new Card(); // create a new underlying card.
         }
 
         /// <summary>
@@ -144,11 +120,11 @@ namespace CardBox
         /// </summary>
         /// <param name="card">Underlying Card Object</param>
         /// <param name="orientation">Orientation enumeration. Vertical by default</param>
-        public CardBox(PlayingCard card, Orientation orientation = Orientation.Vertical)
+        public CardBox(Card card, Orientation orientation = Orientation.Vertical)
         {
             InitializeComponent(); // required method for Designer support
             myOrientation = orientation; // set the orientation
-            myCard = card; // set the underlying card
+            Card = card; // set the underlying card
         }
         #endregion
 

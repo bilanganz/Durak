@@ -35,7 +35,7 @@ namespace Card_Lib
             else // otherwise, the card is face up and not joker
             {
                 // set the image name to {suit}_{rank}
-                imageName = rank.ToString().ToLower() + "_of_" + suit.ToString().ToLower(); // enumerations are handy!
+                imageName = suit.ToString() + "_" + rank.ToString(); // enumerations are handy!
             }
             // Set the image to the appropriate object we get from the resources file
             cardImage = Properties.Resources.ResourceManager.GetObject(imageName) as Image;
@@ -225,7 +225,7 @@ namespace Card_Lib
             return MemberwiseClone();
         }
 
-        public readonly bool faceUp;
+        public readonly bool faceUp=true;
         public readonly Rank rank;
         public readonly Suit suit;
 
@@ -234,7 +234,7 @@ namespace Card_Lib
         /// </summary>
         /// <param name="newSuit">Card Suit</param>
         /// <param name="newRank">Card Rank</param>
-        public Card(Suit newSuit, Rank newRank)
+        public Card(Suit newSuit=Suit.Clubs, Rank newRank=Rank.Ace)
         {
             suit = newSuit;
             rank = newRank;
