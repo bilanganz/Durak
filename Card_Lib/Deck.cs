@@ -53,6 +53,8 @@ namespace Card_Lib
             }
         }
 
+        public int CardsRemaining { get{ return cards.Count; } }
+
         public event EventHandler LastCardDrawn;
         
         public Deck(int deckSize)
@@ -84,7 +86,7 @@ namespace Card_Lib
             }
         }
 
-        /// <summary>
+        /*/// <summary>
         /// Nondefault constructor. Allows aces to be set high.
         /// </summary>
         public Deck(bool isAceHigh) : this()
@@ -109,7 +111,7 @@ namespace Card_Lib
             Card.isAceHigh = isAceHigh;
             Card.useTrumps = useTrumps;
             Card.trump = trump;
-        }
+        }*/
         /// <summary>
         /// Clone - clone the deck of card
         /// </summary>
@@ -189,7 +191,7 @@ namespace Card_Lib
 
         public Suit SetTrump(Card card)
         {
-            return card.suit;
+            return card.Suit;
         }
     }
 }

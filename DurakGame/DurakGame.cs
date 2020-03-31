@@ -17,7 +17,8 @@ namespace DurakGame
         private int currentCard;
         private Deck playDeck;
         //change 1
-        private Player[] players = new Player[1];
+        private Player HumanPlayer = new Player("Player One");
+        private Player ComputerPlayer = new Player("Computer");
         private Cards discardedCards;
         static int deckSize = 52;
         private CardBox.CardBox dragCard;
@@ -41,30 +42,24 @@ namespace DurakGame
         {
             InitializeComponent();
 
-            currentCard = 0;
-            playDeck = new Deck(true);
-            playDeck.LastCardDrawn += ResetGame;
-            playDeck.Shuffle(deckSize);
-            discardedCards = new Cards();
-
-            players[0] = new Player("John Doe");
-            DealHands();
-
         }
 
         private void DealHands()
-        {
-            for (int p = 0; p < players.Length; p++)
+        {            
+            for (int c = 0; c < 6; c++)
             {
-                for (int c = 0; c < 7; c++)
-                {
-                    players[p].PlayHand.Add(playDeck.GetCard(currentCard++));
-                    CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(currentCard));
-                    flowHumanHand.Controls.Add(aCardBox);
-                    
-                }
-                //RealignCards(flowHumanHand);
+                HumanPlayer.PlayHand.Add(playDeck.GetCard(currentCard++));
+                CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(currentCard));
+                flowHumanHand.Controls.Add(aCardBox);
             }
+
+            for (int c = 0; c < 6; c++)
+            {
+                ComputerPlayer.PlayHand.Add(playDeck.GetCard(currentCard++));
+                CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(currentCard));
+                flowComputerHand.Controls.Add(aCardBox);
+            }
+            //RealignCards(flowHumanHand);
         }
 
         //resets game
@@ -77,6 +72,13 @@ namespace DurakGame
         private void frmDurakGame_Load(object sender, EventArgs e)
         {
             pbDeck.Image = (new Card()).GetCardImage();
+            currentCard = 0;
+            playDeck = new Deck(deckSize);
+            //playDeck.LastCardDrawn += ResetGame;
+            playDeck.Shuffle(deckSize);
+            discardedCards = new Cards();
+            txtDeckCardsRemaining.Text = playDeck.CardsRemaining.ToString();
+            DealHands();
             //ResetGame();
             this.BackgroundImage = Properties.Resources.bg1;
         }

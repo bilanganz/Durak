@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace Card_Lib
 {
-    public class ComputerPlayer
-    {
-        public string Name { get; private set; }
-        public Cards PlayHand { get; private set; }
-        
+    public class ComputerPlayer : Player
+    {   
         public ComputerPlayer()
         {
 

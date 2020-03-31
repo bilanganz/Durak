@@ -14,12 +14,12 @@ namespace Card_Lib
     public class Player
     {
         //Player Attribute
-        public string Name { get; private set; }
-        public Cards PlayHand { get; private set; }
+        public string Name { get; set; }
+        public Cards PlayHand { get; set; }
         /// <summary>
         /// Default Constructor
         /// </summary>
-        private Player()
+        public Player()
         {
         }
         /// <summary>
@@ -38,10 +38,10 @@ namespace Card_Lib
         public bool HasWon()
         {
             bool won = true;
-            Suit match = PlayHand[0].suit;
+            Suit match = PlayHand[0].Suit;
             for (int i = 1; i < PlayHand.Count; i++)
             {
-                won &= PlayHand[i].suit == match;
+                won &= PlayHand[i].Suit == match;
             }
             return won;
         }

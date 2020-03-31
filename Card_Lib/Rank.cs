@@ -15,7 +15,7 @@ namespace Card_Lib
     /// </summary>
     public enum Rank
     {
-        Deuce=1,
+        Two=1,
         Three,
         Four,
         Five,

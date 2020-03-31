@@ -12,11 +12,170 @@ using System.Drawing;
 namespace Card_Lib
 {
     /// <summary>
-    /// Card Class,
-    /// set card property, suit and rank
+    /// Used to represent a standard "French"  playing card that can be used
+    /// in several card game projects.
     /// </summary>
-    public class Card : ICloneable
+    public class Card : ICloneable, // Supports cloning, which creates a new
+                                           // instance of a class with the same value as an existing instance.
+                               IComparable // Defines a generalized type specific
+                                           // comparison method that a class implements
+                                           // to sort its instances.
     {
+        #region FIELDS AND PROPERTIES
+        /// <summary>
+        /// Suit Property
+        /// Used to set or get the Card Suit
+        /// </summary>
+        protected Suit mySuit;
+        public Suit Suit
+        {
+            get { return mySuit; }
+            set { mySuit = value; }
+        }
+        /// <summary>
+        /// Rank Property
+        /// Used to set or get the Card Rank
+        /// </summary>
+        protected Rank myRank;
+        public Rank Rank
+        {
+            get { return myRank; }
+            set { myRank = value; }
+        }
+        /// <summary>
+        /// CardValue Property
+        /// Used to set or get the Card Value
+        /// </summary>
+        protected int myValue;
+        public int cardValue
+        {
+            get { return myValue; }
+            set { myValue = value; }
+        }
+        /// <summary>
+        /// Alternate Value Property
+        /// Used to set ot get an alternate value for certain games. Set to null by default.
+        /// </summary>
+        protected int? altValue = null; // nullable type
+        public int? AlternateValue
+        {
+            get { return altValue; }
+            set { altValue = value; }
+        }
+        /// <summary>
+        /// FaceUp Property
+        /// Used to set or get whether the card is face up.
+        /// Set to false by default. 
+        /// </summary>
+        protected bool faceUp = false;
+        public bool FaceUp
+        {
+            get { return faceUp; }
+            set { faceUp = value; }
+        }
+        #endregion
+
+        #region CONSTRUCTORS
+        /// <summary>
+        /// Card Constructor
+        /// Initializes the playing card object. By default, card is face down, with no alternate value
+        /// </summary>
+        /// <param name="rank">The playing card rank. Default to 'Ace'</param>
+        /// <param name="suit">The playing card suit. Default to 'Hearts'</param>
+        public Card(Suit suit = Suit.Hearts, Rank rank = Rank.Ace)
+        {
+            // Set the rank, suit
+            this.myRank = rank;
+            this.mySuit = suit;
+            // Set the default card value
+            this.myValue = (int)rank;
+        }
+        #endregion
+
+        #region PUBLIC METHODS
+
+        /// <summary>
+        /// CompareTo Method
+        /// Card-Specific comparison method used to sort Card instances. Compares this instance 
+        /// </summary>
+        /// <param name="obj">The object this card is being compared to.</param>
+        /// <returns>an integer that indicates whether this Card precedes, follows, or occurs</returns>
+        public virtual int CompareTo(object obj)
+        {
+            // is the argument null?
+            if (obj == null)
+            {
+                throw new ArgumentNullException("Unable to compare a Card to a null object.");
+            }
+            // convert the argument to a Card
+            Card comparedCard = obj as Card;
+            // if the conversion worked
+            if (comparedCard != null)
+            {
+                // compare based on Value first, the Suit.
+                int thisSort = this.myValue * 10 + (int)this.mySuit;
+                int compareCardSort = comparedCard.myValue * 10 + (int)comparedCard.mySuit;
+                return (thisSort.CompareTo(compareCardSort));
+            }
+            else // otherwise, the conversation failed
+            {
+                // throw an argument exception
+                throw new ArgumentException("Object being compared cannot be converted to a Card.");
+            }
+        } // end of CompareTo
+
+        /// <summary>
+        /// Clone Method
+        /// To support the ICloneable interface. Used for deep copying in card collection classes.
+        /// </summary>
+        /// <returns>A copy of the card as System.Object</returns>
+        public object Clone()
+        {
+            return this.MemberwiseClone(); // return a memberwise clone.
+        }
+
+        /// <summary>
+        /// ToString: Overrides System.Object.ToString()
+        /// </summary>
+        /// <returns>the name of the card as a string</returns>
+        public override string ToString()
+        {
+            string cardString;  // holds the playing card name.
+            // if the card is face up
+            if (faceUp)
+            {
+                // set the card name string to {Rank} of {Suit}
+                cardString = myRank.ToString() + " of " + mySuit.ToString();
+            }
+            // otherwise, the card is face down
+            else
+            {
+                // set the card name is face down
+                cardString = "Face Down";
+            }
+            // return the appropriate card name string
+            return cardString;
+        }
+
+        /// <summary>
+        /// Equals: Overrides System.Object.Equals()
+        /// </summary>
+        /// <param name="obj">true if the card values are equal</param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            return (this.cardValue == ((Card)obj).cardValue);
+        }
+
+        /// <summary>
+        /// GetHashCode: Overrides System.Object.GetHashCode()
+        /// </summary>
+        /// <returns>Card value  * 10 + suit number</returns>
+        public override int GetHashCode()
+        {
+            return this.myValue * 10 + (int)this.mySuit;
+        }
+
         /// <summary>
         /// GetCardImage
         /// Gets the image associated with the card from the resource file.
@@ -35,7 +194,7 @@ namespace Card_Lib
             else // otherwise, the card is face up and not joker
             {
                 // set the image name to {suit}_{rank}
-                imageName = suit.ToString() + "_" + rank.ToString(); // enumerations are handy!
+                imageName = mySuit.ToString() + "_" + myRank.ToString(); // enumerations are handy!
             }
             // Set the image to the appropriate object we get from the resources file
             cardImage = Properties.Resources.ResourceManager.GetObject(imageName) as Image;
@@ -50,208 +209,40 @@ namespace Card_Lib
         /// <returns>a string showing the state of this card object</returns>
         public String DebugString()
         {
-            string cardState = (string)(rank.ToString() + " of " + suit.ToString()).PadLeft(20);
+            string cardState = (string)(myRank.ToString() + " of " + mySuit.ToString()).PadLeft(20);
             cardState += (string)((faceUp) ? "(Face Up)" : "(Face Down)").PadLeft(12);
+            cardState += " Value: " + myValue.ToString().PadLeft(2);
+            cardState += ((altValue != null) ? "/" + altValue.ToString() : "");
             return cardState;
         }
+        #endregion
 
+        #region RELATIONAL OPERATORS
+        public static bool operator ==(Card left, Card right)
+        {
+            return (left.cardValue == right.cardValue);
+        }
+        public static bool operator !=(Card left, Card right)
+        {
+            return (left.cardValue != right.cardValue);
+        }
+        public static bool operator <(Card left, Card right)
+        {
+            return (left.cardValue < right.cardValue);
+        }
+        public static bool operator <=(Card left, Card right)
+        {
+            return (left.cardValue <= right.cardValue);
+        }
+        public static bool operator >(Card left, Card right)
+        {
+            return (left.cardValue > right.cardValue);
+        }
+        public static bool operator >=(Card left, Card right)
+        {
+            return (left.cardValue >= right.cardValue);
+        }
+        #endregion
+    } // end of class
 
-        /// <summary>
-        /// == operator check if card 1 and card 2 are the same
-        /// </summary>
-        /// <param name="card1">input card 1</param>
-        /// <param name="card2">input card 2</param>
-        /// <returns>true or false</returns>
-        public static bool operator ==(Card card1, Card card2)
-        {
-            return (card1.suit == card2.suit) && (card1.rank == card2.rank);
-        }
-        /// <summary>
-        /// != operator check if card 1 and card 2 are different
-        /// </summary>
-        /// <param name="card1">input card 1</param>
-        /// <param name="card2">input card 2</param>
-        /// <returns>true or false</returns>
-        public static bool operator !=(Card card1, Card card2)
-        {
-            return !(card1 == card2);
-        }
-        /// <summary>
-        /// Equals, check if current object is same with card
-        /// </summary>
-        /// <param name="card">comparing object</param>
-        /// <returns>true or false</returns>
-        public override bool Equals(object card)
-        {
-            return this == (Card)card;
-        }
-        /// <summary>
-        /// GetHashCode() - overloading GetHashCode returning int of 13* suit + rank
-        /// </summary>
-        /// <returns>int</returns>
-        public override int GetHashCode()
-        {
-            return 13 * (int)suit + (int)rank;
-        }
-        /// <summary>
-        /// greater than operator, check if left card is bigger than card 2
-        /// </summary>
-        /// <param name="card1">input card 1</param>
-        /// <param name="card2">input card 2</param>
-        /// <returns>true or false</returns>
-        public static bool operator >(Card card1, Card card2)
-        {
-            if (card1.suit == card2.suit)
-            {
-                if (isAceHigh)
-                {
-                    if (card1.rank == Rank.Ace)
-                    {
-                        if (card2.rank == Rank.Ace)
-                            return false;
-                        else
-                            return true;
-                    }
-                    else
-                    {
-                        if (card2.rank == Rank.Ace)
-                            return false;
-                        else
-                            return (card1.rank > card2.rank);
-                    }
-                }
-                else
-                {
-                    return (card1.rank > card2.rank);
-                }
-            }
-            else
-            {
-                if (useTrumps && (card2.suit == Card.trump))
-                    return false;
-                else
-                    return true;
-            }
-        }
-        /// <summary>
-        /// less than operator, check if left card 1 is smaller than card 2
-        /// </summary>
-        /// <param name="card1">input card 1</param>
-        /// <param name="card2">input card 2</param>
-        /// <returns>true or false</returns>
-        public static bool operator <(Card card1, Card card2)
-        {
-            return !(card1 >= card2);
-        }
-        /// <summary>
-        /// greater than or equal, check if card 1 is greater than or equal to card 2
-        /// </summary>
-        /// <param name="card1">input card 1</param>
-        /// <param name="card2">input card 2</param>
-        /// <returns>true or false</returns>
-        public static bool operator >=(Card card1, Card card2)
-        {
-            if (card1.suit == card2.suit)
-            {
-                if (isAceHigh)
-                {
-                    if (card1.rank == Rank.Ace)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        if (card2.rank == Rank.Ace)
-                            return false;
-                        else
-                            return (card1.rank >= card2.rank);
-                    }
-                }
-                else
-                {
-                    return (card1.rank >= card2.rank);
-                }
-            }
-            else
-            {
-                if (useTrumps && (card2.suit == Card.trump))
-                    return false;
-                else
-                    return true;
-            }
-        }
-        /// <summary>
-        /// less than or equal operator, check if card 1 is less than or equal to card 2
-        /// </summary>
-        /// <param name="card1">input card 1</param>
-        /// <param name="card2">input card 2</param>
-        /// <returns>true or false</returns>
-        public static bool operator <=(Card card1, Card card2)
-        {
-            return !(card1 > card2);
-        }
-
-        /// <summary>
-        /// Flag for trump usage. If true, trumps are valued higher
-        /// than cards of other suits.
-        /// </summary>
-        public static bool useTrumps = true;
-
-        //MODIFY INTO 
-        /// <summary>
-        /// Trump suit to use if useTrumps is true.
-        /// </summary>
-        public static Suit trump;
-        public static Suit Trump
-        {
-            set
-            {
-                trump = value;
-            }
-            get
-            {
-                return trump;
-            }
-        }
-        
-        /// <summary>
-        /// Flag that determines whether aces are higher than kings or lower
-        /// than deuces.
-        /// </summary>
-        public static bool isAceHigh = true;
-
-        public object Clone()
-        {
-            return MemberwiseClone();
-        }
-
-        public readonly bool faceUp=true;
-        public readonly Rank rank;
-        public readonly Suit suit;
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="newSuit">Card Suit</param>
-        /// <param name="newRank">Card Rank</param>
-        public Card(Suit newSuit=Suit.Clubs, Rank newRank=Rank.Ace)
-        {
-            suit = newSuit;
-            rank = newRank;
-        }
-        /// <summary>
-        /// Default Constructor
-        /// </summary>
-        private Card()
-        {
-        }
-        /// <summary>
-        /// ToString - print out card class
-        /// </summary>
-        /// <returns>Formatted String</returns>
-        public override string ToString()
-        {
-            return "The " + rank + " of " + suit + "s";
-        }
-    }
-}
+} // end of namespbloc

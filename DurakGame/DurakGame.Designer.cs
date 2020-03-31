@@ -262,7 +262,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(896, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(905, 24);
             this.menuStrip1.TabIndex = 27;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -326,28 +326,29 @@
             // flowRiver
             // 
             this.flowRiver.BackColor = System.Drawing.Color.Transparent;
+            this.flowRiver.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.flowRiver.Location = new System.Drawing.Point(167, 166);
             this.flowRiver.Margin = new System.Windows.Forms.Padding(2);
             this.flowRiver.Name = "flowRiver";
-            this.flowRiver.Size = new System.Drawing.Size(555, 222);
+            this.flowRiver.Size = new System.Drawing.Size(555, 216);
             this.flowRiver.TabIndex = 10;
             // 
             // flowComputerHand
             // 
             this.flowComputerHand.BackColor = System.Drawing.Color.Transparent;
-            this.flowComputerHand.Location = new System.Drawing.Point(167, 24);
+            this.flowComputerHand.Location = new System.Drawing.Point(167, 31);
             this.flowComputerHand.Margin = new System.Windows.Forms.Padding(2);
             this.flowComputerHand.Name = "flowComputerHand";
-            this.flowComputerHand.Size = new System.Drawing.Size(555, 101);
+            this.flowComputerHand.Size = new System.Drawing.Size(555, 124);
             this.flowComputerHand.TabIndex = 9;
             // 
             // flowHumanHand
             // 
             this.flowHumanHand.BackColor = System.Drawing.Color.Transparent;
-            this.flowHumanHand.Location = new System.Drawing.Point(167, 434);
+            this.flowHumanHand.Location = new System.Drawing.Point(167, 440);
             this.flowHumanHand.Margin = new System.Windows.Forms.Padding(2);
             this.flowHumanHand.Name = "flowHumanHand";
-            this.flowHumanHand.Size = new System.Drawing.Size(634, 98);
+            this.flowHumanHand.Size = new System.Drawing.Size(555, 128);
             this.flowHumanHand.TabIndex = 11;
             // 
             // pbDeck
@@ -363,8 +364,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = global::DurakGame.Properties.Resources.bg1;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(896, 589);
+            this.ClientSize = new System.Drawing.Size(905, 589);
             this.Controls.Add(this.pbDeck);
             this.Controls.Add(this.txtRoundNumber);
             this.Controls.Add(this.lblRoundNumber);
@@ -391,8 +393,6 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(912, 628);
-            this.MinimumSize = new System.Drawing.Size(912, 628);
             this.Name = "frmDurakGame";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Durak Game";

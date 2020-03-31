@@ -49,7 +49,7 @@ namespace CardBox
         /// </summary>
         public Suit Suit
         {
-            get { return Card.suit; }
+            get { return Card.Suit; }
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace CardBox
         /// </summary>
         public Rank Rank
         {
-            get { return Card.rank; }
+            get { return Card.Rank; }
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace CardBox
         /// </summary>
         public bool FaceUp
         {
-            get { return Card.faceUp; }
+            get { return Card.FaceUp; }
         }
 
         /// <summary>
@@ -124,7 +124,9 @@ namespace CardBox
         {
             InitializeComponent(); // required method for Designer support
             myOrientation = orientation; // set the orientation
+            card.FaceUp = true;
             Card = card; // set the underlying card
+            
         }
         #endregion
 
