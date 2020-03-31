@@ -79,7 +79,7 @@ namespace Card_Lib
         {
             set
             {
-                TrumpSuit = value;
+                trumpSuit = value;
             }
             get
             {

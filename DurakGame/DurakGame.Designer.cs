@@ -196,6 +196,7 @@
             // 
             // txtDeckCardsRemaining
             // 
+            this.txtDeckCardsRemaining.Enabled = false;
             this.txtDeckCardsRemaining.Location = new System.Drawing.Point(114, 166);
             this.txtDeckCardsRemaining.Margin = new System.Windows.Forms.Padding(2);
             this.txtDeckCardsRemaining.Name = "txtDeckCardsRemaining";
@@ -336,19 +337,19 @@
             // flowComputerHand
             // 
             this.flowComputerHand.BackColor = System.Drawing.Color.Transparent;
-            this.flowComputerHand.Location = new System.Drawing.Point(167, 31);
+            this.flowComputerHand.Location = new System.Drawing.Point(138, 32);
             this.flowComputerHand.Margin = new System.Windows.Forms.Padding(2);
             this.flowComputerHand.Name = "flowComputerHand";
-            this.flowComputerHand.Size = new System.Drawing.Size(555, 124);
+            this.flowComputerHand.Size = new System.Drawing.Size(584, 84);
             this.flowComputerHand.TabIndex = 9;
             // 
             // flowHumanHand
             // 
             this.flowHumanHand.BackColor = System.Drawing.Color.Transparent;
-            this.flowHumanHand.Location = new System.Drawing.Point(167, 440);
+            this.flowHumanHand.Location = new System.Drawing.Point(138, 440);
             this.flowHumanHand.Margin = new System.Windows.Forms.Padding(2);
             this.flowHumanHand.Name = "flowHumanHand";
-            this.flowHumanHand.Size = new System.Drawing.Size(555, 128);
+            this.flowHumanHand.Size = new System.Drawing.Size(584, 128);
             this.flowHumanHand.TabIndex = 11;
             // 
             // pbDeck

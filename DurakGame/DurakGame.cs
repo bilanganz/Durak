@@ -15,8 +15,8 @@ namespace DurakGame
     public partial class frmDurakGame : Form
     {
         #region VARIABLE
-        private const int POP = 25;
-        static private Size regularSize = new Size(250, 100);
+        private const int POP = 1;
+        static private Size regularSize = new Size(50, 60);
 
         private Player HumanPlayer = new Player("Player One");
         private Player ComputerPlayer = new Player("Computer");
@@ -258,11 +258,13 @@ namespace DurakGame
             playDeck = new Deck(deckSize);
             playDeck.Shuffle(deckSize);
             discardedCards = new Cards();
-            txtDeckCardsRemaining.Text = (playDeck.CardsRemaining-currentCard).ToString();
             
             DealHands();
             DisplayTrumpCards();
 
+            txtDeckCardsRemaining.Text = (playDeck.CardsRemaining - currentCard).ToString();
+
+            RealignCards(flowComputerHand);
         }
 
         //resets game
@@ -278,6 +280,17 @@ namespace DurakGame
         {
             for (int c = 0; c < 6; c++)
             {
+                DrawCard(flowHumanHand);
+                DrawCard(flowComputerHand);
+            }
+            //RealignCards(flowHumanHand);
+        }
+        
+        private void DrawCard(Panel panel)
+        {
+            txtDeckCardsRemaining.Text = (playDeck.CardsRemaining - currentCard).ToString();
+            if (panel == flowHumanHand)
+            {
                 HumanPlayer.PlayHand.Add(playDeck.GetCard(currentCard));
                 CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(currentCard), true);
                 aCardBox.Click += CardBox_Click;
@@ -286,16 +299,20 @@ namespace DurakGame
                 aCardBox.DragDrop += CardBox_DragDrop;
                 flowHumanHand.Controls.Add(aCardBox);
                 currentCard++;
-
+            }
+            else if(panel== flowComputerHand)
+            {
                 ComputerPlayer.PlayHand.Add(playDeck.GetCard(currentCard));
-                aCardBox = new CardBox.CardBox(playDeck.GetCard(currentCard), true);
-                aCardBox.Click += CardBox_Click;
+                CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(currentCard), false);
                 flowComputerHand.Controls.Add(aCardBox);
                 currentCard++;
             }
-            //RealignCards(flowHumanHand);
+            else
+            {
+                MessageBox.Show("Invalid Panel to draw card");
+            }
         }
-        
+
         public void AttackDefendPhase()
         {
             //int userInput = 1;
@@ -409,16 +426,7 @@ namespace DurakGame
 
         private void pbDeck_Click(object sender, EventArgs e)
         {
-            // If the deck is empty (no image)
-            if (pbDeck.Image == null)
-            {
-                // Reset the dealer
-                ResetGame();
-            }
-            else
-            {
-                DealHands();
-            }
+            DrawCard(flowComputerHand);
         }
     }
 }
