@@ -29,19 +29,7 @@ namespace DurakGame
         private CardBox.CardBox dragCard;
         
         static int deckSize = 52;
-
-        private Suit trumpSuit = Suit.Diamonds;
-        public Suit TrumpSuit
-        {
-            set
-            {
-                TrumpSuit = value;
-            }
-            get
-            {
-                return trumpSuit;
-            }
-        }
+        
         #endregion
 
         #region FORM AND CONTROL EVENT HANDLER
@@ -337,7 +325,7 @@ namespace DurakGame
         {
             CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(17), true);
             flowTrumpCard.Controls.Add(aCardBox);
-            TrumpSuit = playDeck.GetCard(17).Suit;
+            playDeck.GetCard(17).TrumpSuit= playDeck.GetCard(17).Suit;
         }
 
         //displays player one cards
