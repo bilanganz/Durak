@@ -289,7 +289,7 @@ namespace DurakGame
         private void DrawCard(Panel panel)
         {
             txtDeckCardsRemaining.Text = (playDeck.CardsRemaining - currentCard).ToString();
-            if (panel == flowHumanHand)
+            if (panel == flowHumanHand) 
             {
                 HumanPlayer.PlayHand.Add(playDeck.GetCard(currentCard));
                 CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(currentCard), true);
@@ -300,7 +300,7 @@ namespace DurakGame
                 flowHumanHand.Controls.Add(aCardBox);
                 currentCard++;
             }
-            else if(panel== flowComputerHand)
+            else if (panel == flowComputerHand) 
             {
                 ComputerPlayer.PlayHand.Add(playDeck.GetCard(currentCard));
                 CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(currentCard), false);
@@ -348,13 +348,21 @@ namespace DurakGame
         //displays player one cards
         public void DisplayPlayerOneCards()
         {
-
+            foreach (Control control in flowHumanHand.Controls)
+            {
+                CardBox.CardBox card = control as CardBox.CardBox;
+                card.FaceUp = true;
+            }
         }
 
         //displays player two cards
         public void DisplayPlayerTwoCards()
         {
-
+            foreach (Control control in flowComputerHand.Controls)
+            {
+                CardBox.CardBox card = control as CardBox.CardBox;
+                card.FaceUp = true;
+            }
         }
 
         //displays river cards
