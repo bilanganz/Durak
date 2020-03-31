@@ -19,11 +19,10 @@ namespace DurakGame
         private Deck playDeck;
         private Player HumanPlayer = new Player("Player One");
         private Player ComputerPlayer = new Player("Computer");
+        private Deck myDeck = new Deck(deckSize);
         private Cards discardedCards;
-        static int deckSize = 52;
         private CardBox.CardBox dragCard;
-
-
+        
         /// <summary>
         /// The amount, in points, that CardBox controls are enlarged when hovered over. 
         /// </summary>
@@ -33,8 +32,8 @@ namespace DurakGame
         /// The regular size of a CardBox control
         /// </summary>
         static private Size regularSize = new Size(250, 100);
-
-        private Deck myDeck = new Deck(deckSize);
+        
+        static int deckSize = 52;
         #endregion
 
         #region FORM AND CONTROL EVENT HANDLER
@@ -124,9 +123,96 @@ namespace DurakGame
 
         }
 
+
+        /// <summary>
+        /// Make the mouse pointer a "move" pointer when a drag enters a Panel.
+        /// </summary>
+        private void Panel_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Move; // Make the mouse pointer a "move" pointer
+        }
+
+        /// <summary>
+        /// Move a card/control when it is dropped from one Panel to another.
+        /// </summary>
+        private void Panel_DragDrop(object sender, DragEventArgs e)
+        {
+            // If there is a CardBox to move
+            if (dragCard != null)
+            {
+                // Determine which Panel is which
+                Panel thisPanel = sender as Panel;
+                Panel fromPanel = dragCard.Parent as Panel;
+
+                // If neither panel is null (no conversion issue)
+                if (thisPanel != null && fromPanel != null)
+                {
+                    // If the panel are not the same
+                    if (thisPanel != fromPanel)
+                    {
+                        // (this would happen if a card is dragged from one spot in the Panel to another)
+                        // Remove the card from the Panel it started in
+                        fromPanel.Controls.Remove(dragCard);
+                        // Add the card to the Panel it was dropped in
+                        thisPanel.Controls.Add(dragCard);
+                        // Realign card in both Panels
+                        RealignCards(thisPanel);
+                        RealignCards(fromPanel);
+                    }
+                }
+            }
+        }
         #endregion
 
         #region CARDBOX EVENT HANDLER
+        /// <summary>
+        ///  CardBox controls grow in size when the mouse is over it.
+        /// </summary>
+        void CardBox_MouseEnter(object sender, EventArgs e)
+        {
+            // Convert sender to a CardBox
+            CardBox.CardBox aCardBox = sender as CardBox.CardBox;
+
+            // If the conversion worked
+            if (aCardBox != null)
+            {
+                aCardBox.Size = new Size(regularSize.Width + POP, regularSize.Height + POP);// Enlarge the card for visual effect
+                aCardBox.Top = 0;// move the card to the top edge of the panel.
+            }
+        }
+
+        /// <summary>
+        /// CardBox control shrinks to regular size when the mouse leaves.
+        /// </summary>
+        void CardBox_MouseLeave(object sender, EventArgs e)
+        {
+            // Convert sender to a CardBox
+            CardBox.CardBox aCardBox = sender as CardBox.CardBox;
+
+            // If the conversion worked
+            if (aCardBox != null)
+            {
+                aCardBox.Size = regularSize;// resize the card back to regular size
+                aCardBox.Top = POP;// move the card down to accommodate for the smaller size.
+
+            }
+        }
+
+        /// <summary>
+        /// Initiate a card move on the start of a drag.
+        /// </summary>
+        private void CardBox_MouseDown(object sender, MouseEventArgs e)
+        {
+            // Set dragCard 
+            dragCard = sender as CardBox.CardBox;
+            // If the conversion worked
+            if (dragCard != null)
+            {
+                // Set the data to be dragged and the allowed effect dragging will have.
+                DoDragDrop(dragCard, DragDropEffects.Move);
+            }
+        }
+
         void CardBox_Click(object sender, EventArgs e)
         {
             // Convert sender to a CardBox
@@ -152,6 +238,37 @@ namespace DurakGame
             }
         }
 
+        /// <summary>
+        /// When a drag is enters a card, enter the parent panel instead.
+        /// </summary>
+        private void CardBox_DragEnter(object sender, DragEventArgs e)
+        {
+            // Convert sender to a CardBox
+            CardBox.CardBox aCardBox = sender as CardBox.CardBox;
+
+            // If the conversion worked
+            if (aCardBox != null)
+            {
+                // Do the operation on the parent panel instead
+                Panel_DragEnter(aCardBox.Parent, e);
+            }
+        }
+
+        /// <summary>
+        /// When a drag is dropped on a card, drop on the parent panel instead.
+        /// </summary>
+        private void CardBox_DragDrop(object sender, DragEventArgs e)
+        {
+            // Convert sender to a CardBox
+            CardBox.CardBox aCardBox = sender as CardBox.CardBox;
+
+            // If the conversion worked
+            if (aCardBox != null)
+            {
+                // Do the operation on the parent panel instead
+                Panel_DragDrop(aCardBox.Parent, e);
+            }
+        }
         #endregion
 
         #region GAME METHOD
@@ -162,6 +279,9 @@ namespace DurakGame
                 HumanPlayer.PlayHand.Add(playDeck.GetCard(currentCard++));
                 CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(currentCard), true);
                 aCardBox.Click += CardBox_Click;
+                aCardBox.MouseDown += CardBox_MouseDown;
+                aCardBox.DragEnter += CardBox_DragEnter;
+                aCardBox.DragDrop += CardBox_DragDrop;
                 flowHumanHand.Controls.Add(aCardBox);
             }
 
@@ -174,7 +294,7 @@ namespace DurakGame
             }
             //RealignCards(flowHumanHand);
         }
-
+        
         //resets game
         public void ResetGame()
         {
@@ -302,5 +422,19 @@ namespace DurakGame
         }
 
         #endregion
+
+        private void pbDeck_Click(object sender, EventArgs e)
+        {
+            // If the deck is empty (no image)
+            if (pbDeck.Image == null)
+            {
+                // Reset the dealer
+                ResetGame();
+            }
+            else
+            {
+                DealHands();
+            }
+        }
     }
 }

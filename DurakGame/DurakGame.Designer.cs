@@ -359,6 +359,7 @@
             this.pbDeck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbDeck.TabIndex = 28;
             this.pbDeck.TabStop = false;
+            this.pbDeck.Click += new System.EventHandler(this.pbDeck_Click);
             // 
             // frmDurakGame
             // 
