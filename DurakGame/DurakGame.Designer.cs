@@ -167,18 +167,18 @@
             // flowTrumpCard
             // 
             this.flowTrumpCard.BackColor = System.Drawing.Color.Transparent;
-            this.flowTrumpCard.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.flowTrumpCard.Enabled = false;
             this.flowTrumpCard.Location = new System.Drawing.Point(20, 276);
             this.flowTrumpCard.Margin = new System.Windows.Forms.Padding(2);
             this.flowTrumpCard.Name = "flowTrumpCard";
-            this.flowTrumpCard.Size = new System.Drawing.Size(93, 127);
+            this.flowTrumpCard.Size = new System.Drawing.Size(81, 99);
             this.flowTrumpCard.TabIndex = 13;
             // 
             // lblDiscardPile
             // 
             this.lblDiscardPile.AutoSize = true;
             this.lblDiscardPile.BackColor = System.Drawing.Color.YellowGreen;
-            this.lblDiscardPile.Location = new System.Drawing.Point(26, 417);
+            this.lblDiscardPile.Location = new System.Drawing.Point(26, 391);
             this.lblDiscardPile.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblDiscardPile.Name = "lblDiscardPile";
             this.lblDiscardPile.Size = new System.Drawing.Size(60, 13);
@@ -189,10 +189,10 @@
             // 
             this.flowDiscardPile.BackColor = System.Drawing.Color.Transparent;
             this.flowDiscardPile.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.flowDiscardPile.Location = new System.Drawing.Point(20, 442);
+            this.flowDiscardPile.Location = new System.Drawing.Point(20, 421);
             this.flowDiscardPile.Margin = new System.Windows.Forms.Padding(2);
             this.flowDiscardPile.Name = "flowDiscardPile";
-            this.flowDiscardPile.Size = new System.Drawing.Size(75, 107);
+            this.flowDiscardPile.Size = new System.Drawing.Size(198, 157);
             this.flowDiscardPile.TabIndex = 15;
             // 
             // txtDeckCardsRemaining

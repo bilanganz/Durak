@@ -17,6 +17,7 @@ namespace DurakGame
         #region VARIABLE
         private const int POP = 1;
         static private Size regularSize = new Size(50, 60);
+        static private Size discardedSize = new Size(25, 30);
 
         private Player HumanPlayer = new Player("Player One");
         private Player ComputerPlayer = new Player("Computer");
@@ -25,6 +26,7 @@ namespace DurakGame
 
         private int currentCard=0;
         private Deck playDeck = new Deck(deckSize);
+        private Cards onFieldCards = new Cards();
         private Cards discardedCards;
         private CardBox.CardBox dragCard;
         
@@ -69,7 +71,7 @@ namespace DurakGame
         //button pickup clicked ends human turn and picks up cards
         private void btnPickUp_Click(object sender, EventArgs e)
         {
-
+            RemoveRiverCard();
         }
 
         //cease attack button ends human turn and computer starts attacking
@@ -108,39 +110,7 @@ namespace DurakGame
         {
 
         }
-
-        private void Panel_DragEnter(object sender, DragEventArgs e)
-        {
-            e.Effect = DragDropEffects.Move; // Make the mouse pointer a "move" pointer
-        }
-
-        private void Panel_DragDrop(object sender, DragEventArgs e)
-        {
-            // If there is a CardBox to move
-            if (dragCard != null)
-            {
-                // Determine which Panel is which
-                Panel thisPanel = sender as Panel;
-                Panel fromPanel = dragCard.Parent as Panel;
-
-                // If neither panel is null (no conversion issue)
-                if (thisPanel != null && fromPanel != null)
-                {
-                    // If the panel are not the same
-                    if (thisPanel != fromPanel)
-                    {
-                        // (this would happen if a card is dragged from one spot in the Panel to another)
-                        // Remove the card from the Panel it started in
-                        fromPanel.Controls.Remove(dragCard);
-                        // Add the card to the Panel it was dropped in
-                        thisPanel.Controls.Add(dragCard);
-                        // Realign card in both Panels
-                        RealignCards(thisPanel);
-                        RealignCards(fromPanel);
-                    }
-                }
-            }
-        }
+        
         #endregion
 
         #region CARDBOX EVENT HANDLER
@@ -176,22 +146,7 @@ namespace DurakGame
 
             }
         }
-
-        /// <summary>
-        /// Initiate a card move on the start of a drag.
-        /// </summary>
-        private void CardBox_MouseDown(object sender, MouseEventArgs e)
-        {
-            // Set dragCard 
-            dragCard = sender as CardBox.CardBox;
-            // If the conversion worked
-            if (dragCard != null)
-            {
-                // Set the data to be dragged and the allowed effect dragging will have.
-                DoDragDrop(dragCard, DragDropEffects.Move);
-            }
-        }
-
+        
         void CardBox_Click(object sender, EventArgs e)
         {
             // Convert sender to a CardBox
@@ -203,48 +158,19 @@ namespace DurakGame
                 if (aCardBox.Parent == flowHumanHand)
                 {
                     flowHumanHand.Controls.Remove(aCardBox); // Remove the card from the home panel
+                    aCardBox.Enabled = false;
+                    onFieldCards.Add(aCardBox.Card);
                     flowRiver.Controls.Add(aCardBox); // Add the control to the play panel
                 }
                 else if (aCardBox.Parent == flowComputerHand)
                 {
                     flowComputerHand.Controls.Remove(aCardBox); // Remove the card from the play panel
+                    aCardBox.Enabled = false;
                     flowRiver.Controls.Add(aCardBox); // Add the control to the home panel
                 }
                 // Realign the cards 
                 //RealignCards(pnlCardHome);
                 //RealignCards(pnlPlay);
-            }
-        }
-
-        /// <summary>
-        /// When a drag is enters a card, enter the parent panel instead.
-        /// </summary>
-        private void CardBox_DragEnter(object sender, DragEventArgs e)
-        {
-            // Convert sender to a CardBox
-            CardBox.CardBox aCardBox = sender as CardBox.CardBox;
-
-            // If the conversion worked
-            if (aCardBox != null)
-            {
-                // Do the operation on the parent panel instead
-                Panel_DragEnter(aCardBox.Parent, e);
-            }
-        }
-
-        /// <summary>
-        /// When a drag is dropped on a card, drop on the parent panel instead.
-        /// </summary>
-        private void CardBox_DragDrop(object sender, DragEventArgs e)
-        {
-            // Convert sender to a CardBox
-            CardBox.CardBox aCardBox = sender as CardBox.CardBox;
-
-            // If the conversion worked
-            if (aCardBox != null)
-            {
-                // Do the operation on the parent panel instead
-                Panel_DragDrop(aCardBox.Parent, e);
             }
         }
         #endregion
@@ -263,7 +189,7 @@ namespace DurakGame
 
             txtDeckCardsRemaining.Text = (playDeck.CardsRemaining - currentCard).ToString();
 
-            RealignCards(flowComputerHand);
+            //RealignCards(flowComputerHand);
         }
 
         //resets game
@@ -273,6 +199,7 @@ namespace DurakGame
             flowHumanHand.Controls.Clear();
             flowRiver.Controls.Clear();
             flowTrumpCard.Controls.Clear();
+            flowDiscardPile.Controls.Clear();
         }
 
         private void DealHands()
@@ -288,18 +215,17 @@ namespace DurakGame
         private void DrawCard(Panel panel)
         {
             txtDeckCardsRemaining.Text = (playDeck.CardsRemaining - currentCard).ToString();
-            if (panel == flowHumanHand) 
+            if (panel == flowHumanHand && flowHumanHand.Controls.Count <= 6) 
             {
                 HumanPlayer.PlayHand.Add(playDeck.GetCard(currentCard));
                 CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(currentCard), true);
                 aCardBox.Click += CardBox_Click;
-                aCardBox.MouseDown += CardBox_MouseDown;
-                aCardBox.DragEnter += CardBox_DragEnter;
-                aCardBox.DragDrop += CardBox_DragDrop;
+                aCardBox.MouseEnter += CardBox_MouseEnter;// wire CardBox_MouseEnter for the "POP" visual effect
+                aCardBox.MouseLeave += CardBox_MouseLeave;// wire CardBox_MouseLeave for the regular visual effect
                 flowHumanHand.Controls.Add(aCardBox);
                 currentCard++;
             }
-            else if (panel == flowComputerHand) 
+            else if (panel == flowComputerHand && flowComputerHand.Controls.Count <= 6) 
             {
                 ComputerPlayer.PlayHand.Add(playDeck.GetCard(currentCard));
                 CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(currentCard), false);
@@ -308,8 +234,32 @@ namespace DurakGame
             }
             else
             {
-                MessageBox.Show("Invalid Panel to draw card");
+                MessageBox.Show("Error when drawing Card");
             }
+        }
+
+        private void RemoveRiverCard()
+        {
+            try
+            {
+                int count = (flowRiver.Controls.Count-1);
+                for (int i = count; i >= 0; i--)  
+                {
+                    onFieldCards = new Cards();
+                    flowRiver.Controls[i].Size = new Size(discardedSize.Width + POP, discardedSize.Height + POP);
+                    flowRiver.Controls[i].Enabled = false;
+                    flowDiscardPile.Controls.Add(flowRiver.Controls[i]);
+                }
+            }
+            catch( Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            finally
+            {
+                flowRiver.Controls.Clear();
+            }
+           
         }
 
         public void AttackDefendPhase()
@@ -327,13 +277,29 @@ namespace DurakGame
         //will display all card lists on the windows form
         public void DisplayAllCardLists()
         {
-
+            DisplayDiscardCards();
+            DisplayTrumpCards();
+            DisplayPlayerOneCards();
+            DisplayPlayerTwoCards();
+            DisplayRiverCards();
         }
 
         //displays discard cards
         public void DisplayDiscardCards()
         {
+            foreach (Control control in flowDiscardPile.Controls)
+            {
+                CardBox.CardBox card = control as CardBox.CardBox;
+                card.FaceUp = true;
+            }
+        }
 
+        public void DisplayOnFieldCards()
+        {
+            foreach (Card card in onFieldCards)
+            {
+                MessageBox.Show(card.ToString());
+            }
         }
 
         //displays trump card
@@ -367,6 +333,11 @@ namespace DurakGame
         //displays river cards
         public void DisplayRiverCards()
         {
+            foreach (Control control in flowRiver.Controls)
+            {
+                CardBox.CardBox card = control as CardBox.CardBox;
+                card.FaceUp = true;
+            }
 
         }
         #endregion
@@ -433,7 +404,8 @@ namespace DurakGame
 
         private void pbDeck_Click(object sender, EventArgs e)
         {
-            DrawCard(flowComputerHand);
+            //DrawCard(flowComputerHand);
+            DisplayOnFieldCards();
         }
     }
 }
