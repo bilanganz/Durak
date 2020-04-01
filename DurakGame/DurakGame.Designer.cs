@@ -57,8 +57,8 @@
             this.quitToolStrip = new System.Windows.Forms.ToolStripMenuItem();
             this.flowRiver = new System.Windows.Forms.FlowLayoutPanel();
             this.flowComputerHand = new System.Windows.Forms.FlowLayoutPanel();
-            this.flowHumanHand = new System.Windows.Forms.FlowLayoutPanel();
             this.pbDeck = new System.Windows.Forms.PictureBox();
+            this.flowHumanHand = new System.Windows.Forms.FlowLayoutPanel();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbDeck)).BeginInit();
             this.SuspendLayout();
@@ -342,15 +342,6 @@
             this.flowComputerHand.Size = new System.Drawing.Size(555, 124);
             this.flowComputerHand.TabIndex = 9;
             // 
-            // flowHumanHand
-            // 
-            this.flowHumanHand.BackColor = System.Drawing.Color.Transparent;
-            this.flowHumanHand.Location = new System.Drawing.Point(167, 440);
-            this.flowHumanHand.Margin = new System.Windows.Forms.Padding(2);
-            this.flowHumanHand.Name = "flowHumanHand";
-            this.flowHumanHand.Size = new System.Drawing.Size(555, 128);
-            this.flowHumanHand.TabIndex = 11;
-            // 
             // pbDeck
             // 
             this.pbDeck.Location = new System.Drawing.Point(20, 119);
@@ -361,11 +352,19 @@
             this.pbDeck.TabStop = false;
             this.pbDeck.Click += new System.EventHandler(this.pbDeck_Click);
             // 
+            // flowHumanHand
+            // 
+            this.flowHumanHand.BackColor = System.Drawing.Color.Transparent;
+            this.flowHumanHand.Location = new System.Drawing.Point(167, 440);
+            this.flowHumanHand.Margin = new System.Windows.Forms.Padding(2);
+            this.flowHumanHand.Name = "flowHumanHand";
+            this.flowHumanHand.Size = new System.Drawing.Size(555, 128);
+            this.flowHumanHand.TabIndex = 11;
+            // 
             // frmDurakGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::DurakGame.Properties.Resources.bg1;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(905, 589);
             this.Controls.Add(this.pbDeck);
@@ -435,7 +434,6 @@
         private System.Windows.Forms.ToolStripMenuItem quitToolStrip;
         private System.Windows.Forms.FlowLayoutPanel flowRiver;
         private System.Windows.Forms.FlowLayoutPanel flowComputerHand;
-        private System.Windows.Forms.FlowLayoutPanel flowHumanHand;
         private System.Windows.Forms.ToolStripMenuItem showLogToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearLogToolStripMenuItem;
         private CardBox.CardBox cardTrumpCard;
@@ -444,5 +442,6 @@
         private CardBox.CardBox cardBox3;
         private CardBox.CardBox cardDiscardPile;
         private System.Windows.Forms.PictureBox pbDeck;
+        private System.Windows.Forms.FlowLayoutPanel flowHumanHand;
     }
 }

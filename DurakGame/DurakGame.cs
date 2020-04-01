@@ -41,7 +41,6 @@ namespace DurakGame
         public frmDurakGame()
         {
             InitializeComponent();
-
         }
 
         
@@ -76,7 +75,7 @@ namespace DurakGame
         //clicked card will go through player attack/defend phase method
         private void Card_Click(object sender, EventArgs e)
         {
-
+           
         }
 
 
@@ -292,7 +291,7 @@ namespace DurakGame
                 aCardBox.Click += CardBox_Click;
                 flowComputerHand.Controls.Add(aCardBox);
             }
-            //RealignCards(flowHumanHand);
+            RealignCards(flowHumanHand);
         }
         
         //resets game

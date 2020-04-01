@@ -82,7 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CardBox\CardBox.csproj">
-      <Project>{81d9b79d-9074-4758-9028-7ba03b1472c6}</Project>
+      <Project>{0422AC99-0798-4C75-AFDA-83CE81FA5349}</Project>
       <Name>CardBox</Name>
     </ProjectReference>
     <ProjectReference Include="..\Card_Lib\Card_Lib.csproj">
