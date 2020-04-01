@@ -25,6 +25,7 @@ namespace DurakGame
 
 
         private int currentCard=0;
+        private int discardedCardCount = 0;
         private Deck playDeck = new Deck(deckSize);
         private Cards onFieldCards = new Cards();
         private Cards discardedCards;
@@ -179,6 +180,7 @@ namespace DurakGame
         private void StartGame()
         {
             currentCard = 0;
+            discardedCardCount = 0;
             pbDeck.Image = (new Card()).GetCardImage();
             playDeck = new Deck(deckSize);
             playDeck.Shuffle(deckSize);
@@ -199,7 +201,7 @@ namespace DurakGame
             pnlHumanHand.Controls.Clear();
             flowRiver.Controls.Clear();
             flowTrumpCard.Controls.Clear();
-            flowDiscardPile.Controls.Clear();
+            pnlDiscardPile.Controls.Clear();
         }
 
         private void DealHands()
@@ -248,7 +250,8 @@ namespace DurakGame
                     onFieldCards = new Cards();
                     flowRiver.Controls[i].Size = new Size(discardedSize.Width + POP, discardedSize.Height + POP);
                     flowRiver.Controls[i].Enabled = false;
-                    flowDiscardPile.Controls.Add(flowRiver.Controls[i]);
+                    pnlDiscardPile.Controls.Add(flowRiver.Controls[i]);
+                    discardedCardCount++;
                 }
             }
             catch( Exception ex)
@@ -257,6 +260,8 @@ namespace DurakGame
             }
             finally
             {
+                txtDicardCardsRemaining.Text = (discardedCardCount).ToString();
+                RealignCards(pnlDiscardPile);
                 flowRiver.Controls.Clear();
             }
            
@@ -287,7 +292,7 @@ namespace DurakGame
         //displays discard cards
         public void DisplayDiscardCards()
         {
-            foreach (Control control in flowDiscardPile.Controls)
+            foreach (Control control in pnlDiscardPile.Controls)
             {
                 CardBox.CardBox card = control as CardBox.CardBox;
                 card.FaceUp = true;
