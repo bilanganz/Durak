@@ -184,10 +184,12 @@ namespace DurakGame
         {
             // Set dragCard 
             dragCard = sender as CardBox.CardBox;
+            //MessageBox.Show(dragCard.ToString());
             // If the conversion worked
             if (dragCard != null)
             {
                 // Set the data to be dragged and the allowed effect dragging will have.
+                //MessageBox.Show(dragCard.Parent.Name.ToString());
                 DoDragDrop(dragCard, DragDropEffects.Move);
             }
         }
