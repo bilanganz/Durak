@@ -167,6 +167,7 @@
             // flowTrumpCard
             // 
             this.flowTrumpCard.BackColor = System.Drawing.Color.Transparent;
+            this.flowTrumpCard.Enabled = false;
             this.flowTrumpCard.Location = new System.Drawing.Point(20, 276);
             this.flowTrumpCard.Margin = new System.Windows.Forms.Padding(2);
             this.flowTrumpCard.Name = "flowTrumpCard";

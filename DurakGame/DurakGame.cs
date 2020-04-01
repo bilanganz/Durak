@@ -127,7 +127,7 @@ namespace DurakGame
                 if (thisPanel != null && fromPanel != null)
                 {
                     // If the panel are not the same
-                    if (thisPanel != fromPanel)
+                    if (thisPanel==flowRiver)
                     {
                         // (this would happen if a card is dragged from one spot in the Panel to another)
                         // Remove the card from the Panel it started in
@@ -135,8 +135,8 @@ namespace DurakGame
                         // Add the card to the Panel it was dropped in
                         thisPanel.Controls.Add(dragCard);
                         // Realign card in both Panels
-                        RealignCards(thisPanel);
-                        RealignCards(fromPanel);
+                        //RealignCards(thisPanel);
+                        //RealignCards(fromPanel);
                     }
                 }
             }
@@ -266,7 +266,7 @@ namespace DurakGame
 
             txtDeckCardsRemaining.Text = (playDeck.CardsRemaining - currentCard).ToString();
 
-            RealignCards(flowComputerHand);
+            //RealignCards(flowComputerHand);
         }
 
         //resets game
@@ -297,9 +297,11 @@ namespace DurakGame
                 HumanPlayer.PlayHand.Add(playDeck.GetCard(currentCard));
                 CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(currentCard), true);
                 aCardBox.Click += CardBox_Click;
-                aCardBox.MouseDown += CardBox_MouseDown;
-                aCardBox.DragEnter += CardBox_DragEnter;
-                aCardBox.DragDrop += CardBox_DragDrop;
+                //aCardBox.MouseDown += CardBox_MouseDown;
+                //aCardBox.DragEnter += CardBox_DragEnter;
+                //aCardBox.DragDrop += CardBox_DragDrop;
+                aCardBox.MouseEnter += CardBox_MouseEnter;// wire CardBox_MouseEnter for the "POP" visual effect
+                aCardBox.MouseLeave += CardBox_MouseLeave;// wire CardBox_MouseLeave for the regular visual effect
                 flowHumanHand.Controls.Add(aCardBox);
                 currentCard++;
             }
@@ -323,6 +325,7 @@ namespace DurakGame
                 int count = (flowRiver.Controls.Count-1);
                 for (int i = count; i >= 0; i--)  
                 {
+                    flowRiver.Controls[i].Enabled = false;
                     flowDiscardPile.Controls.Add(flowRiver.Controls[i]);
                 }
             }
