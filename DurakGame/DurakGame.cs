@@ -196,7 +196,6 @@ namespace DurakGame
         {
             // Convert sender to a CardBox
             CardBox.CardBox aCardBox = sender as CardBox.CardBox;
-
             // If the conversion worked
             if (aCardBox != null)
             {
