@@ -319,10 +319,10 @@
             // 
             this.flowRiver.BackColor = System.Drawing.Color.Transparent;
             this.flowRiver.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.flowRiver.Location = new System.Drawing.Point(167, 166);
+            this.flowRiver.Location = new System.Drawing.Point(204, 166);
             this.flowRiver.Margin = new System.Windows.Forms.Padding(2);
             this.flowRiver.Name = "flowRiver";
-            this.flowRiver.Size = new System.Drawing.Size(555, 216);
+            this.flowRiver.Size = new System.Drawing.Size(500, 216);
             this.flowRiver.TabIndex = 10;
             // 
             // flowComputerHand

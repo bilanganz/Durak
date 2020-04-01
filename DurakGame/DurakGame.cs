@@ -72,15 +72,15 @@ namespace DurakGame
         //button pickup clicked ends human turn and picks up cards
         private void btnPickUp_Click(object sender, EventArgs e)
         {
-            RemoveRiverCard();
+            
         }
 
         //cease attack button ends human turn and computer starts attacking
         private void btnCeaseAttack_Click(object sender, EventArgs e)
         {
-
-
+            RemoveRiverCard();
         }
+
         private void flpDeck_Paint(object sender, PaintEventArgs e)
         {
 
