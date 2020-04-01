@@ -316,13 +316,23 @@ namespace DurakGame
 
         private void RemoveRiverCard()
         {
-            MessageBox.Show(flowRiver.Controls.Count.ToString());
-            foreach (Control control in flowRiver.Controls)
+            try
             {
-                CardBox.CardBox card = control as CardBox.CardBox;
-                flowDiscardPile.Controls.Add(card);
+                int count = (flowRiver.Controls.Count-1);
+                for (int i = count; i >= 0; i--)  
+                {
+                    flowDiscardPile.Controls.Add(flowRiver.Controls[i]);
+                }
             }
-            flowRiver.Controls.Clear();
+            catch( Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            finally
+            {
+                flowRiver.Controls.Clear();
+            }
+           
         }
 
         public void AttackDefendPhase()
