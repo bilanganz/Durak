@@ -26,6 +26,7 @@ namespace DurakGame
 
         private int currentCard=0;
         private Deck playDeck = new Deck(deckSize);
+        private Cards onFieldCards = new Cards();
         private Cards discardedCards;
         private CardBox.CardBox dragCard;
         
@@ -159,6 +160,7 @@ namespace DurakGame
                 {
                     flowHumanHand.Controls.Remove(aCardBox); // Remove the card from the home panel
                     aCardBox.Enabled = false;
+                    onFieldCards.Add(aCardBox.Card);
                     flowRiver.Controls.Add(aCardBox); // Add the control to the play panel
                 }
                 else if (aCardBox.Parent == flowComputerHand)
@@ -244,6 +246,7 @@ namespace DurakGame
                 int count = (flowRiver.Controls.Count-1);
                 for (int i = count; i >= 0; i--)  
                 {
+                    onFieldCards = new Cards();
                     flowRiver.Controls[i].Size = new Size(discardedSize.Width + POP, discardedSize.Height + POP);
                     flowRiver.Controls[i].Enabled = false;
                     flowDiscardPile.Controls.Add(flowRiver.Controls[i]);
@@ -289,6 +292,14 @@ namespace DurakGame
             {
                 CardBox.CardBox card = control as CardBox.CardBox;
                 card.FaceUp = true;
+            }
+        }
+
+        public void DisplayOnFieldCards()
+        {
+            foreach (Card card in onFieldCards)
+            {
+                MessageBox.Show(card.ToString());
             }
         }
 
@@ -394,7 +405,8 @@ namespace DurakGame
 
         private void pbDeck_Click(object sender, EventArgs e)
         {
-            DrawCard(flowComputerHand);
+            //DrawCard(flowComputerHand);
+            DisplayOnFieldCards();
         }
     }
 }
