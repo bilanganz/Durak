@@ -44,6 +44,7 @@ namespace CardBox
             }
             get { return myCard; }
         }
+
         /// <summary>
         /// Suit property: sets/gets the underlying Card object's Suit.
         /// </summary>
@@ -175,14 +176,6 @@ namespace CardBox
         /// </summary>
         new public event EventHandler Click;
 
-        /// <summary>
-        /// An event handler for the user clicking the picturebox control
-        /// </summary>
-        private void pbMyPictureBox_Click(object sender, EventArgs e)
-        {
-            if (Click != null) // if there is a handler for clicking the control in the client program
-                Click(this, e); // call it
-        }
         #endregion
 
         #region OTHER METHODS

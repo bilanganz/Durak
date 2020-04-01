@@ -112,6 +112,7 @@ namespace Card_Lib
             Card.useTrumps = useTrumps;
             Card.trump = trump;
         }*/
+
         /// <summary>
         /// Clone - clone the deck of card
         /// </summary>
