@@ -52,7 +52,7 @@ namespace Card_Lib
                 return maxRange;
             }
         }
-
+        
         public int CardsRemaining { get{ return cards.Count; } }
 
         public event EventHandler LastCardDrawn;
@@ -148,9 +148,9 @@ namespace Card_Lib
         /// <returns>card on that index</returns>
         public Card GetCard(int cardNum)
         {
-            if (cardNum >= 0 && cardNum <= (MinRange*MaxRange))
+            if (cardNum >= 0 && cardNum <= (MinRange*MaxRange*4))
             {
-                if ((cardNum == (MinRange * MaxRange)-1) && (LastCardDrawn != null))
+                if ((cardNum == (MinRange * MaxRange*4)-1) && (LastCardDrawn != null))
                     LastCardDrawn(this, EventArgs.Empty);
                 return cards[cardNum];
             }
@@ -190,9 +190,5 @@ namespace Card_Lib
             return card;
         }
 
-        public Suit SetTrump(Card card)
-        {
-            return card.Suit;
-        }
     }
 }

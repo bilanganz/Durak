@@ -15,25 +15,21 @@ namespace DurakGame
     public partial class frmDurakGame : Form
     {
         #region VARIABLE
-        private int currentCard;
-        private Deck playDeck;
+        private const int POP = 1;
+        static private Size regularSize = new Size(50, 60);
+
         private Player HumanPlayer = new Player("Player One");
         private Player ComputerPlayer = new Player("Computer");
-        private Deck myDeck = new Deck(deckSize);
+        private Player[] player = new Player[2] { new Player("Player One"), new Player("Computer") };
+
+
+        private int currentCard=0;
+        private Deck playDeck = new Deck(deckSize);
         private Cards discardedCards;
         private CardBox.CardBox dragCard;
         
-        /// <summary>
-        /// The amount, in points, that CardBox controls are enlarged when hovered over. 
-        /// </summary>
-        private const int POP = 25;
-
-        /// <summary>
-        /// The regular size of a CardBox control
-        /// </summary>
-        static private Size regularSize = new Size(250, 100);
-        
         static int deckSize = 52;
+        
         #endregion
 
         #region FORM AND CONTROL EVENT HANDLER
@@ -41,28 +37,19 @@ namespace DurakGame
         public frmDurakGame()
         {
             InitializeComponent();
+
         }
 
-        
-        //on form load reset game
         private void frmDurakGame_Load(object sender, EventArgs e)
         {
-            pbDeck.Image = (new Card()).GetCardImage();
-            currentCard = 0;
-            playDeck = new Deck(deckSize);
-            //playDeck.LastCardDrawn += ResetGame;
-            playDeck.Shuffle(deckSize);
-            discardedCards = new Cards();
-            txtDeckCardsRemaining.Text = playDeck.CardsRemaining.ToString();
-            DealHands();
-            //ResetGame();
-            this.BackgroundImage = Properties.Resources.bg1;
+            StartGame();   
         }
-
-        //starts a new game
+        
         private void btnStartGame_Click(object sender, EventArgs e)
         {
             ResetGame();
+            StartGame();
+
 
             DisplayAllCardLists();
 
@@ -75,7 +62,7 @@ namespace DurakGame
         //clicked card will go through player attack/defend phase method
         private void Card_Click(object sender, EventArgs e)
         {
-           
+
         }
 
 
@@ -122,18 +109,11 @@ namespace DurakGame
 
         }
 
-
-        /// <summary>
-        /// Make the mouse pointer a "move" pointer when a drag enters a Panel.
-        /// </summary>
         private void Panel_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.Move; // Make the mouse pointer a "move" pointer
         }
 
-        /// <summary>
-        /// Move a card/control when it is dropped from one Panel to another.
-        /// </summary>
         private void Panel_DragDrop(object sender, DragEventArgs e)
         {
             // If there is a CardBox to move
@@ -271,47 +251,67 @@ namespace DurakGame
         #endregion
 
         #region GAME METHOD
-        private void DealHands()
+        private void StartGame()
         {
-            for (int c = 0; c < 6; c++)
-            {
-                HumanPlayer.PlayHand.Add(playDeck.GetCard(currentCard++));
-                CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(currentCard), true);
-                aCardBox.Click += CardBox_Click;
-                aCardBox.MouseDown += CardBox_MouseDown;
-                aCardBox.DragEnter += CardBox_DragEnter;
-                aCardBox.DragDrop += CardBox_DragDrop;
-                flowHumanHand.Controls.Add(aCardBox);
-            }
+            currentCard = 0;
+            pbDeck.Image = (new Card()).GetCardImage();
+            playDeck = new Deck(deckSize);
+            playDeck.Shuffle(deckSize);
+            discardedCards = new Cards();
+            
+            DealHands();
+            DisplayTrumpCards();
 
-            for (int c = 0; c < 6; c++)
-            {
-                ComputerPlayer.PlayHand.Add(playDeck.GetCard(currentCard++));
-                CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(currentCard), false);
-                aCardBox.Click += CardBox_Click;
-                flowComputerHand.Controls.Add(aCardBox);
-            }
-            RealignCards(flowHumanHand);
+            txtDeckCardsRemaining.Text = (playDeck.CardsRemaining - currentCard).ToString();
+
+            RealignCards(flowComputerHand);
         }
-        
+
         //resets game
         public void ResetGame()
         {
             flowComputerHand.Controls.Clear();
             flowHumanHand.Controls.Clear();
             flowRiver.Controls.Clear();
-
-            pbDeck.Image = (new Card()).GetCardImage();
-            currentCard = 0;
-            playDeck = new Deck(deckSize);
-            //playDeck.LastCardDrawn += ResetGame;
-            playDeck.Shuffle(deckSize);
-            discardedCards = new Cards();
-            txtDeckCardsRemaining.Text = playDeck.CardsRemaining.ToString();
-            DealHands();
-            this.BackgroundImage = Properties.Resources.bg1;
+            flowTrumpCard.Controls.Clear();
         }
 
+        private void DealHands()
+        {
+            for (int c = 0; c < 6; c++)
+            {
+                DrawCard(flowHumanHand);
+                DrawCard(flowComputerHand);
+            }
+            //RealignCards(flowHumanHand);
+        }
+        
+        private void DrawCard(Panel panel)
+        {
+            txtDeckCardsRemaining.Text = (playDeck.CardsRemaining - currentCard).ToString();
+            if (panel == flowHumanHand) 
+            {
+                HumanPlayer.PlayHand.Add(playDeck.GetCard(currentCard));
+                CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(currentCard), true);
+                aCardBox.Click += CardBox_Click;
+                aCardBox.MouseDown += CardBox_MouseDown;
+                aCardBox.DragEnter += CardBox_DragEnter;
+                aCardBox.DragDrop += CardBox_DragDrop;
+                flowHumanHand.Controls.Add(aCardBox);
+                currentCard++;
+            }
+            else if (panel == flowComputerHand) 
+            {
+                ComputerPlayer.PlayHand.Add(playDeck.GetCard(currentCard));
+                CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(currentCard), false);
+                flowComputerHand.Controls.Add(aCardBox);
+                currentCard++;
+            }
+            else
+            {
+                MessageBox.Show("Invalid Panel to draw card");
+            }
+        }
 
         public void AttackDefendPhase()
         {
@@ -340,19 +340,29 @@ namespace DurakGame
         //displays trump card
         public void DisplayTrumpCards()
         {
-
+            CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(17), true);
+            flowTrumpCard.Controls.Add(aCardBox);
+            playDeck.GetCard(17).TrumpSuit= playDeck.GetCard(17).Suit;
         }
 
         //displays player one cards
         public void DisplayPlayerOneCards()
         {
-
+            foreach (Control control in flowHumanHand.Controls)
+            {
+                CardBox.CardBox card = control as CardBox.CardBox;
+                card.FaceUp = true;
+            }
         }
 
         //displays player two cards
         public void DisplayPlayerTwoCards()
         {
-
+            foreach (Control control in flowComputerHand.Controls)
+            {
+                CardBox.CardBox card = control as CardBox.CardBox;
+                card.FaceUp = true;
+            }
         }
 
         //displays river cards
@@ -424,16 +434,7 @@ namespace DurakGame
 
         private void pbDeck_Click(object sender, EventArgs e)
         {
-            // If the deck is empty (no image)
-            if (pbDeck.Image == null)
-            {
-                // Reset the dealer
-                ResetGame();
-            }
-            else
-            {
-                DealHands();
-            }
+            DrawCard(flowComputerHand);
         }
     }
 }

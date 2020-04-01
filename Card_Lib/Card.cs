@@ -73,6 +73,19 @@ namespace Card_Lib
             get { return faceUp; }
             set { faceUp = value; }
         }
+
+        static Suit trumpSuit = Suit.Diamonds;
+        public Suit TrumpSuit
+        {
+            set
+            {
+                trumpSuit = value;
+            }
+            get
+            {
+                return trumpSuit;
+            }
+        }
         #endregion
 
         #region CONSTRUCTORS
