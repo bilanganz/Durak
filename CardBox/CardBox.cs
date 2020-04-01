@@ -173,37 +173,14 @@ namespace CardBox
         /// An event the client program can handle when the user click on the control
         /// </summary>
         new public event EventHandler Click;
-        new public event DragEventHandler DragEnter;
-        new public event DragEventHandler DragDrop;
-        new public event MouseEventHandler MouseDown;
         new public event EventHandler MouseLeave;
         new public event EventHandler MouseEnter;
 
-        /// <summary>
-        /// An event handler for the user clicking the picturebox control
-        /// </summary>
         private void pbMyPictureBox_Click(object sender, EventArgs e)
         {
             if (Click != null) // if there is a handler for clicking the control in the client program
                 Click(this, e); // call it
         }
-
-        private void pbMyPictureBox_DragEnter(object sender, DragEventArgs e)
-        {
-            if (DragEnter != null) // if there is a handler for clicking the control in the client program
-                DragEnter(this, e); // call it
-        }
-        private void pbMyPictureBox_DragDrop(object sender, DragEventArgs e)
-        {
-            if (DragDrop != null) // if there is a handler for clicking the control in the client program
-                DragDrop(this, e); // call it
-        }
-        private void pbMyPictureBox_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (MouseDown != null) // if there is a handler for clicking the control in the client program
-                MouseDown(this, e); // call it
-        }
-
         private void pbMyPictureBox_MouseLeave(object sender, EventArgs e)
         {
             if (MouseLeave != null) // if there is a handler for clicking the control in the client program
@@ -226,6 +203,7 @@ namespace CardBox
         {
             return myCard.ToString();
         }
+
 
 
         #endregion

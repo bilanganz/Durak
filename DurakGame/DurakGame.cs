@@ -17,6 +17,7 @@ namespace DurakGame
         #region VARIABLE
         private const int POP = 1;
         static private Size regularSize = new Size(50, 60);
+        static private Size discardedSize = new Size(25, 30);
 
         private Player HumanPlayer = new Player("Player One");
         private Player ComputerPlayer = new Player("Computer");
@@ -108,39 +109,7 @@ namespace DurakGame
         {
 
         }
-
-        private void Panel_DragEnter(object sender, DragEventArgs e)
-        {
-            e.Effect = DragDropEffects.Move; // Make the mouse pointer a "move" pointer
-        }
-
-        private void Panel_DragDrop(object sender, DragEventArgs e)
-        {
-            // If there is a CardBox to move
-            if (dragCard != null)
-            {
-                // Determine which Panel is which
-                Panel thisPanel = sender as Panel;
-                Panel fromPanel = dragCard.Parent as Panel;
-
-                // If neither panel is null (no conversion issue)
-                if (thisPanel != null && fromPanel != null)
-                {
-                    // If the panel are not the same
-                    if (thisPanel==flowRiver)
-                    {
-                        // (this would happen if a card is dragged from one spot in the Panel to another)
-                        // Remove the card from the Panel it started in
-                        fromPanel.Controls.Remove(dragCard);
-                        // Add the card to the Panel it was dropped in
-                        thisPanel.Controls.Add(dragCard);
-                        // Realign card in both Panels
-                        //RealignCards(thisPanel);
-                        //RealignCards(fromPanel);
-                    }
-                }
-            }
-        }
+        
         #endregion
 
         #region CARDBOX EVENT HANDLER
@@ -176,24 +145,7 @@ namespace DurakGame
 
             }
         }
-
-        /// <summary>
-        /// Initiate a card move on the start of a drag.
-        /// </summary>
-        private void CardBox_MouseDown(object sender, MouseEventArgs e)
-        {
-            // Set dragCard 
-            dragCard = sender as CardBox.CardBox;
-            //MessageBox.Show(dragCard.ToString());
-            // If the conversion worked
-            if (dragCard != null)
-            {
-                // Set the data to be dragged and the allowed effect dragging will have.
-                //MessageBox.Show(dragCard.Parent.Name.ToString());
-                DoDragDrop(dragCard, DragDropEffects.Move);
-            }
-        }
-
+        
         void CardBox_Click(object sender, EventArgs e)
         {
             // Convert sender to a CardBox
@@ -206,48 +158,18 @@ namespace DurakGame
                 if (aCardBox.Parent == flowHumanHand)
                 {
                     flowHumanHand.Controls.Remove(aCardBox); // Remove the card from the home panel
+                    aCardBox.Enabled = false;
                     flowRiver.Controls.Add(aCardBox); // Add the control to the play panel
                 }
                 else if (aCardBox.Parent == flowComputerHand)
                 {
                     flowComputerHand.Controls.Remove(aCardBox); // Remove the card from the play panel
+                    aCardBox.Enabled = false;
                     flowRiver.Controls.Add(aCardBox); // Add the control to the home panel
                 }
                 // Realign the cards 
                 //RealignCards(pnlCardHome);
                 //RealignCards(pnlPlay);
-            }
-        }
-
-        /// <summary>
-        /// When a drag is enters a card, enter the parent panel instead.
-        /// </summary>
-        private void CardBox_DragEnter(object sender, DragEventArgs e)
-        {
-            // Convert sender to a CardBox
-            CardBox.CardBox aCardBox = sender as CardBox.CardBox;
-
-            // If the conversion worked
-            if (aCardBox != null)
-            {
-                // Do the operation on the parent panel instead
-                Panel_DragEnter(aCardBox.Parent, e);
-            }
-        }
-
-        /// <summary>
-        /// When a drag is dropped on a card, drop on the parent panel instead.
-        /// </summary>
-        private void CardBox_DragDrop(object sender, DragEventArgs e)
-        {
-            // Convert sender to a CardBox
-            CardBox.CardBox aCardBox = sender as CardBox.CardBox;
-
-            // If the conversion worked
-            if (aCardBox != null)
-            {
-                // Do the operation on the parent panel instead
-                Panel_DragDrop(aCardBox.Parent, e);
             }
         }
         #endregion
@@ -297,9 +219,6 @@ namespace DurakGame
                 HumanPlayer.PlayHand.Add(playDeck.GetCard(currentCard));
                 CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(currentCard), true);
                 aCardBox.Click += CardBox_Click;
-                //aCardBox.MouseDown += CardBox_MouseDown;
-                //aCardBox.DragEnter += CardBox_DragEnter;
-                //aCardBox.DragDrop += CardBox_DragDrop;
                 aCardBox.MouseEnter += CardBox_MouseEnter;// wire CardBox_MouseEnter for the "POP" visual effect
                 aCardBox.MouseLeave += CardBox_MouseLeave;// wire CardBox_MouseLeave for the regular visual effect
                 flowHumanHand.Controls.Add(aCardBox);
@@ -314,7 +233,7 @@ namespace DurakGame
             }
             else
             {
-                MessageBox.Show("Invalid Panel to draw card");
+                MessageBox.Show("Error when drawing Card");
             }
         }
 
@@ -325,6 +244,7 @@ namespace DurakGame
                 int count = (flowRiver.Controls.Count-1);
                 for (int i = count; i >= 0; i--)  
                 {
+                    flowRiver.Controls[i].Size = new Size(discardedSize.Width + POP, discardedSize.Height + POP);
                     flowRiver.Controls[i].Enabled = false;
                     flowDiscardPile.Controls.Add(flowRiver.Controls[i]);
                 }
