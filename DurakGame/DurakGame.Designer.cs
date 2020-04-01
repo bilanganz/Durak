@@ -57,8 +57,8 @@
             this.quitToolStrip = new System.Windows.Forms.ToolStripMenuItem();
             this.flowRiver = new System.Windows.Forms.FlowLayoutPanel();
             this.flowComputerHand = new System.Windows.Forms.FlowLayoutPanel();
-            this.flowHumanHand = new System.Windows.Forms.FlowLayoutPanel();
             this.pbDeck = new System.Windows.Forms.PictureBox();
+            this.pnlHumanHand = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbDeck)).BeginInit();
             this.SuspendLayout();
@@ -171,14 +171,14 @@
             this.flowTrumpCard.Location = new System.Drawing.Point(20, 276);
             this.flowTrumpCard.Margin = new System.Windows.Forms.Padding(2);
             this.flowTrumpCard.Name = "flowTrumpCard";
-            this.flowTrumpCard.Size = new System.Drawing.Size(81, 99);
+            this.flowTrumpCard.Size = new System.Drawing.Size(93, 120);
             this.flowTrumpCard.TabIndex = 13;
             // 
             // lblDiscardPile
             // 
             this.lblDiscardPile.AutoSize = true;
             this.lblDiscardPile.BackColor = System.Drawing.Color.YellowGreen;
-            this.lblDiscardPile.Location = new System.Drawing.Point(26, 391);
+            this.lblDiscardPile.Location = new System.Drawing.Point(26, 411);
             this.lblDiscardPile.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblDiscardPile.Name = "lblDiscardPile";
             this.lblDiscardPile.Size = new System.Drawing.Size(60, 13);
@@ -189,10 +189,10 @@
             // 
             this.flowDiscardPile.BackColor = System.Drawing.Color.Transparent;
             this.flowDiscardPile.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.flowDiscardPile.Location = new System.Drawing.Point(20, 421);
+            this.flowDiscardPile.Location = new System.Drawing.Point(20, 432);
             this.flowDiscardPile.Margin = new System.Windows.Forms.Padding(2);
             this.flowDiscardPile.Name = "flowDiscardPile";
-            this.flowDiscardPile.Size = new System.Drawing.Size(198, 157);
+            this.flowDiscardPile.Size = new System.Drawing.Size(90, 127);
             this.flowDiscardPile.TabIndex = 15;
             // 
             // txtDeckCardsRemaining
@@ -338,20 +338,11 @@
             // flowComputerHand
             // 
             this.flowComputerHand.BackColor = System.Drawing.Color.Transparent;
-            this.flowComputerHand.Location = new System.Drawing.Point(138, 32);
+            this.flowComputerHand.Location = new System.Drawing.Point(167, 32);
             this.flowComputerHand.Margin = new System.Windows.Forms.Padding(2);
             this.flowComputerHand.Name = "flowComputerHand";
-            this.flowComputerHand.Size = new System.Drawing.Size(584, 84);
+            this.flowComputerHand.Size = new System.Drawing.Size(555, 84);
             this.flowComputerHand.TabIndex = 9;
-            // 
-            // flowHumanHand
-            // 
-            this.flowHumanHand.BackColor = System.Drawing.Color.Transparent;
-            this.flowHumanHand.Location = new System.Drawing.Point(138, 440);
-            this.flowHumanHand.Margin = new System.Windows.Forms.Padding(2);
-            this.flowHumanHand.Name = "flowHumanHand";
-            this.flowHumanHand.Size = new System.Drawing.Size(584, 128);
-            this.flowHumanHand.TabIndex = 11;
             // 
             // pbDeck
             // 
@@ -363,6 +354,14 @@
             this.pbDeck.TabStop = false;
             this.pbDeck.Click += new System.EventHandler(this.pbDeck_Click);
             // 
+            // pnlHumanHand
+            // 
+            this.pnlHumanHand.BackColor = System.Drawing.Color.Transparent;
+            this.pnlHumanHand.Location = new System.Drawing.Point(167, 436);
+            this.pnlHumanHand.Name = "pnlHumanHand";
+            this.pnlHumanHand.Size = new System.Drawing.Size(555, 141);
+            this.pnlHumanHand.TabIndex = 29;
+            // 
             // frmDurakGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -370,6 +369,7 @@
             this.BackgroundImage = global::DurakGame.Properties.Resources.bg1;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(905, 589);
+            this.Controls.Add(this.pnlHumanHand);
             this.Controls.Add(this.pbDeck);
             this.Controls.Add(this.txtRoundNumber);
             this.Controls.Add(this.lblRoundNumber);
@@ -380,7 +380,6 @@
             this.Controls.Add(this.flowDiscardPile);
             this.Controls.Add(this.lblDiscardPile);
             this.Controls.Add(this.flowTrumpCard);
-            this.Controls.Add(this.flowHumanHand);
             this.Controls.Add(this.flowRiver);
             this.Controls.Add(this.flowComputerHand);
             this.Controls.Add(this.btnPickUp);
@@ -437,7 +436,6 @@
         private System.Windows.Forms.ToolStripMenuItem quitToolStrip;
         private System.Windows.Forms.FlowLayoutPanel flowRiver;
         private System.Windows.Forms.FlowLayoutPanel flowComputerHand;
-        private System.Windows.Forms.FlowLayoutPanel flowHumanHand;
         private System.Windows.Forms.ToolStripMenuItem showLogToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearLogToolStripMenuItem;
         private CardBox.CardBox cardTrumpCard;
@@ -446,5 +444,6 @@
         private CardBox.CardBox cardBox3;
         private CardBox.CardBox cardDiscardPile;
         private System.Windows.Forms.PictureBox pbDeck;
+        private System.Windows.Forms.Panel pnlHumanHand;
     }
 }

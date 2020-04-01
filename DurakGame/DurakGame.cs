@@ -15,8 +15,8 @@ namespace DurakGame
     public partial class frmDurakGame : Form
     {
         #region VARIABLE
-        private const int POP = 1;
-        static private Size regularSize = new Size(50, 60);
+        private const int POP = 25;
+        static private Size regularSize = new Size(93, 120);
         static private Size discardedSize = new Size(25, 30);
 
         private Player HumanPlayer = new Player("Player One");
@@ -155,9 +155,9 @@ namespace DurakGame
             if (aCardBox != null)
             {
                 // if the card is in the home panel...
-                if (aCardBox.Parent == flowHumanHand)
+                if (aCardBox.Parent == pnlHumanHand)
                 {
-                    flowHumanHand.Controls.Remove(aCardBox); // Remove the card from the home panel
+                    pnlHumanHand.Controls.Remove(aCardBox); // Remove the card from the home panel
                     aCardBox.Enabled = false;
                     onFieldCards.Add(aCardBox.Card);
                     flowRiver.Controls.Add(aCardBox); // Add the control to the play panel
@@ -196,7 +196,7 @@ namespace DurakGame
         public void ResetGame()
         {
             flowComputerHand.Controls.Clear();
-            flowHumanHand.Controls.Clear();
+            pnlHumanHand.Controls.Clear();
             flowRiver.Controls.Clear();
             flowTrumpCard.Controls.Clear();
             flowDiscardPile.Controls.Clear();
@@ -206,23 +206,23 @@ namespace DurakGame
         {
             for (int c = 0; c < 6; c++)
             {
-                DrawCard(flowHumanHand);
+                DrawCard(pnlHumanHand);
                 DrawCard(flowComputerHand);
             }
-            //RealignCards(flowHumanHand);
+            RealignCards(pnlHumanHand);
         }
         
         private void DrawCard(Panel panel)
         {
             txtDeckCardsRemaining.Text = (playDeck.CardsRemaining - currentCard).ToString();
-            if (panel == flowHumanHand && flowHumanHand.Controls.Count <= 6) 
+            if (panel == pnlHumanHand && pnlHumanHand.Controls.Count <= 6) 
             {
                 HumanPlayer.PlayHand.Add(playDeck.GetCard(currentCard));
                 CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(currentCard), true);
                 aCardBox.Click += CardBox_Click;
                 aCardBox.MouseEnter += CardBox_MouseEnter;// wire CardBox_MouseEnter for the "POP" visual effect
                 aCardBox.MouseLeave += CardBox_MouseLeave;// wire CardBox_MouseLeave for the regular visual effect
-                flowHumanHand.Controls.Add(aCardBox);
+                pnlHumanHand.Controls.Add(aCardBox);
                 currentCard++;
             }
             else if (panel == flowComputerHand && flowComputerHand.Controls.Count <= 6) 
@@ -313,7 +313,7 @@ namespace DurakGame
         //displays player one cards
         public void DisplayPlayerOneCards()
         {
-            foreach (Control control in flowHumanHand.Controls)
+            foreach (Control control in pnlHumanHand.Controls)
             {
                 CardBox.CardBox card = control as CardBox.CardBox;
                 card.FaceUp = true;
