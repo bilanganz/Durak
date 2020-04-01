@@ -69,7 +69,7 @@ namespace DurakGame
         //button pickup clicked ends human turn and picks up cards
         private void btnPickUp_Click(object sender, EventArgs e)
         {
-
+            RemoveRiverCard();
         }
 
         //cease attack button ends human turn and computer starts attacking
@@ -274,6 +274,7 @@ namespace DurakGame
             flowHumanHand.Controls.Clear();
             flowRiver.Controls.Clear();
             flowTrumpCard.Controls.Clear();
+            flowDiscardPile.Controls.Clear();
         }
 
         private void DealHands()
@@ -289,7 +290,7 @@ namespace DurakGame
         private void DrawCard(Panel panel)
         {
             txtDeckCardsRemaining.Text = (playDeck.CardsRemaining - currentCard).ToString();
-            if (panel == flowHumanHand) 
+            if (panel == flowHumanHand && flowHumanHand.Controls.Count <= 6) 
             {
                 HumanPlayer.PlayHand.Add(playDeck.GetCard(currentCard));
                 CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(currentCard), true);
@@ -300,7 +301,7 @@ namespace DurakGame
                 flowHumanHand.Controls.Add(aCardBox);
                 currentCard++;
             }
-            else if (panel == flowComputerHand) 
+            else if (panel == flowComputerHand && flowComputerHand.Controls.Count <= 6) 
             {
                 ComputerPlayer.PlayHand.Add(playDeck.GetCard(currentCard));
                 CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(currentCard), false);
@@ -311,6 +312,17 @@ namespace DurakGame
             {
                 MessageBox.Show("Invalid Panel to draw card");
             }
+        }
+
+        private void RemoveRiverCard()
+        {
+            MessageBox.Show(flowRiver.Controls.Count.ToString());
+            foreach (Control control in flowRiver.Controls)
+            {
+                CardBox.CardBox card = control as CardBox.CardBox;
+                flowDiscardPile.Controls.Add(card);
+            }
+            flowRiver.Controls.Clear();
         }
 
         public void AttackDefendPhase()
@@ -328,13 +340,21 @@ namespace DurakGame
         //will display all card lists on the windows form
         public void DisplayAllCardLists()
         {
-
+            DisplayDiscardCards();
+            DisplayTrumpCards();
+            DisplayPlayerOneCards();
+            DisplayPlayerTwoCards();
+            DisplayRiverCards();
         }
 
         //displays discard cards
         public void DisplayDiscardCards()
         {
-
+            foreach (Control control in flowDiscardPile.Controls)
+            {
+                CardBox.CardBox card = control as CardBox.CardBox;
+                card.FaceUp = true;
+            }
         }
 
         //displays trump card
@@ -368,6 +388,11 @@ namespace DurakGame
         //displays river cards
         public void DisplayRiverCards()
         {
+            foreach (Control control in flowRiver.Controls)
+            {
+                CardBox.CardBox card = control as CardBox.CardBox;
+                card.FaceUp = true;
+            }
 
         }
         #endregion

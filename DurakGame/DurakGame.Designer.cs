@@ -191,7 +191,7 @@
             this.flowDiscardPile.Location = new System.Drawing.Point(20, 421);
             this.flowDiscardPile.Margin = new System.Windows.Forms.Padding(2);
             this.flowDiscardPile.Name = "flowDiscardPile";
-            this.flowDiscardPile.Size = new System.Drawing.Size(80, 98);
+            this.flowDiscardPile.Size = new System.Drawing.Size(198, 157);
             this.flowDiscardPile.TabIndex = 15;
             // 
             // txtDeckCardsRemaining
