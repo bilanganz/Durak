@@ -59,31 +59,40 @@ namespace Card_Lib
         
         public Deck(int deckSize)
         {
-            int startingRank = 1;
+            cards = new Cards();
             if (deckSize == 36)
             {
-                startingRank = 6;
-                for (int suit = 0; suit < 3; suit++)
+                MinRange = 5;
+                for (int suitVal = 0; suitVal < 4; suitVal++)
                 {
-                    cards.Add(new Card((Suit)suit, (Rank)1));
+                    for (int rankVal = MinRange; rankVal < 14; rankVal++)
+                    {
+                        cards.Add(new Card((Suit)suitVal, (Rank)rankVal));
+                    }
                 }
             }
             else if (deckSize == 20)
             {
-                startingRank = 10;
-                for (int suit = 0; suit < 3; suit++)
+                MinRange = 9;
+                for (int suitVal = 0; suitVal < 4; suitVal++)
                 {
-                    cards.Add(new Card((Suit)suit, (Rank)1));
+                    for (int rankVal = MinRange; rankVal < 14; rankVal++)
+                    {
+                        cards.Add(new Card((Suit)suitVal, (Rank)rankVal));
+                    }
+                }
+            }
+            else if (deckSize == 52)
+            {
+                for (int suitVal = 0; suitVal < 4; suitVal++)
+                {
+                    for (int rankVal = MinRange; rankVal < 14; rankVal++)
+                    {
+                        cards.Add(new Card((Suit)suitVal, (Rank)rankVal));
+                    }
                 }
             }
 
-            for (int suitVal = 0; suitVal < 4; suitVal++)
-            {
-                for (int rankVal = startingRank; rankVal < MaxRange; rankVal++)
-                {
-                    cards.Add(new Card((Suit)suitVal, (Rank)rankVal));
-                }
-            }
         }
 
         /*/// <summary>

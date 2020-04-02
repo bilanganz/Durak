@@ -271,22 +271,23 @@
             // new20Deck
             // 
             this.new20Deck.Name = "new20Deck";
-            this.new20Deck.Size = new System.Drawing.Size(115, 22);
+            this.new20Deck.Size = new System.Drawing.Size(180, 22);
             this.new20Deck.Text = "20 Deck";
             this.new20Deck.Click += new System.EventHandler(this.new20Deck_Click);
             // 
             // new36Deck
             // 
             this.new36Deck.Name = "new36Deck";
-            this.new36Deck.Size = new System.Drawing.Size(115, 22);
+            this.new36Deck.Size = new System.Drawing.Size(180, 22);
             this.new36Deck.Text = "36 Deck";
             this.new36Deck.Click += new System.EventHandler(this.new36Deck_Click);
             // 
             // new52Deck
             // 
             this.new52Deck.Name = "new52Deck";
-            this.new52Deck.Size = new System.Drawing.Size(115, 22);
+            this.new52Deck.Size = new System.Drawing.Size(180, 22);
             this.new52Deck.Text = "52 Deck";
+            this.new52Deck.Click += new System.EventHandler(this.new52Deck_Click);
             // 
             // logToolStrip
             // 

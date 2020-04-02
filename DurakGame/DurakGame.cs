@@ -80,21 +80,24 @@ namespace DurakGame
         {
             deckSize = 20;
             // myDeck = new GameDeck(deckSize);
-            //ResetGame();
+            ResetGame();
+            StartGame();
         }
 
         private void new36Deck_Click(object sender, EventArgs e)
         {
             deckSize = 36;
             // myDeck = new GameDeck(deckSize);
-            //ResetGame();
+            ResetGame();
+            StartGame();
         }
 
         private void new52Deck_Click(object sender, EventArgs e)
         {
             deckSize = 52;
             // myDeck = new GameDeck(deckSize);
-            //ResetGame();
+            ResetGame();
+            StartGame();
         }
 
         private void lblTrumpCard_Click(object sender, EventArgs e)
@@ -186,6 +189,7 @@ namespace DurakGame
             discardedCardCount = 0;
             pbDeck.Image = (new Card()).GetCardImage();
             playDeck = new Deck(deckSize);
+            //MessageBox.Show(playDeck.CardsRemaining.ToString());
             playDeck.Shuffle(deckSize);
             discardedCards = new Cards();
             
