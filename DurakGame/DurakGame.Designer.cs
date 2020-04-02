@@ -55,10 +55,10 @@
             this.clearLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quitToolStrip = new System.Windows.Forms.ToolStripMenuItem();
             this.flowRiver = new System.Windows.Forms.FlowLayoutPanel();
-            this.flowComputerHand = new System.Windows.Forms.FlowLayoutPanel();
             this.pbDeck = new System.Windows.Forms.PictureBox();
             this.pnlHumanHand = new System.Windows.Forms.Panel();
             this.pnlDiscardPile = new System.Windows.Forms.Panel();
+            this.pnlComputerHand = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbDeck)).BeginInit();
             this.SuspendLayout();
@@ -325,15 +325,6 @@
             this.flowRiver.Size = new System.Drawing.Size(500, 216);
             this.flowRiver.TabIndex = 10;
             // 
-            // flowComputerHand
-            // 
-            this.flowComputerHand.BackColor = System.Drawing.Color.Transparent;
-            this.flowComputerHand.Location = new System.Drawing.Point(167, 32);
-            this.flowComputerHand.Margin = new System.Windows.Forms.Padding(2);
-            this.flowComputerHand.Name = "flowComputerHand";
-            this.flowComputerHand.Size = new System.Drawing.Size(555, 84);
-            this.flowComputerHand.TabIndex = 9;
-            // 
             // pbDeck
             // 
             this.pbDeck.Location = new System.Drawing.Point(20, 119);
@@ -359,6 +350,14 @@
             this.pnlDiscardPile.Size = new System.Drawing.Size(93, 133);
             this.pnlDiscardPile.TabIndex = 30;
             // 
+            // pnlComputerHand
+            // 
+            this.pnlComputerHand.BackColor = System.Drawing.Color.Transparent;
+            this.pnlComputerHand.Location = new System.Drawing.Point(167, 32);
+            this.pnlComputerHand.Name = "pnlComputerHand";
+            this.pnlComputerHand.Size = new System.Drawing.Size(555, 83);
+            this.pnlComputerHand.TabIndex = 31;
+            // 
             // frmDurakGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -366,6 +365,7 @@
             this.BackgroundImage = global::DurakGame.Properties.Resources.bg1;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(905, 589);
+            this.Controls.Add(this.pnlComputerHand);
             this.Controls.Add(this.pnlDiscardPile);
             this.Controls.Add(this.pnlHumanHand);
             this.Controls.Add(this.pbDeck);
@@ -378,7 +378,6 @@
             this.Controls.Add(this.lblDiscardPile);
             this.Controls.Add(this.flowTrumpCard);
             this.Controls.Add(this.flowRiver);
-            this.Controls.Add(this.flowComputerHand);
             this.Controls.Add(this.btnPickUp);
             this.Controls.Add(this.btnStartGame);
             this.Controls.Add(this.lblTrumpCard);
@@ -431,7 +430,6 @@
         private System.Windows.Forms.ToolStripMenuItem logToolStrip;
         private System.Windows.Forms.ToolStripMenuItem quitToolStrip;
         private System.Windows.Forms.FlowLayoutPanel flowRiver;
-        private System.Windows.Forms.FlowLayoutPanel flowComputerHand;
         private System.Windows.Forms.ToolStripMenuItem showLogToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearLogToolStripMenuItem;
         private CardBox.CardBox cardTrumpCard;
@@ -442,5 +440,6 @@
         private System.Windows.Forms.PictureBox pbDeck;
         private System.Windows.Forms.Panel pnlHumanHand;
         private System.Windows.Forms.Panel pnlDiscardPile;
+        private System.Windows.Forms.Panel pnlComputerHand;
     }
 }

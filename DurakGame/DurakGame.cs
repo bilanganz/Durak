@@ -19,9 +19,8 @@ namespace DurakGame
         static private Size regularSize = new Size(93, 120);
         static private Size discardedSize = new Size(25, 30);
 
-        private Player HumanPlayer = new Player("Player One");
-        private Player ComputerPlayer = new Player("Computer");
-        private Player[] player = new Player[2] { new Player("Player One"), new Player("Computer") };
+        private Player HumanPlayer = new Player("Player One", true);
+        private Player ComputerPlayer = new Player("Computer", false);
 
 
         private int currentCard=0;
@@ -29,7 +28,6 @@ namespace DurakGame
         private Deck playDeck = new Deck(deckSize);
         private Cards onFieldCards = new Cards();
         private Cards discardedCards;
-        private CardBox.CardBox dragCard;
         
         static int deckSize = 52;
         
@@ -56,29 +54,21 @@ namespace DurakGame
 
             DisplayAllCardLists();
 
-
-            //AttackDefendPhase();
-
         }
-
-        //on card click will raise event in card image control class
-        //clicked card will go through player attack/defend phase method
-        private void Card_Click(object sender, EventArgs e)
-        {
-
-        }
-
 
         //button pickup clicked ends human turn and picks up cards
         private void btnPickUp_Click(object sender, EventArgs e)
         {
-            
+            PickUpRiver(pnlHumanHand);
+            ToggleAttack();
         }
 
         //cease attack button ends human turn and computer starts attacking
         private void btnCeaseAttack_Click(object sender, EventArgs e)
         {
             RemoveRiverCard();
+            ToggleAttack();
+            ComputerAttack();
         }
 
         private void flpDeck_Paint(object sender, PaintEventArgs e)
@@ -158,20 +148,33 @@ namespace DurakGame
                 // if the card is in the home panel...
                 if (aCardBox.Parent == pnlHumanHand)
                 {
-                    pnlHumanHand.Controls.Remove(aCardBox); // Remove the card from the home panel
-                    aCardBox.Enabled = false;
-                    onFieldCards.Add(aCardBox.Card);
-                    flowRiver.Controls.Add(aCardBox); // Add the control to the play panel
-                }
-                else if (aCardBox.Parent == flowComputerHand)
-                {
-                    flowComputerHand.Controls.Remove(aCardBox); // Remove the card from the play panel
-                    aCardBox.Enabled = false;
-                    flowRiver.Controls.Add(aCardBox); // Add the control to the home panel
+                    if (HumanPlayer.IsAttacking)
+                    {
+                        if (ValidAttack(aCardBox.Card))
+                        {
+                            pnlHumanHand.Controls.Remove(aCardBox); // Remove the card from the home panel
+                            aCardBox.Enabled = false;
+                            onFieldCards.Add(aCardBox.Card);
+                            flowRiver.Controls.Add(aCardBox); // Add the control to the play panel
+
+                            ComputerDefence(aCardBox.Card);
+                        }
+                    }
+                    else
+                    {
+                        if (ValidDefend(aCardBox.Card))
+                        {
+                            pnlHumanHand.Controls.Remove(aCardBox); // Remove the card from the home panel
+                            aCardBox.Enabled = false;
+                            onFieldCards.Add(aCardBox.Card);
+                            flowRiver.Controls.Add(aCardBox); // Add the control to the play panel
+
+                            ComputerAttack();
+                        }
+                    }
                 }
                 // Realign the cards 
-                //RealignCards(pnlCardHome);
-                //RealignCards(pnlPlay);
+                RealignCards(pnlHumanHand);
             }
         }
         #endregion
@@ -190,14 +193,12 @@ namespace DurakGame
             DisplayTrumpCards();
 
             txtDeckCardsRemaining.Text = (playDeck.CardsRemaining - currentCard).ToString();
-
-            //RealignCards(flowComputerHand);
         }
 
         //resets game
         public void ResetGame()
         {
-            flowComputerHand.Controls.Clear();
+            pnlComputerHand.Controls.Clear();
             pnlHumanHand.Controls.Clear();
             flowRiver.Controls.Clear();
             flowTrumpCard.Controls.Clear();
@@ -206,14 +207,18 @@ namespace DurakGame
 
         private void DealHands()
         {
-            for (int c = 0; c < 6; c++)
+            for (int c = pnlHumanHand.Controls.Count; c < 6; c++)
             {
                 DrawCard(pnlHumanHand);
-                DrawCard(flowComputerHand);
+            }
+            for (int c = pnlComputerHand.Controls.Count; c < 6; c++)
+            {
+                DrawCard(pnlComputerHand);
             }
             RealignCards(pnlHumanHand);
+            RealignCards(pnlComputerHand);
         }
-        
+
         private void DrawCard(Panel panel)
         {
             txtDeckCardsRemaining.Text = (playDeck.CardsRemaining - currentCard).ToString();
@@ -227,16 +232,12 @@ namespace DurakGame
                 pnlHumanHand.Controls.Add(aCardBox);
                 currentCard++;
             }
-            else if (panel == flowComputerHand && flowComputerHand.Controls.Count <= 6) 
+            if (panel == pnlComputerHand && pnlComputerHand.Controls.Count <= 6) 
             {
                 ComputerPlayer.PlayHand.Add(playDeck.GetCard(currentCard));
                 CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(currentCard), false);
-                flowComputerHand.Controls.Add(aCardBox);
+                pnlComputerHand.Controls.Add(aCardBox);
                 currentCard++;
-            }
-            else
-            {
-                MessageBox.Show("Error when drawing Card");
             }
         }
 
@@ -267,18 +268,113 @@ namespace DurakGame
            
         }
 
-        public void AttackDefendPhase()
+        public bool ValidAttack(Card attackCard)
         {
-            //int userInput = 1;
-            //Attacking/defendingPhase   
-            //myPlayerOne.AttackingPhase(myRiver, userInput);
+            if(flowRiver.Controls.Count < 1)
+            {
+                return true;
+            }
+            else
+            {
+                foreach(Card playedCard in onFieldCards)
+                {
+                    if (attackCard.Rank == playedCard.Rank)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
 
-            //myPlayerTwo.DefendingPhase(myRiver);
+        public bool ValidDefend(Card defendCard)
+        {
+            Card lastCard = onFieldCards[onFieldCards.Count - 1];
+            if (defendCard.Suit == lastCard.Suit && defendCard.Rank > lastCard.Rank)
+            {
+                return true;
+            }
+            return false;
+        }
 
-            DisplayAllCardLists();
+        public void ComputerDefence(Card attackCard)
+        {
+            foreach (CardBox.CardBox aCardBox in pnlComputerHand.Controls)
+            {
+                if (aCardBox.Card.Suit == attackCard.Suit && aCardBox.Card.Rank > attackCard.Rank)
+                {
+                    ComputerPlaysCard(aCardBox);
+                    return;
+                }
+            }
+            PickUpRiver(pnlComputerHand);
+            ToggleAttack();
+            ComputerAttack();
+        }
 
+        public void ComputerAttack()
+        {
+            Card lastCard = onFieldCards[onFieldCards.Count - 1];
+            CardBox.CardBox attackCard = pnlComputerHand.Controls[0] as CardBox.CardBox;
+            if (flowRiver.Controls.Count < 1)
+            {
+                
+                ComputerPlaysCard(attackCard);
+            }
+            else
+            {
+                foreach (CardBox.CardBox aCardBox in pnlComputerHand.Controls)
+                {
+                    if (aCardBox.Card.Suit == lastCard.Suit && aCardBox.Card.Rank > lastCard.Rank)
+                    {
+                        ComputerPlaysCard(aCardBox);
+                        return;
+                    }
+                }
+                RemoveRiverCard();
+                ToggleAttack();
+            }
         }
         
+        public void ComputerPlaysCard(CardBox.CardBox aCardBox)
+        {
+            pnlComputerHand.Controls.Remove(aCardBox); // Remove the card from the home panel
+            aCardBox.Enabled = false;
+            aCardBox.FaceUp = true;
+            onFieldCards.Add(aCardBox.Card);
+            flowRiver.Controls.Add(aCardBox);
+            RealignCards(pnlComputerHand);
+        }
+
+        public void PickUpRiver(Panel panel)
+        {
+            foreach (CardBox.CardBox card in flowRiver.Controls)
+            {
+                panel.Controls.Add(card);
+                if (panel == pnlComputerHand)
+                    card.FaceUp = false;
+                //card.Enabled = true;
+                onFieldCards.Remove(card.Card);
+                flowRiver.Controls.Remove(card);    
+            }
+            RealignCards(panel);
+        }
+
+        public void ToggleAttack()
+        {
+            if (HumanPlayer.IsAttacking)
+            {
+                HumanPlayer.IsAttacking = false;
+                ComputerPlayer.IsAttacking = true;
+            }
+            else
+            {
+                HumanPlayer.IsAttacking = true;
+                ComputerPlayer.IsAttacking = false;
+            }
+            DealHands();
+        }
+
         //will display all card lists on the windows form
         public void DisplayAllCardLists()
         {
@@ -328,7 +424,7 @@ namespace DurakGame
         //displays player two cards
         public void DisplayPlayerTwoCards()
         {
-            foreach (Control control in flowComputerHand.Controls)
+            foreach (Control control in pnlComputerHand.Controls)
             {
                 CardBox.CardBox card = control as CardBox.CardBox;
                 card.FaceUp = true;
@@ -409,7 +505,7 @@ namespace DurakGame
 
         private void pbDeck_Click(object sender, EventArgs e)
         {
-            //DrawCard(flowComputerHand);
+            //DrawCard(pnlComputerHand);
             DisplayOnFieldCards();
         }
     }

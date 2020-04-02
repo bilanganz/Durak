@@ -16,6 +16,8 @@ namespace Card_Lib
         //Player Attribute
         public string Name { get; set; }
         public Cards PlayHand { get; set; }
+        public bool IsAttacking { get; set; }
+
         /// <summary>
         /// Default Constructor
         /// </summary>
@@ -26,10 +28,11 @@ namespace Card_Lib
         /// Parameterized Constructor
         /// </summary>
         /// <param name="name"></param>
-        public Player(string name)
+        public Player(string name, bool attacking)
         {
             Name = name;
             PlayHand = new Cards();
+            IsAttacking = attacking;
         }
         /// <summary>
         /// HasWon - check if player have win
