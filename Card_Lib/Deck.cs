@@ -163,6 +163,12 @@ namespace Card_Lib
             newDeck.CopyTo(cards);
         }
 
+        public void changePosition(int oldIndex, Card newCard)
+        {
+            cards.RemoveAt(oldIndex);
+            cards.Add(newCard);
+        }
+
         public Card DrawCard()
         {
             Card card;

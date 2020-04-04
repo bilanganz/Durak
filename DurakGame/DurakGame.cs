@@ -430,6 +430,7 @@ namespace DurakGame
             CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(12), true);
             flowTrumpCard.Controls.Add(aCardBox);
             playDeck.GetCard(12).TrumpSuit= playDeck.GetCard(12).Suit;
+            playDeck.changePosition(12, playDeck.GetCard(12));
 
         }
 
