@@ -366,9 +366,13 @@ namespace DurakGame
                 if (panel == pnlComputerHand)
                     card.FaceUp = false;
                 card.Enabled = true;
-                card.Click += CardBox_Click;
-                card.MouseEnter += CardBox_MouseEnter;// wire CardBox_MouseEnter for the "POP" visual effect
-                card.MouseLeave += CardBox_MouseLeave;// wire CardBox_MouseLeave for the regular visual effect
+                if(panel == pnlHumanHand)
+                {
+                    card.Click += CardBox_Click;
+                    card.MouseEnter += CardBox_MouseEnter;// wire CardBox_MouseEnter for the "POP" visual effect
+                    card.MouseLeave += CardBox_MouseLeave;// wire CardBox_MouseLeave for the regular visual effect
+
+                }
                 onFieldCards.Remove(card.Card);
                 flowRiver.Controls.Remove(card);    
             }
