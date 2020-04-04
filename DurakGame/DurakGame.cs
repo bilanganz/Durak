@@ -190,12 +190,20 @@ namespace DurakGame
             playDeck = new Deck(deckSize);
             //MessageBox.Show(playDeck.CardsRemaining.ToString());
             playDeck.Shuffle(deckSize);
+            playDeck.LastCardDrawn +=Reshuffle;
             discardedCards = new Cards();
             
             DealHands();
             DisplayTrumpCards();
 
             txtDeckCardsRemaining.Text = (playDeck.CardsRemaining - currentCard).ToString();
+        }
+
+        private void Reshuffle(object source, EventArgs args)
+        {
+            pbDeck.Image = null;
+            Console.WriteLine("Discarded cards reshuffled into deck.");
+            
         }
 
         //resets game
@@ -228,7 +236,7 @@ namespace DurakGame
         private void DrawCard(Panel panel)
         {
             txtDeckCardsRemaining.Text = (playDeck.CardsRemaining - currentCard).ToString();
-            if (panel == pnlHumanHand && pnlHumanHand.Controls.Count <= 6) 
+            if (panel == pnlHumanHand) 
             {
                 HumanPlayer.PlayHand.Add(playDeck.GetCard(currentCard));
                 CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(currentCard), true);
@@ -238,10 +246,10 @@ namespace DurakGame
                 pnlHumanHand.Controls.Add(aCardBox);
                 currentCard++;
             }
-            if (panel == pnlComputerHand && pnlComputerHand.Controls.Count <= 6) 
+            if (panel == pnlComputerHand) 
             {
                 ComputerPlayer.PlayHand.Add(playDeck.GetCard(currentCard));
-                CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(currentCard), false);
+                CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(currentCard), true);
                 pnlComputerHand.Controls.Add(aCardBox);
                 currentCard++;
             }
@@ -358,6 +366,9 @@ namespace DurakGame
                 if (panel == pnlComputerHand)
                     card.FaceUp = false;
                 card.Enabled = true;
+                card.Click += CardBox_Click;
+                card.MouseEnter += CardBox_MouseEnter;// wire CardBox_MouseEnter for the "POP" visual effect
+                card.MouseLeave += CardBox_MouseLeave;// wire CardBox_MouseLeave for the regular visual effect
                 onFieldCards.Remove(card.Card);
                 flowRiver.Controls.Remove(card);    
             }
@@ -416,9 +427,10 @@ namespace DurakGame
         //displays trump card
         public void DisplayTrumpCards()
         {
-            CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(17), true);
+            CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(12), true);
             flowTrumpCard.Controls.Add(aCardBox);
-            playDeck.GetCard(17).TrumpSuit= playDeck.GetCard(17).Suit;
+            playDeck.GetCard(12).TrumpSuit= playDeck.GetCard(12).Suit;
+
         }
 
         //displays player one cards
