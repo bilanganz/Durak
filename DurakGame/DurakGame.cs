@@ -210,16 +210,19 @@ namespace DurakGame
 
         private void DealHands()
         {
-            for (int c = pnlHumanHand.Controls.Count; c < 6; c++)
+            if (playDeck.CardsRemaining > 0)
             {
-                DrawCard(pnlHumanHand);
+                for (int c = pnlHumanHand.Controls.Count; c < 6; c++)
+                {
+                    DrawCard(pnlHumanHand);
+                }
+                for (int c = pnlComputerHand.Controls.Count; c < 6; c++)
+                {
+                    DrawCard(pnlComputerHand);
+                }
+                RealignCards(pnlHumanHand);
+                RealignCards(pnlComputerHand);
             }
-            for (int c = pnlComputerHand.Controls.Count; c < 6; c++)
-            {
-                DrawCard(pnlComputerHand);
-            }
-            RealignCards(pnlHumanHand);
-            RealignCards(pnlComputerHand);
         }
 
         private void DrawCard(Panel panel)
@@ -354,7 +357,7 @@ namespace DurakGame
                 panel.Controls.Add(card);
                 if (panel == pnlComputerHand)
                     card.FaceUp = false;
-                //card.Enabled = true;
+                card.Enabled = true;
                 onFieldCards.Remove(card.Card);
                 flowRiver.Controls.Remove(card);    
             }
