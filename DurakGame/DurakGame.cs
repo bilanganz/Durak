@@ -60,15 +60,14 @@ namespace DurakGame
         private void btnPickUp_Click(object sender, EventArgs e)
         {
             PickUpRiver(pnlHumanHand);
-            ToggleAttack();
+            EndTurn();
         }
 
         //cease attack button ends human turn and computer starts attacking
         private void btnCeaseAttack_Click(object sender, EventArgs e)
         {
             RemoveRiverCard();
-            ToggleAttack();
-            ComputerAttack();
+            EndTurn();
         }
 
         private void flpDeck_Paint(object sender, PaintEventArgs e)
@@ -312,21 +311,19 @@ namespace DurakGame
                 }
             }
             PickUpRiver(pnlComputerHand);
-            ToggleAttack();
-            ComputerAttack();
+            EndTurn();
         }
 
         public void ComputerAttack()
-        {
-            Card lastCard = onFieldCards[onFieldCards.Count - 1];
-            CardBox.CardBox attackCard = pnlComputerHand.Controls[0] as CardBox.CardBox;
+        {     
             if (flowRiver.Controls.Count < 1)
             {
-                
+                CardBox.CardBox attackCard = pnlComputerHand.Controls[0] as CardBox.CardBox;
                 ComputerPlaysCard(attackCard);
             }
             else
             {
+                Card lastCard = onFieldCards[onFieldCards.Count - 1];
                 foreach (CardBox.CardBox aCardBox in pnlComputerHand.Controls)
                 {
                     if (aCardBox.Card.Suit == lastCard.Suit && aCardBox.Card.Rank > lastCard.Rank)
@@ -336,7 +333,7 @@ namespace DurakGame
                     }
                 }
                 RemoveRiverCard();
-                ToggleAttack();
+                EndTurn();
             }
         }
         
@@ -364,19 +361,25 @@ namespace DurakGame
             RealignCards(panel);
         }
 
-        public void ToggleAttack()
+        public void EndTurn()
         {
+            DealHands();
             if (HumanPlayer.IsAttacking)
             {
                 HumanPlayer.IsAttacking = false;
                 ComputerPlayer.IsAttacking = true;
+                ComputerAttack();
+                btnCeaseAttack.Enabled = false;
+                btnPickUp.Enabled = true;
             }
             else
             {
                 HumanPlayer.IsAttacking = true;
                 ComputerPlayer.IsAttacking = false;
+                btnCeaseAttack.Enabled = true;
+                btnPickUp.Enabled = false;
             }
-            DealHands();
+            
         }
 
         //will display all card lists on the windows form
