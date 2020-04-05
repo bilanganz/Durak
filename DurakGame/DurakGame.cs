@@ -29,6 +29,7 @@ namespace DurakGame
         private Cards onFieldCards = new Cards();
         private Cards discardedCards;
         private bool cardRemaining = true;
+        private Card trumpCard = new Card();
         
         static int deckSize = 52;
         
@@ -261,7 +262,7 @@ namespace DurakGame
             if (panel == pnlComputerHand) 
             {
                 ComputerPlayer.PlayHand.Add(playDeck.GetCard(currentCard));
-                CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(currentCard), true);
+                CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(currentCard), false);
                 pnlComputerHand.Controls.Add(aCardBox);
                 currentCard++;
             }
@@ -316,7 +317,7 @@ namespace DurakGame
         public bool ValidDefend(Card defendCard)
         {
             Card lastCard = onFieldCards[onFieldCards.Count - 1];
-            if (defendCard.Suit == lastCard.Suit && defendCard.Rank > lastCard.Rank)
+            if ((defendCard.Suit == lastCard.Suit && defendCard.Rank > lastCard.Rank) || defendCard.Suit == trumpCard.Suit)
             {
                 return true;
             }
@@ -327,7 +328,7 @@ namespace DurakGame
         {
             foreach (CardBox.CardBox aCardBox in pnlComputerHand.Controls)
             {
-                if (aCardBox.Card.Suit == attackCard.Suit && aCardBox.Card.Rank > attackCard.Rank)
+                if ((aCardBox.Card.Suit == attackCard.Suit && aCardBox.Card.Rank > attackCard.Rank) || aCardBox.Card.Suit == trumpCard.Suit)
                 {
                     ComputerPlaysCard(aCardBox);
                     return;
@@ -347,6 +348,13 @@ namespace DurakGame
                     CardBox.CardBox attackCard = new CardBox.CardBox(lowestCard, false);
                     ComputerPlaysCard(attackCard);
                 }
+                else
+                {
+                    Card highestCard = ComputerPlayer.PlayHand.Max(Card => Card);
+                    CardBox.CardBox attackCard = new CardBox.CardBox(highestCard, false);
+                    ComputerPlaysCard(attackCard);
+                }
+                
             }
             else
             {
@@ -380,7 +388,10 @@ namespace DurakGame
             {
                 panel.Controls.Add(card);
                 if (panel == pnlComputerHand)
+                {
                     card.FaceUp = false;
+                    card.Enabled = false;
+                }
                 card.Enabled = true;
                 if(panel == pnlHumanHand)
                 {
@@ -402,9 +413,9 @@ namespace DurakGame
             {
                 HumanPlayer.IsAttacking = false;
                 ComputerPlayer.IsAttacking = true;
-                ComputerAttack();
                 btnCeaseAttack.Enabled = false;
                 btnPickUp.Enabled = true;
+                ComputerAttack();
             }
             else
             {
@@ -451,7 +462,7 @@ namespace DurakGame
             flowTrumpCard.Controls.Add(aCardBox);
             playDeck.GetCard(12).TrumpSuit= playDeck.GetCard(12).Suit;
             playDeck.changePosition(12, playDeck.GetCard(12));
-
+            trumpCard = playDeck.GetCard(12);
         }
 
         //displays player one cards
