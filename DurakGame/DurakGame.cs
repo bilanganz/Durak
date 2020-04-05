@@ -231,6 +231,13 @@ namespace DurakGame
                 RealignCards(pnlHumanHand);
                 RealignCards(pnlComputerHand);
             }
+            else if(playDeck.CardsRemaining == 1)
+            {
+                if (HumanPlayer.IsAttacking)
+                    DrawCard(pnlHumanHand)
+                else
+                    DrawCard(pnlComputerHand)
+            }
         }
 
         private void DrawCard(Panel panel)
