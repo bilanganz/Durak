@@ -198,7 +198,10 @@ namespace DurakGame
             DealHands(cardRemaining);
             DisplayTrumpCards();
 
+            btnPickUp.Enabled = false;
             txtDeckCardsRemaining.Text = (playDeck.CardsRemaining - currentCard).ToString();
+            lblHumanAttacking.Visible = true;
+            lblComputerAttacking.Visible = false;
         }
 
         private void Reshuffle(object source, EventArgs args)
@@ -358,13 +361,15 @@ namespace DurakGame
             }
             else
             {
-                Card lastCard = onFieldCards[onFieldCards.Count - 1];
-                foreach (CardBox.CardBox aCardBox in pnlComputerHand.Controls)
+                foreach (Card card in onFieldCards)
                 {
-                    if (aCardBox.Card.Suit == lastCard.Suit && aCardBox.Card.Rank > lastCard.Rank)
+                    foreach (CardBox.CardBox aCardBox in pnlComputerHand.Controls)
                     {
-                        ComputerPlaysCard(aCardBox);
-                        return;
+                        if (card.Rank == aCardBox.Card.Rank)
+                        {
+                            ComputerPlaysCard(aCardBox);
+                            return;
+                        }
                     }
                 }
                 RemoveRiverCard();
@@ -412,7 +417,9 @@ namespace DurakGame
             if (HumanPlayer.IsAttacking)
             {
                 HumanPlayer.IsAttacking = false;
+                lblHumanAttacking.Visible = false;
                 ComputerPlayer.IsAttacking = true;
+                lblComputerAttacking.Visible = true;
                 btnCeaseAttack.Enabled = false;
                 btnPickUp.Enabled = true;
                 ComputerAttack();
@@ -420,7 +427,9 @@ namespace DurakGame
             else
             {
                 HumanPlayer.IsAttacking = true;
+                lblHumanAttacking.Visible = true;
                 ComputerPlayer.IsAttacking = false;
+                lblComputerAttacking.Visible = false;
                 btnCeaseAttack.Enabled = true;
                 btnPickUp.Enabled = false;
             }

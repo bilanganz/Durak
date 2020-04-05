@@ -74,9 +74,10 @@ namespace Card_Lib
         /// This calls the Contains() method of the ArrayList for the collection,
         /// which you access through the InnerList property.
         /// </summary>
-        public bool Contains(Card card)
+        public bool ContainsRank(Card card)
         {
-            return InnerList.Contains(card);
-        }*/
+            return card.Rank;
+        }
+        */
     }
 }
