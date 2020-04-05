@@ -28,6 +28,7 @@ namespace DurakGame
         private Deck playDeck = new Deck(deckSize);
         private Cards onFieldCards = new Cards();
         private Cards discardedCards;
+        private bool cardRemaining = true;
         
         static int deckSize = 52;
         
@@ -193,7 +194,7 @@ namespace DurakGame
             playDeck.LastCardDrawn +=Reshuffle;
             discardedCards = new Cards();
             
-            DealHands();
+            DealHands(cardRemaining);
             DisplayTrumpCards();
 
             txtDeckCardsRemaining.Text = (playDeck.CardsRemaining - currentCard).ToString();
@@ -202,8 +203,9 @@ namespace DurakGame
         private void Reshuffle(object source, EventArgs args)
         {
             pbDeck.Image = null;
-            Console.WriteLine("Discarded cards reshuffled into deck.");
-            
+            cardRemaining = false;
+            txtDeckCardsRemaining.Text = "0";
+
         }
 
         //resets game
@@ -216,27 +218,30 @@ namespace DurakGame
             pnlDiscardPile.Controls.Clear();
         }
 
-        private void DealHands()
+        private void DealHands(bool cardRemaing)
         {
-            if (playDeck.CardsRemaining > 1)
+            if (cardRemaing)
             {
-                for (int c = pnlHumanHand.Controls.Count; c < 6; c++)
+                if (playDeck.CardsRemaining > 1)
                 {
-                    DrawCard(pnlHumanHand);
+                    for (int c = pnlHumanHand.Controls.Count; c < 6; c++)
+                    {
+                        DrawCard(pnlHumanHand);
+                    }
+                    for (int c = pnlComputerHand.Controls.Count; c < 6; c++)
+                    {
+                        DrawCard(pnlComputerHand);
+                    }
+                    RealignCards(pnlHumanHand);
+                    RealignCards(pnlComputerHand);
                 }
-                for (int c = pnlComputerHand.Controls.Count; c < 6; c++)
+                else if (playDeck.CardsRemaining == 1)
                 {
-                    DrawCard(pnlComputerHand);
+                    if (HumanPlayer.IsAttacking)
+                        DrawCard(pnlHumanHand);
+                    else
+                        DrawCard(pnlComputerHand);
                 }
-                RealignCards(pnlHumanHand);
-                RealignCards(pnlComputerHand);
-            }
-            else if(playDeck.CardsRemaining == 1)
-            {
-                if (HumanPlayer.IsAttacking)
-                    DrawCard(pnlHumanHand);
-                else
-                    DrawCard(pnlComputerHand);
             }
         }
 
@@ -388,7 +393,7 @@ namespace DurakGame
 
         public void EndTurn()
         {
-            DealHands();
+            DealHands(cardRemaining);
             if (HumanPlayer.IsAttacking)
             {
                 HumanPlayer.IsAttacking = false;
