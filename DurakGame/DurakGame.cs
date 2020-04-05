@@ -218,7 +218,7 @@ namespace DurakGame
 
         private void DealHands()
         {
-            if (playDeck.CardsRemaining > 0)
+            if (playDeck.CardsRemaining > 1)
             {
                 for (int c = pnlHumanHand.Controls.Count; c < 6; c++)
                 {
@@ -234,9 +234,9 @@ namespace DurakGame
             else if(playDeck.CardsRemaining == 1)
             {
                 if (HumanPlayer.IsAttacking)
-                    DrawCard(pnlHumanHand)
+                    DrawCard(pnlHumanHand);
                 else
-                    DrawCard(pnlComputerHand)
+                    DrawCard(pnlComputerHand);
             }
         }
 
