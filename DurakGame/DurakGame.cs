@@ -104,7 +104,14 @@ namespace DurakGame
         {
 
         }
-        
+        private void Reshuffle(object source, EventArgs args)
+        {
+            pbDeck.Image = null;
+            cardRemaining = false;
+            txtDeckCardsRemaining.Text = "0";
+
+        }
+
         #endregion
 
         #region CARDBOX EVENT HANDLER
@@ -199,13 +206,17 @@ namespace DurakGame
 
             txtDeckCardsRemaining.Text = (playDeck.CardsRemaining - currentCard).ToString();
         }
-
-        private void Reshuffle(object source, EventArgs args)
+        
+        public void CheckWinner()
         {
-            pbDeck.Image = null;
-            cardRemaining = false;
-            txtDeckCardsRemaining.Text = "0";
-
+            if (pnlComputerHand.Controls.Count == 0)
+            {
+                MessageBox.Show("Computer has won the game");
+            }
+            else if(pnlHumanHand.Controls.Count == 0)
+            {
+                MessageBox.Show("Player has won the game");
+            }
         }
 
         //resets game
@@ -242,6 +253,10 @@ namespace DurakGame
                     else
                         DrawCard(pnlComputerHand);
                 }
+            }
+            else
+            {
+                CheckWinner();
             }
         }
 
@@ -480,6 +495,7 @@ namespace DurakGame
             }
 
         }
+        
         #endregion
 
         #region HELPER METHOD
