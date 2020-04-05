@@ -336,6 +336,10 @@ namespace DurakGame
         {     
             if (flowRiver.Controls.Count < 1)
             {
+                if (playDeck.CardsRemaining > 0)
+                {
+                    Card lowestcard = ComputerPlayer.PlayHand.Min(Card => Card);
+                }
                 CardBox.CardBox attackCard = pnlComputerHand.Controls[0] as CardBox.CardBox;
                 ComputerPlaysCard(attackCard);
             }
