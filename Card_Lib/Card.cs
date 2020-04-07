@@ -123,7 +123,7 @@ namespace Card_Lib
             // convert the argument to a Card
             Card comparedCard = obj as Card;
             // if the conversion worked
-            if (comparedCard != null)
+            if (!(comparedCard is null))
             {
                 // compare based on Value first, the Suit.
                 int thisSort = this.myValue * 10 + (int)this.mySuit;
