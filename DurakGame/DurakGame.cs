@@ -170,6 +170,7 @@ namespace DurakGame
 
                             ComputerDefence(aCardBox.Card);
                         }
+                        btnCeaseAttack.Enabled = true;
                     }
                     else
                     {
@@ -182,6 +183,7 @@ namespace DurakGame
 
                             ComputerAttack();
                         }
+                        btnCeaseAttack.Enabled = false;
                     }
                 }
                 // Realign the cards 

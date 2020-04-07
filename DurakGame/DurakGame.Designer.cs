@@ -216,6 +216,7 @@
             // 
             // btnCeaseAttack
             // 
+            this.btnCeaseAttack.Enabled = false;
             this.btnCeaseAttack.Location = new System.Drawing.Point(833, 260);
             this.btnCeaseAttack.Margin = new System.Windows.Forms.Padding(2);
             this.btnCeaseAttack.Name = "btnCeaseAttack";
