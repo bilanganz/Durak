@@ -362,14 +362,26 @@ namespace DurakGame
             {
                 if (playDeck.CardsRemaining > 0)
                 {
-                    Card lowestCard = ComputerPlayer.PlayHand.Min(Card => Card);
-                    CardBox.CardBox attackCard = new CardBox.CardBox(lowestCard, false);
+                    CardBox.CardBox attackCard = pnlComputerHand.Controls.OfType<CardBox.CardBox>().First();
+                    foreach(CardBox.CardBox card in pnlComputerHand.Controls)
+                    {
+                        if(card.Rank < attackCard.Rank)
+                        {
+                            attackCard = card;
+                        }
+                    }
                     ComputerPlaysCard(attackCard);
                 }
                 else
                 {
-                    Card highestCard = ComputerPlayer.PlayHand.Max(Card => Card);
-                    CardBox.CardBox attackCard = new CardBox.CardBox(highestCard, false);
+                    CardBox.CardBox attackCard = pnlComputerHand.Controls.OfType<CardBox.CardBox>().First();
+                    foreach (CardBox.CardBox card in pnlComputerHand.Controls)
+                    {
+                        if (card.Rank > attackCard.Rank)
+                        {
+                            attackCard = card;
+                        }
+                    }
                     ComputerPlaysCard(attackCard);
                 }
                 

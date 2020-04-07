@@ -435,11 +435,6 @@
         private System.Windows.Forms.FlowLayoutPanel flowRiver;
         private System.Windows.Forms.ToolStripMenuItem showLogToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearLogToolStripMenuItem;
-        private CardBox.CardBox cardTrumpCard;
-        private CardBox.CardBox cardBox2;
-        private CardBox.CardBox cardGameDeck;
-        private CardBox.CardBox cardBox3;
-        private CardBox.CardBox cardDiscardPile;
         private System.Windows.Forms.PictureBox pbDeck;
         private System.Windows.Forms.Panel pnlHumanHand;
         private System.Windows.Forms.Panel pnlDiscardPile;
