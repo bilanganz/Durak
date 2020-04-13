@@ -188,7 +188,9 @@ namespace DurakGame
             playDeck.Shuffle(deckSize);
             playDeck.LastCardDrawn +=Reshuffle;
             discardedCards = new Cards();
-            
+
+            cardRemaining = true;
+
             DealHands(cardRemaining);
             DisplayTrumpCards();
 
@@ -210,7 +212,6 @@ namespace DurakGame
                 new52Deck.Checked = true;
             }
 
-
             btnPickUp.Enabled = false;
             txtDeckCardsRemaining.Text = (playDeck.CardsRemaining - currentCard).ToString();
             txtDicardCardsRemaining.Text = "0";
@@ -227,6 +228,10 @@ namespace DurakGame
                 {
                     ResetGame();
                     StartGame();
+                }
+                else
+                {
+                    this.Close();
                 }
             }
             else if (pnlHumanHand.Controls.Count == 0)
