@@ -479,7 +479,10 @@ namespace DurakGame
                 lblHumanAttacking.Visible = true;
                 ComputerPlayer.IsAttacking = false;
                 lblComputerAttacking.Visible = false;
-                btnCeaseAttack.Enabled = true;
+                if (flowRiver.Controls.Count!=0)
+                {
+                    btnCeaseAttack.Enabled = true;
+                }
                 btnPickUp.Enabled = false;
             }
             
