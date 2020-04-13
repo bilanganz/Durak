@@ -140,7 +140,6 @@
             this.lblTrumpCard.Size = new System.Drawing.Size(62, 13);
             this.lblTrumpCard.TabIndex = 6;
             this.lblTrumpCard.Text = "Trump Card";
-            this.lblTrumpCard.Click += new System.EventHandler(this.lblTrumpCard_Click);
             // 
             // btnStartGame
             // 

@@ -68,11 +68,6 @@ namespace DurakGame
             EndTurn();
         }
 
-        private void flpDeck_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
         private void new20Deck_Click(object sender, EventArgs e)
         {
             deckSize = 20;
@@ -96,17 +91,11 @@ namespace DurakGame
             ResetGame();
             StartGame();
         }
-
-        private void lblTrumpCard_Click(object sender, EventArgs e)
-        {
-
-        }
         private void Reshuffle(object source, EventArgs args)
         {
             pbDeck.Image = null;
             cardRemaining = false;
             txtDeckCardsRemaining.Text = "0";
-
         }
 
         #endregion
@@ -606,7 +595,8 @@ namespace DurakGame
         private void pbDeck_Click(object sender, EventArgs e)
         {
             //DrawCard(pnlComputerHand);
-            DisplayOnFieldCards();
+            //DisplayOnFieldCards();
+            DisplayAllCardLists();
         }
 
         private void quitToolStrip_Click(object sender, EventArgs e)
