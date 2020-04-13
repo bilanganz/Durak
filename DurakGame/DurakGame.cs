@@ -192,6 +192,25 @@ namespace DurakGame
             DealHands(cardRemaining);
             DisplayTrumpCards();
 
+            if (deckSize == 20)
+            {
+                new20Deck.Checked = true;
+                new36Deck.Checked = false;
+                new52Deck.Checked = false;
+            }
+            else if (deckSize == 36)
+            {
+                new20Deck.Checked = false;
+                new36Deck.Checked = true;
+                new52Deck.Checked = false;
+            }else if (deckSize == 52)
+            {
+                new20Deck.Checked = false;
+                new36Deck.Checked = false;
+                new52Deck.Checked = true;
+            }
+
+
             btnPickUp.Enabled = false;
             txtDeckCardsRemaining.Text = (playDeck.CardsRemaining - currentCard).ToString();
             txtDicardCardsRemaining.Text = "0";
