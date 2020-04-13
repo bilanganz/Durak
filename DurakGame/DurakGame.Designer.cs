@@ -197,6 +197,7 @@
             // 
             // txtDicardCardsRemaining
             // 
+            this.txtDicardCardsRemaining.Enabled = false;
             this.txtDicardCardsRemaining.Location = new System.Drawing.Point(114, 454);
             this.txtDicardCardsRemaining.Margin = new System.Windows.Forms.Padding(2);
             this.txtDicardCardsRemaining.Name = "txtDicardCardsRemaining";
@@ -318,6 +319,7 @@
             this.quitToolStrip.Name = "quitToolStrip";
             this.quitToolStrip.Size = new System.Drawing.Size(42, 20);
             this.quitToolStrip.Text = "Quit";
+            this.quitToolStrip.Click += new System.EventHandler(this.quitToolStrip_Click);
             // 
             // flowRiver
             // 

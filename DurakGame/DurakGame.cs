@@ -52,10 +52,6 @@ namespace DurakGame
         {
             ResetGame();
             StartGame();
-
-
-            DisplayAllCardLists();
-
         }
 
         //button pickup clicked ends human turn and picks up cards
@@ -209,6 +205,7 @@ namespace DurakGame
 
             btnPickUp.Enabled = false;
             txtDeckCardsRemaining.Text = (playDeck.CardsRemaining - currentCard).ToString();
+            txtDicardCardsRemaining.Text = "0";
             lblHumanAttacking.Visible = true;
             lblComputerAttacking.Visible = false;
         }
@@ -217,11 +214,21 @@ namespace DurakGame
         {
             if (pnlComputerHand.Controls.Count == 0)
             {
-                MessageBox.Show("Computer has won the game");
+                DialogResult d = MessageBox.Show("Computer has won the game", "New game?", MessageBoxButtons.YesNo);
+                if (d == DialogResult.Yes)
+                {
+                    ResetGame();
+                    StartGame();
+                }
             }
-            else if(pnlHumanHand.Controls.Count == 0)
+            else if (pnlHumanHand.Controls.Count == 0)
             {
-                MessageBox.Show("Player has won the game");
+                DialogResult d = MessageBox.Show("Player has won the game", "New game?", MessageBoxButtons.YesNo);
+                if (d == DialogResult.Yes)
+                {
+                    ResetGame();
+                    StartGame();
+                }
             }
         }
 
@@ -600,6 +607,11 @@ namespace DurakGame
         {
             //DrawCard(pnlComputerHand);
             DisplayOnFieldCards();
+        }
+
+        private void quitToolStrip_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
