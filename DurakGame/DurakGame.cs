@@ -31,7 +31,7 @@ namespace DurakGame
         private bool cardRemaining = true;
         private Card trumpCard = new Card();
         
-        static int deckSize = 52;
+        static int deckSize = 36;
         
         #endregion
 
@@ -370,12 +370,11 @@ namespace DurakGame
                 }
             }
             PickUpRiver(pnlComputerHand);
-            EndTurn();
         }
 
         public void ComputerAttack()
         {     
-            if (flowRiver.Controls.Count < 1)
+            if (flowRiver.Controls.Count == 0)
             {
                 if (playDeck.CardsRemaining > 0)
                 {
@@ -453,6 +452,7 @@ namespace DurakGame
                 flowRiver.Controls.Remove(card);    
             }
             RealignCards(panel);
+            EndTurn();
         }
 
         public void EndTurn()
