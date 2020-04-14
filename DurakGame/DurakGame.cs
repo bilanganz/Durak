@@ -58,7 +58,6 @@ namespace DurakGame
         private void btnPickUp_Click(object sender, EventArgs e)
         {
             PickUpRiver(pnlHumanHand);
-            EndTurn();
         }
 
         //cease attack button ends human turn and computer starts attacking
