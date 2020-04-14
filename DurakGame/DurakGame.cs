@@ -342,9 +342,9 @@ namespace DurakGame
             }
             else
             {
-                foreach(Card playedCard in onFieldCards)
+                foreach(CardBox.CardBox playedCard in flowRiver.Controls)
                 {
-                    if (attackCard.Rank == playedCard.Rank)
+                    if (attackCard.Rank == playedCard.Card.Rank)
                     {
                         return true;
                     }
@@ -408,13 +408,13 @@ namespace DurakGame
             }
             else
             {
-                foreach (Card card in onFieldCards)
+                foreach (CardBox.CardBox fieldCard in flowRiver.Controls)
                 {
-                    foreach (CardBox.CardBox aCardBox in pnlComputerHand.Controls)
+                    foreach (CardBox.CardBox attackCard in pnlComputerHand.Controls)
                     {
-                        if (card.Rank == aCardBox.Card.Rank)
+                        if (fieldCard.Card.Rank == attackCard.Card.Rank)
                         {
-                            ComputerPlaysCard(aCardBox);
+                            ComputerPlaysCard(attackCard);
                             return;
                         }
                     }
