@@ -16,7 +16,7 @@ namespace DurakGame
     {
         #region VARIABLE
         private const int POP = 25;
-        static private Size regularSize = new Size(93, 120);
+        static private Size regularSize = new Size(89, 109);
         static private Size discardedSize = new Size(25, 30);
 
         private Player HumanPlayer = new Player("Player One", true);
