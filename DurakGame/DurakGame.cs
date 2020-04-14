@@ -444,9 +444,9 @@ namespace DurakGame
                     card.FaceUp = false;
                     card.Enabled = false;
                 }
-                card.Enabled = true;
                 if(panel == pnlHumanHand)
                 {
+                    card.Enabled = true;
                     card.Click += CardBox_Click;
                     card.MouseEnter += CardBox_MouseEnter;// wire CardBox_MouseEnter for the "POP" visual effect
                     card.MouseLeave += CardBox_MouseLeave;// wire CardBox_MouseLeave for the regular visual effect
