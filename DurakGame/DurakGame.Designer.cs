@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmDurakGame));
             this.lblGameDeck = new System.Windows.Forms.Label();
             this.lblHumanPlayer = new System.Windows.Forms.Label();
             this.lblComputerPlayer = new System.Windows.Forms.Label();
@@ -393,6 +394,7 @@
             this.Controls.Add(this.lblHumanPlayer);
             this.Controls.Add(this.lblGameDeck);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
