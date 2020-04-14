@@ -492,7 +492,6 @@ namespace DurakGame
         public void DisplayAllCardLists()
         {
             DisplayDiscardCards();
-            DisplayTrumpCards();
             DisplayPlayerOneCards();
             DisplayPlayerTwoCards();
             DisplayRiverCards();
