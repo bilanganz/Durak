@@ -55,11 +55,11 @@
             this.showLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quitToolStrip = new System.Windows.Forms.ToolStripMenuItem();
-            this.flowRiver = new System.Windows.Forms.FlowLayoutPanel();
             this.pbDeck = new System.Windows.Forms.PictureBox();
             this.pnlHumanHand = new System.Windows.Forms.Panel();
             this.pnlDiscardPile = new System.Windows.Forms.Panel();
             this.pnlComputerHand = new System.Windows.Forms.Panel();
+            this.flowRiver = new System.Windows.Forms.FlowLayoutPanel();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbDeck)).BeginInit();
             this.SuspendLayout();
@@ -321,16 +321,6 @@
             this.quitToolStrip.Text = "Quit";
             this.quitToolStrip.Click += new System.EventHandler(this.quitToolStrip_Click);
             // 
-            // flowRiver
-            // 
-            this.flowRiver.BackColor = System.Drawing.Color.Transparent;
-            this.flowRiver.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.flowRiver.Location = new System.Drawing.Point(204, 166);
-            this.flowRiver.Margin = new System.Windows.Forms.Padding(2);
-            this.flowRiver.Name = "flowRiver";
-            this.flowRiver.Size = new System.Drawing.Size(500, 216);
-            this.flowRiver.TabIndex = 10;
-            // 
             // pbDeck
             // 
             this.pbDeck.Location = new System.Drawing.Point(20, 119);
@@ -363,6 +353,16 @@
             this.pnlComputerHand.Name = "pnlComputerHand";
             this.pnlComputerHand.Size = new System.Drawing.Size(555, 83);
             this.pnlComputerHand.TabIndex = 31;
+            // 
+            // flowRiver
+            // 
+            this.flowRiver.BackColor = System.Drawing.Color.Transparent;
+            this.flowRiver.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.flowRiver.Location = new System.Drawing.Point(204, 136);
+            this.flowRiver.Margin = new System.Windows.Forms.Padding(2);
+            this.flowRiver.Name = "flowRiver";
+            this.flowRiver.Size = new System.Drawing.Size(500, 270);
+            this.flowRiver.TabIndex = 10;
             // 
             // frmDurakGame
             // 
@@ -436,12 +436,12 @@
         private System.Windows.Forms.ToolStripMenuItem new52Deck;
         private System.Windows.Forms.ToolStripMenuItem logToolStrip;
         private System.Windows.Forms.ToolStripMenuItem quitToolStrip;
-        private System.Windows.Forms.FlowLayoutPanel flowRiver;
         private System.Windows.Forms.ToolStripMenuItem showLogToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearLogToolStripMenuItem;
         private System.Windows.Forms.PictureBox pbDeck;
         private System.Windows.Forms.Panel pnlHumanHand;
         private System.Windows.Forms.Panel pnlDiscardPile;
         private System.Windows.Forms.Panel pnlComputerHand;
+        private System.Windows.Forms.FlowLayoutPanel flowRiver;
     }
 }

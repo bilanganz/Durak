@@ -151,8 +151,8 @@ namespace DurakGame
                             aCardBox.Enabled = false;
                             onFieldCards.Add(aCardBox.Card);
                             flowRiver.Controls.Add(aCardBox); // Add the control to the play panel
-
-                            ComputerDefence(aCardBox.Card);
+                            System.Diagnostics.Debug.Write("Human Played " + aCardBox.ToString() + "\n");
+                            ComputerDefence(aCardBox);
                         }
                         btnCeaseAttack.Enabled = true;
                     }
@@ -164,7 +164,7 @@ namespace DurakGame
                             aCardBox.Enabled = false;
                             onFieldCards.Add(aCardBox.Card);
                             flowRiver.Controls.Add(aCardBox); // Add the control to the play panel
-
+                            System.Diagnostics.Debug.Write("Human Played " + aCardBox.ToString() + "\n");
                             ComputerAttack();
                         }
                         btnCeaseAttack.Enabled = false;
@@ -363,13 +363,15 @@ namespace DurakGame
             return false;
         }
 
-        public void ComputerDefence(Card attackCard)
+        public void ComputerDefence(CardBox.CardBox attackCard)
         {
             foreach (CardBox.CardBox aCardBox in pnlComputerHand.Controls)
             {
-                if ((aCardBox.Card.Suit == attackCard.Suit && aCardBox.Card.Rank > attackCard.Rank) || aCardBox.Card.Suit == trumpCard.Suit)
+                if ((aCardBox.Card.Suit == attackCard.Card.Suit && aCardBox.Card.Rank > attackCard.Card.Rank) || aCardBox.Card.Suit == trumpCard.Suit)
                 {
                     ComputerPlaysCard(aCardBox);
+                    System.Diagnostics.Debug.Write("Computer Defended.");
+                    
                     return;
                 }
             }
@@ -377,7 +379,7 @@ namespace DurakGame
         }
 
         public void ComputerAttack()
-        {     
+        {
             if (flowRiver.Controls.Count == 0)
             {
                 if (playDeck.CardsRemaining > 0)
@@ -391,6 +393,7 @@ namespace DurakGame
                         }
                     }
                     ComputerPlaysCard(attackCard);
+                    System.Diagnostics.Debug.Write("Computer Lowest Attack.");
                 }
                 else
                 {
@@ -403,6 +406,7 @@ namespace DurakGame
                         }
                     }
                     ComputerPlaysCard(attackCard);
+                    System.Diagnostics.Debug.Write("Computer Highest Attack.");
                 }
                 
             }
@@ -415,6 +419,8 @@ namespace DurakGame
                         if (fieldCard.Card.Rank == attackCard.Card.Rank)
                         {
                             ComputerPlaysCard(attackCard);
+                            System.Diagnostics.Debug.Write("Computer Attacked.");
+                            
                             return;
                         }
                     }
@@ -426,12 +432,13 @@ namespace DurakGame
         
         public void ComputerPlaysCard(CardBox.CardBox aCardBox)
         {
-            pnlComputerHand.Controls.Remove(aCardBox); // Remove the card from the home panel
+            pnlComputerHand.Controls.Remove(aCardBox);
             aCardBox.Enabled = false;
             aCardBox.FaceUp = true;
             onFieldCards.Add(aCardBox.Card);
             flowRiver.Controls.Add(aCardBox);
             RealignCards(pnlComputerHand);
+            System.Diagnostics.Debug.Write("Computer Played " + aCardBox.ToString()+" ");
         }
 
         public void PickUpRiver(Panel panel)
@@ -439,6 +446,7 @@ namespace DurakGame
             foreach (CardBox.CardBox card in flowRiver.Controls)
             {
                 panel.Controls.Add(card);
+                flowRiver.Controls.Remove(card); 
                 if (panel == pnlComputerHand)
                 {
                     card.FaceUp = false;
@@ -448,20 +456,19 @@ namespace DurakGame
                 {
                     card.Enabled = true;
                     card.Click += CardBox_Click;
-                    card.MouseEnter += CardBox_MouseEnter;// wire CardBox_MouseEnter for the "POP" visual effect
-                    card.MouseLeave += CardBox_MouseLeave;// wire CardBox_MouseLeave for the regular visual effect
+                    card.MouseEnter += CardBox_MouseEnter;
+                    card.MouseLeave += CardBox_MouseLeave;
 
                 }
                 onFieldCards.Remove(card.Card);
-                flowRiver.Controls.Remove(card);    
+                System.Diagnostics.Debug.Write(panel + " Picked Up " + card.ToString() + "\n");
             }
-            RealignCards(panel);
             EndTurn();
         }
 
         public void EndTurn()
-        {
-            DealHands(cardRemaining);
+        {   
+            DealHands(cardRemaining);         
             if (HumanPlayer.IsAttacking)
             {
                 HumanPlayer.IsAttacking = false;
@@ -484,7 +491,6 @@ namespace DurakGame
                 }
                 btnPickUp.Enabled = false;
             }
-            
         }
 
         //will display all card lists on the windows form
