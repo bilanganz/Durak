@@ -152,7 +152,9 @@ namespace DurakGame
                             onFieldCards.Add(aCardBox.Card);
                             flowRiver.Controls.Add(aCardBox); // Add the control to the play panel
                             System.Diagnostics.Debug.Write("Human Attacked With " + aCardBox.ToString() + "\n");
+                            CheckWinner();
                             ComputerDefence(aCardBox);
+                            CheckWinner();
                         }
                         btnCeaseAttack.Enabled = true;
                     }
@@ -165,7 +167,9 @@ namespace DurakGame
                             onFieldCards.Add(aCardBox.Card);
                             flowRiver.Controls.Add(aCardBox); // Add the control to the play panel
                             System.Diagnostics.Debug.Write("Human Defended With " + aCardBox.ToString() + "\n");
+                            CheckWinner();
                             ComputerAttack();
+                            CheckWinner();
                         }
                         btnCeaseAttack.Enabled = false;
                     }
@@ -220,26 +224,29 @@ namespace DurakGame
         
         public void CheckWinner()
         {
-            if (pnlComputerHand.Controls.Count == 0)
+            if (playDeck.CardsRemaining == 0)
             {
-                DialogResult d = MessageBox.Show("Computer has won the game", "New game?", MessageBoxButtons.YesNo);
-                if (d == DialogResult.Yes)
+                if (pnlComputerHand.Controls.Count == 0)
                 {
-                    ResetGame();
-                    StartGame();
+                    DialogResult d = MessageBox.Show("Computer has won the game", "New game?", MessageBoxButtons.YesNo);
+                    if (d == DialogResult.Yes)
+                    {
+                        ResetGame();
+                        StartGame();
+                    }
+                    else
+                    {
+                        this.Close();
+                    }
                 }
-                else
+                else if (pnlHumanHand.Controls.Count == 0)
                 {
-                    this.Close();
-                }
-            }
-            else if (pnlHumanHand.Controls.Count == 0)
-            {
-                DialogResult d = MessageBox.Show("Player has won the game", "New game?", MessageBoxButtons.YesNo);
-                if (d == DialogResult.Yes)
-                {
-                    ResetGame();
-                    StartGame();
+                    DialogResult d = MessageBox.Show("Player has won the game", "New game?", MessageBoxButtons.YesNo);
+                    if (d == DialogResult.Yes)
+                    {
+                        ResetGame();
+                        StartGame();
+                    }
                 }
             }
         }
@@ -260,11 +267,11 @@ namespace DurakGame
             {
                 if (playDeck.CardsRemaining > 1)
                 {
-                    for (int c = pnlHumanHand.Controls.Count; c < 6; c++)
+                    for (int c = pnlHumanHand.Controls.Count; c < 6 && playDeck.CardsRemaining > 0; c++)
                     {
                         DrawCard(pnlHumanHand);
                     }
-                    for (int c = pnlComputerHand.Controls.Count; c < 6; c++)
+                    for (int c = pnlComputerHand.Controls.Count; c < 6 && playDeck.CardsRemaining > 0; c++)
                     {
                         DrawCard(pnlComputerHand);
                     }
@@ -278,10 +285,6 @@ namespace DurakGame
                     else
                         DrawCard(pnlComputerHand);
                 }
-            }
-            else
-            {
-                CheckWinner();
             }
         }
 
