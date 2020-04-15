@@ -74,7 +74,7 @@ namespace Card_Lib
             set { faceUp = value; }
         }
 
-        static Suit trumpSuit = Suit.Diamonds;
+        static Suit trumpSuit;
         public Suit TrumpSuit
         {
             set

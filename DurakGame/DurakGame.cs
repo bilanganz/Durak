@@ -151,7 +151,7 @@ namespace DurakGame
                             aCardBox.Enabled = false;
                             onFieldCards.Add(aCardBox.Card);
                             flowRiver.Controls.Add(aCardBox); // Add the control to the play panel
-                            System.Diagnostics.Debug.Write("Human Played " + aCardBox.ToString() + "\n");
+                            System.Diagnostics.Debug.Write("Human Attacked With " + aCardBox.ToString() + "\n");
                             ComputerDefence(aCardBox);
                         }
                         btnCeaseAttack.Enabled = true;
@@ -164,7 +164,7 @@ namespace DurakGame
                             aCardBox.Enabled = false;
                             onFieldCards.Add(aCardBox.Card);
                             flowRiver.Controls.Add(aCardBox); // Add the control to the play panel
-                            System.Diagnostics.Debug.Write("Human Played " + aCardBox.ToString() + "\n");
+                            System.Diagnostics.Debug.Write("Human Defended With " + aCardBox.ToString() + "\n");
                             ComputerAttack();
                         }
                         btnCeaseAttack.Enabled = false;
@@ -443,8 +443,9 @@ namespace DurakGame
 
         public void PickUpRiver(Panel panel)
         {
-            foreach (CardBox.CardBox card in flowRiver.Controls)
+            for(int i = flowRiver.Controls.Count -1; i >= 0; i--)
             {
+                CardBox.CardBox card = flowRiver.Controls[i] as CardBox.CardBox;
                 panel.Controls.Add(card);
                 flowRiver.Controls.Remove(card); 
                 if (panel == pnlComputerHand)
@@ -461,7 +462,7 @@ namespace DurakGame
 
                 }
                 onFieldCards.Remove(card.Card);
-                System.Diagnostics.Debug.Write(panel + " Picked Up " + card.ToString() + "\n");
+                System.Diagnostics.Debug.Write(panel.Name + " Picked Up " + card.ToString() + "\n");
             }
             EndTurn();
         }
