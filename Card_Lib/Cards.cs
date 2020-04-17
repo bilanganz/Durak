@@ -1,4 +1,4 @@
-﻿/**Cards.cs - 
+﻿/**Cards.cs - Cards class is used as a container to store card.
  * 
  * Author: Group #2
  * Since : 2020 - 03 - 03
@@ -39,50 +39,5 @@ namespace Card_Lib
                 targetCards[index] = this[index];
             }
         }
-
-
-        /*/// <summary>
-        /// Add - add  card
-        /// </summary>
-        /// <param name="newCard">new card</param>
-        public void Add(Card newCard)
-        {
-            List.Add(newCard);
-        }
-        /// <summary>
-        /// Remove - remove card
-        /// </summary>
-        /// <param name="oldCard">old card</param>
-        public void Remove(Card oldCard)
-        {
-            List.Remove(oldCard);
-        }
-        /// <summary>
-        /// Accessor and mutator -  set and get card 
-        /// </summary>
-        /// <param name="cardIndex">card index</param>
-        /// <returns>card</returns>
-            {
-                return (Card)List[cardIndex];
-        public Card this[int cardIndex]
-        {
-            get
-            }
-            set
-            {
-                List[cardIndex] = value;
-            }
-        }
-        
-        /// <summary>
-        /// Check to see if the Cards collection contains a particular card.
-        /// This calls the Contains() method of the ArrayList for the collection,
-        /// which you access through the InnerList property.
-        /// </summary>
-        public bool ContainsRank(Card card)
-        {
-            return card.Rank;
-        }
-        */
     }
 }

@@ -332,7 +332,7 @@ namespace DurakGame
             // set the trumpSuit to the 12th card suit
             playDeck.GetCard(12).TrumpSuit = playDeck.GetCard(12).Suit;
             // move the 12th card to last card on the deck
-            playDeck.changePosition(12, playDeck.GetCard(12));
+            playDeck.ChangePosition(12, playDeck.GetCard(12));
             // set the trump card
         }
 

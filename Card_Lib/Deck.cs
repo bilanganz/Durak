@@ -12,6 +12,9 @@ namespace Card_Lib
 {
     public class Deck : ICloneable
     {
+        /// <summary>
+        /// minRange attribute
+        /// </summary>
         private int minRange=1;
         public int MinRange
         {
@@ -32,7 +35,9 @@ namespace Card_Lib
                 return minRange;
             }
         }
-
+        /// <summary>
+        /// maxRange attribute
+        /// </summary>
         private int maxRange=14;
         public int MaxRange
         {
@@ -52,15 +57,26 @@ namespace Card_Lib
                 return maxRange;
             }
         }
-        
+        /// <summary>
+        /// CardsRemaining,
+        /// will return int of how many cards remaining
+        /// </summary>
         public int CardsRemaining { get{ return cards.Count; } }
 
+        /// <summary>
+        /// LastCardDrawn event declaration, that will be triggered once the last card was drawn
+        /// </summary>
         public event EventHandler LastCardDrawn;
-        
+
+        /// <summary>
+        /// Parameterized Constructor - that will initialize Deck object with card
+        /// </summary>
+        /// <param name="deckSize">deck size</param>
         public Deck(int deckSize)
         {
+            // declare new cards object
             cards = new Cards();
-            if (deckSize == 36)
+            if (deckSize == 36) // check if the deck size == 36
             {
                 MinRange = 5;
                 for (int suitVal = 0; suitVal < 4; suitVal++)
@@ -71,7 +87,7 @@ namespace Card_Lib
                     }
                 }
             }
-            else if (deckSize == 20)
+            else if (deckSize == 20) // check if the deck size == 20
             {
                 MinRange = 9;
                 for (int suitVal = 0; suitVal < 4; suitVal++)
@@ -82,7 +98,7 @@ namespace Card_Lib
                     }
                 }
             }
-            else if (deckSize == 52)
+            else if (deckSize == 52) // check if the deck size == 52
             {
                 for (int suitVal = 0; suitVal < 4; suitVal++)
                 {
@@ -162,21 +178,16 @@ namespace Card_Lib
             }
             newDeck.CopyTo(cards);
         }
-
-        public void changePosition(int oldIndex, Card newCard)
+        /// <summary>
+        /// ChangePosition method, that used to move card to the very back of the deck.
+        /// </summary>
+        /// <param name="oldIndex">index of the card</param>
+        /// <param name="newCard">card object</param>
+        public void ChangePosition(int oldIndex, Card newCard)
         {
             cards.RemoveAt(oldIndex);
             cards.Add(newCard);
         }
-
-        public Card DrawCard()
-        {
-            Card card;
-
-            card = cards.First();
-            cards.RemoveAt(0);
-            return card;
-        }
-
+        
     }
 }
