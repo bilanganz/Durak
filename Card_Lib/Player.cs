@@ -1,6 +1,6 @@
 ﻿/**Player.cs - Player class, for creating player for the game
  * 
- * Author: Gabriel Nathan Legawa
+ * Author: Group #2
  * Since : 2020 - 02 - 25
  */
 using System;

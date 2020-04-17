@@ -1,4 +1,4 @@
-﻿/**CardOutOfRangeException.cs - card out of range exception whe
+﻿/**CardOutOfRangeException.cs - card out of range exception when the card index step outside the valid range
  * 
  * Author: Group #2
  * Since : 2020 - 03 - 03

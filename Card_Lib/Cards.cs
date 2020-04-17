@@ -1,4 +1,9 @@
-﻿using System;
+﻿/**Cards.cs - 
+ * 
+ * Author: Group #2
+ * Since : 2020 - 03 - 03
+ */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
