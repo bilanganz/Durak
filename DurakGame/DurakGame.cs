@@ -476,7 +476,14 @@ namespace DurakGame
         public bool ValidDefend(Card defendCard)
         {
             Card lastCard = onFieldCards[onFieldCards.Count - 1];
-            if ((defendCard.Suit == lastCard.Suit && defendCard.Rank > lastCard.Rank) || defendCard.Suit == trumpCard.Suit)
+            if (defendCard.Suit == lastCard.Suit)
+            {
+                if (defendCard.Rank > lastCard.Rank)
+                {
+                    return true;
+                }
+            }
+            else if (defendCard.Suit == trumpCard.Suit)
             {
                 return true;
             }
@@ -495,9 +502,9 @@ namespace DurakGame
             CardBox.CardBox defendCard = new CardBox.CardBox();
             foreach (CardBox.CardBox aCardBox in pnlComputerHand.Controls)
             {
-                if (aCardBox.Card.Suit == attackCard.Card.Suit)
+                if (aCardBox.Suit == attackCard.Suit)
                 {
-                    if (aCardBox.Card.Rank > attackCard.Card.Rank)
+                    if (aCardBox.Rank > attackCard.Rank)
                     {
                         defendCard = aCardBox;
                         if (aCardBox.Rank < defendCard.Rank)
