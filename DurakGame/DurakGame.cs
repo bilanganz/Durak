@@ -15,6 +15,7 @@ namespace DurakGame
     public partial class frmDurakGame : Form
     {
         #region VARIABLE
+        private int roundNumber = 0;
         private const int POP = 25;
         static private Size regularSize = new Size(89, 109);
         static private Size discardedSize = new Size(25, 30);
@@ -174,6 +175,8 @@ namespace DurakGame
                         btnCeaseAttack.Enabled = false;
                     }
                 }
+                txtRiverCardsRemaning.Text = flowRiver.Controls.Count.ToString();
+
                 // Realign the cards 
                 RealignCards(pnlHumanHand);
             }
@@ -185,6 +188,7 @@ namespace DurakGame
         {
             currentCard = 0;
             discardedCardCount = 0;
+            roundNumber = 0;
             pbDeck.Image = (new Card()).GetCardImage();
             playDeck = new Deck(deckSize);
             //MessageBox.Show(playDeck.CardsRemaining.ToString());
@@ -192,6 +196,8 @@ namespace DurakGame
             playDeck.LastCardDrawn +=Reshuffle;
             discardedCards = new Cards();
 
+            txtRoundNumber.Text = roundNumber.ToString();
+            txtRiverCardsRemaning.Text = "0";
             cardRemaining = true;
 
             DealHands(cardRemaining);
@@ -322,6 +328,7 @@ namespace DurakGame
                     flowRiver.Controls[i].Enabled = false;
                     pnlDiscardPile.Controls.Add(flowRiver.Controls[i]);
                     discardedCardCount++;
+                    RealignCards(pnlDiscardPile);
                 }
             }
             catch( Exception ex)
@@ -471,7 +478,10 @@ namespace DurakGame
         }
 
         public void EndTurn()
-        {   
+        {
+            txtRoundNumber.Text = roundNumber.ToString();
+            txtRiverCardsRemaning.Text = flowRiver.Controls.Count.ToString();
+            roundNumber++;
             DealHands(cardRemaining);         
             if (HumanPlayer.IsAttacking)
             {
