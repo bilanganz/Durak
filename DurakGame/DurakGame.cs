@@ -454,7 +454,7 @@ namespace DurakGame
             {
                 foreach (CardBox.CardBox playedCard in flowRiver.Controls)
                 {
-                    if (playedCard.Rank== attackCard.Rank)
+                    if (playedCard.Rank == attackCard.Rank)
                     {
                         return true;
                     }
@@ -497,7 +497,7 @@ namespace DurakGame
             {
                 if (aCardBox.Card.Suit == attackCard.Card.Suit)
                 {
-                    if(aCardBox.Card.Rank > attackCard.Card.Rank)
+                    if (aCardBox.Card.Rank > attackCard.Card.Rank)
                     {
                         defendCard = aCardBox;
                         if (aCardBox.Rank < defendCard.Rank)
@@ -507,7 +507,7 @@ namespace DurakGame
                         validDefend = true;
                     }
                 }
-                else if(aCardBox.Card.Suit == trumpCard.Suit && attackCard.Card.Suit != trumpCard.Suit)
+                else if (aCardBox.Card.Suit == trumpCard.Suit && attackCard.Card.Suit != trumpCard.Suit)
                 {
                     defendCard = aCardBox;
                     validDefend = true;
@@ -654,7 +654,8 @@ namespace DurakGame
 
                 RemoveRiverCard();
 
-                ComputerAttack();
+                if (!HumanPlayer.IsAttacking)
+                    ComputerAttack();
             }
 
 
