@@ -1,4 +1,14 @@
-﻿using System;
+﻿/**
+ * DurakGame.cs - The DurakGame is the logic behind the game, how it cordinate defend, attack, switch turn etc.
+ * 
+ * @author      Group 02
+ * @version     1.0
+ * @since       2020-03-15
+ * @see 
+ * 
+ */
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -175,7 +185,7 @@ namespace DurakGame
                 // Realign the cards 
                 RealignCards(pnlHumanHand);
             }
-            
+
             if (!cardRemaining) // check if there is any card remaining to draw
             {
                 CheckWinner(); // call CheckWinner method
@@ -552,12 +562,13 @@ namespace DurakGame
         /// </summary>
         public void ComputerAttack()
         {
-            // check if the playing field card is 0
+            // check if the computer first attack
             if (flowRiver.Controls.Count == 0)
             {
                 // check if card remaining is more than 0
                 if (playDeck.CardsRemaining > 0)
                 {
+                    // get the lowest attackCard to initlize the round
                     CardBox.CardBox attackCard = pnlComputerHand.Controls.OfType<CardBox.CardBox>().First();
                     foreach (CardBox.CardBox card in pnlComputerHand.Controls)
                     {
@@ -571,6 +582,7 @@ namespace DurakGame
                 }
                 else
                 {
+                    // get the highest attackCard to initilize the round
                     CardBox.CardBox attackCard = pnlComputerHand.Controls.OfType<CardBox.CardBox>().First();
                     foreach (CardBox.CardBox card in pnlComputerHand.Controls)
                     {
@@ -586,13 +598,14 @@ namespace DurakGame
             }
             else
             {
+                // continues attack after the first attack
                 foreach (CardBox.CardBox fieldCard in flowRiver.Controls)
                 {
                     foreach (CardBox.CardBox attackCard in pnlComputerHand.Controls)
                     {
-                        if (fieldCard.Card.Rank == attackCard.Card.Rank)
+                        if (fieldCard.Card.Rank == attackCard.Card.Rank) // validating the attack
                         {
-                            ComputerPlaysCard(attackCard);
+                            ComputerPlaysCard(attackCard); // computer play the card
                             System.Diagnostics.Debug.Write("Computer Attacked.");
 
                             return;
@@ -631,53 +644,62 @@ namespace DurakGame
         /// <param name="panel"></param>
         public void PickUpRiver(Panel panel)
         {
+            // Check if the defense is sucessful by getting the control count modulus by 2 
+            // since the card come in pair (1 attack, 1 defense), if the result is 0 meaning the attack is repelled
             if (flowRiver.Controls.Count % 2 != 0)
             {
-                successfulDefense = false;
+                successfulDefense = false; // set successfulDefense to false
             }
             else
             {
-                successfulDefense = true;
+                successfulDefense = true; // set successfulDefense to true
             }
 
             for (int i = flowRiver.Controls.Count - 1; i >= 0; i--)
             {
                 CardBox.CardBox card = flowRiver.Controls[i] as CardBox.CardBox;
+                // move the card to the panel
                 panel.Controls.Add(card);
+                // remove from the field
                 flowRiver.Controls.Remove(card);
                 if (panel == pnlComputerHand)
                 {
-                    card.FaceUp = false;
-                    card.Enabled = false;
+                    card.FaceUp = false; // set FaceUp property to false
+                    card.Enabled = false; // disable card
                 }
                 if (panel == pnlHumanHand)
                 {
+                    // wire the event to the card box
                     card.Enabled = true;
                     card.Click += CardBox_Click;
                     card.MouseEnter += CardBox_MouseEnter;
                     card.MouseLeave += CardBox_MouseLeave;
 
                 }
+                // remove the card
                 onFieldCards.Remove(card.Card);
                 System.Diagnostics.Debug.Write(panel.Name + " Picked Up " + card.ToString() + "\n");
             }
+            //realign both panel
             RealignCards(panel);
             RealignCards(pnlDiscardPile);
 
-            if (successfulDefense)
+            if (successfulDefense)// check if its a successful defense
             {
-                EndTurn();
+                EndTurn(); // call EndTurn method
             }
             else
             {
-                roundNumber++;
+                roundNumber++; // increment roundNumber
+
+                // update text
                 txtRoundNumber.Text = roundNumber.ToString();
                 txtRiverCardsRemaning.Text = flowRiver.Controls.Count.ToString();
-                DealHands(cardRemaining);
 
-                RemoveRiverCard();
+                DealHands(cardRemaining); // deal hand
+                RemoveRiverCard(); // remove river card
 
-                if (!HumanPlayer.IsAttacking)
+                if (!HumanPlayer.IsAttacking) // check who's turn to attack
                     ComputerAttack();
             }
 

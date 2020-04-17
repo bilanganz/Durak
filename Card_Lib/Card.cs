@@ -228,6 +228,7 @@ namespace Card_Lib
         #endregion
 
         #region RELATIONAL OPERATORS
+        // relational operator declaration
         public static bool operator ==(Card left, Card right)
         {
             return (left.cardValue == right.cardValue);

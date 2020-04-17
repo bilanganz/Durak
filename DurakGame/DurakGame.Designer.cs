@@ -51,9 +51,6 @@
             this.new20Deck = new System.Windows.Forms.ToolStripMenuItem();
             this.new36Deck = new System.Windows.Forms.ToolStripMenuItem();
             this.new52Deck = new System.Windows.Forms.ToolStripMenuItem();
-            this.logToolStrip = new System.Windows.Forms.ToolStripMenuItem();
-            this.showLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.clearLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quitToolStrip = new System.Windows.Forms.ToolStripMenuItem();
             this.pbDeck = new System.Windows.Forms.PictureBox();
             this.pnlHumanHand = new System.Windows.Forms.Panel();
@@ -253,7 +250,6 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenu,
-            this.logToolStrip,
             this.quitToolStrip});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -292,27 +288,6 @@
             this.new52Deck.Size = new System.Drawing.Size(180, 22);
             this.new52Deck.Text = "52 Cards";
             this.new52Deck.Click += new System.EventHandler(this.new52Deck_Click);
-            // 
-            // logToolStrip
-            // 
-            this.logToolStrip.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.showLogToolStripMenuItem,
-            this.clearLogToolStripMenuItem});
-            this.logToolStrip.Name = "logToolStrip";
-            this.logToolStrip.Size = new System.Drawing.Size(39, 20);
-            this.logToolStrip.Text = "Log";
-            // 
-            // showLogToolStripMenuItem
-            // 
-            this.showLogToolStripMenuItem.Name = "showLogToolStripMenuItem";
-            this.showLogToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
-            this.showLogToolStripMenuItem.Text = "Show Log";
-            // 
-            // clearLogToolStripMenuItem
-            // 
-            this.clearLogToolStripMenuItem.Name = "clearLogToolStripMenuItem";
-            this.clearLogToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
-            this.clearLogToolStripMenuItem.Text = "Clear Log";
             // 
             // quitToolStrip
             // 
@@ -433,10 +408,7 @@
         private System.Windows.Forms.ToolStripMenuItem new20Deck;
         private System.Windows.Forms.ToolStripMenuItem new36Deck;
         private System.Windows.Forms.ToolStripMenuItem new52Deck;
-        private System.Windows.Forms.ToolStripMenuItem logToolStrip;
         private System.Windows.Forms.ToolStripMenuItem quitToolStrip;
-        private System.Windows.Forms.ToolStripMenuItem showLogToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem clearLogToolStripMenuItem;
         private System.Windows.Forms.PictureBox pbDeck;
         private System.Windows.Forms.Panel pnlHumanHand;
         private System.Windows.Forms.Panel pnlDiscardPile;
