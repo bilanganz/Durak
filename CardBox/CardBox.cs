@@ -1,5 +1,5 @@
 ﻿/**
- * CardBox.cs - The CardBox class
+ * CardBox.cs - The CardBox class used picture box to display card on the game.
  * 
  * @author      Group 02
  * @version     1.0

@@ -15,27 +15,29 @@ namespace DurakGame
     public partial class frmDurakGame : Form
     {
         #region VARIABLE
-        //Variable for RealignCard Method
+        // Variable for RealignCard Method
         static private Size regularSize = new Size(89, 109);
         static private Size discardedSize = new Size(25, 30);
-        private const int POP = 10;
+        private const int POP = 20;
 
-        //Counter Declaration
+        // Counter Declaration
         private int roundNumber = 0;
         private int currentCard = 0;
         private int discardedCardCount = 0;
 
-        //Player Declaration
+        // Player Declaration
         private Player HumanPlayer = new Player("Player One", true);
         private Player ComputerPlayer = new Player("Computer", false);
 
-        //Default Deck Size
+        // Default Deck Size
         static int deckSize = 36;
 
+        // Game Variable
         private Deck playDeck = new Deck(deckSize);
         private Cards onFieldCards = new Cards();
         private Cards discardedCards;
         private bool cardRemaining = true;
+        private bool successfulDefense;
         private Card trumpCard = new Card();
         #endregion
 
@@ -177,7 +179,7 @@ namespace DurakGame
                 RealignCards(pnlHumanHand);
             }
 
-            if(!cardRemaining)
+            if (!cardRemaining)
             {
                 CheckWinner();
             }
@@ -323,6 +325,8 @@ namespace DurakGame
 
             //create a new cardbox object
             CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(12), true);
+
+            trumpCard = playDeck.GetCard(12);
             // add the cardbox to flowTrumpCard
             flowTrumpCard.Controls.Add(aCardBox);
             // set the trumpSuit to the 12th card suit
@@ -330,7 +334,6 @@ namespace DurakGame
             // move the 12th card to last card on the deck
             playDeck.changePosition(12, playDeck.GetCard(12));
             // set the trump card
-            trumpCard = playDeck.GetCard(12);
         }
 
         /// <summary>
@@ -418,7 +421,7 @@ namespace DurakGame
                 for (int i = count; i >= 0; i--)
                 {
                     onFieldCards = new Cards();
-                    flowRiver.Controls[i].Size = new Size(discardedSize.Width + POP, discardedSize.Height + POP);
+                    //flowRiver.Controls[i].Size = new Size(discardedSize.Width + POP, discardedSize.Height + POP);
                     flowRiver.Controls[i].Enabled = false;
                     pnlDiscardPile.Controls.Add(flowRiver.Controls[i]);
                     discardedCardCount++;
@@ -447,21 +450,21 @@ namespace DurakGame
         /// <returns>boolean, true or flase</returns>
         public bool ValidAttack(Card attackCard)
         {
-            if (flowRiver.Controls.Count < 1)
-            {
-                return true;
-            }
-            else
+            if (flowRiver.Controls.Count > 1)
             {
                 foreach (CardBox.CardBox playedCard in flowRiver.Controls)
                 {
-                    if (attackCard.Rank == playedCard.Card.Rank)
+                    if ((playedCard.Card.Suit == attackCard.Suit && playedCard.Card.Rank > attackCard.Rank) || (playedCard.Card.Suit == trumpCard.Suit && attackCard.Suit != trumpCard.Suit))
                     {
                         return true;
                     }
                 }
-                return false;
             }
+            else if (flowRiver.Controls.Count == 0)
+            {
+                return true;
+            }
+            return false;
         }
 
         /// <summary>
@@ -489,7 +492,7 @@ namespace DurakGame
         {
             foreach (CardBox.CardBox aCardBox in pnlComputerHand.Controls)
             {
-                if ((aCardBox.Card.Suit == attackCard.Card.Suit && aCardBox.Card.Rank > attackCard.Card.Rank) || aCardBox.Card.Suit == trumpCard.Suit)
+                if ((aCardBox.Card.Suit == attackCard.Card.Suit && aCardBox.Card.Rank > attackCard.Card.Rank) || (aCardBox.Card.Suit == trumpCard.Suit && attackCard.Card.Suit != trumpCard.Suit))
                 {
                     ComputerPlaysCard(aCardBox);
                     System.Diagnostics.Debug.Write("Computer Defended.");
@@ -583,6 +586,15 @@ namespace DurakGame
         /// <param name="panel"></param>
         public void PickUpRiver(Panel panel)
         {
+            if (flowRiver.Controls.Count % 2 != 0)
+            {
+                successfulDefense = false;
+            }
+            else
+            {
+                successfulDefense = true;
+            }
+
             for (int i = flowRiver.Controls.Count - 1; i >= 0; i--)
             {
                 CardBox.CardBox card = flowRiver.Controls[i] as CardBox.CardBox;
@@ -605,7 +617,25 @@ namespace DurakGame
                 System.Diagnostics.Debug.Write(panel.Name + " Picked Up " + card.ToString() + "\n");
             }
             RealignCards(panel);
-            EndTurn();
+            RealignCards(pnlDiscardPile);
+
+            if (successfulDefense)
+            {
+                EndTurn();
+            }
+            else
+            {
+                roundNumber++;
+                txtRoundNumber.Text = roundNumber.ToString();
+                txtRiverCardsRemaning.Text = flowRiver.Controls.Count.ToString();
+                DealHands(cardRemaining);
+
+                RemoveRiverCard();
+
+                ComputerAttack();
+            }
+
+
         }
         /// <summary>
         /// EndTurn method,
@@ -656,11 +686,20 @@ namespace DurakGame
             // Determine the number of cards/controls in the panel.
             int myCount = panelHand.Controls.Count;
 
+            if (panelHand == pnlDiscardPile)
+            {
+                for (int index = 0; index < myCount; index++)
+                {
+                    pnlDiscardPile.Controls[index].Size = new Size(discardedSize.Width + POP, discardedSize.Height + POP);
+                }
+            }
+
             // If there are any cards in the panel
             if (myCount > 0)
             {
                 // Determine how wide one card/control is.
                 int cardWidth = panelHand.Controls[0].Width;
+
 
                 // Determine where the left-hand edge of a card/control placed 
                 // in the middle of the panel should be  
