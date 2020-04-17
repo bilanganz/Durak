@@ -476,14 +476,7 @@ namespace DurakGame
         public bool ValidDefend(Card defendCard)
         {
             Card lastCard = onFieldCards[onFieldCards.Count - 1];
-            if (defendCard.Suit == lastCard.Suit)
-            {
-                if (defendCard.Rank > lastCard.Rank)
-                {
-                    return true;
-                }
-            }
-            else if (defendCard.Suit == trumpCard.Suit)
+            if ((defendCard.Suit == lastCard.Suit && defendCard.Rank > lastCard.Rank) || (defendCard.Suit == trumpCard.Suit && lastCard.Suit != trumpCard.Suit))
             {
                 return true;
             }
@@ -502,9 +495,9 @@ namespace DurakGame
             CardBox.CardBox defendCard = new CardBox.CardBox();
             foreach (CardBox.CardBox aCardBox in pnlComputerHand.Controls)
             {
-                if (aCardBox.Suit == attackCard.Suit)
+                if (aCardBox.Card.Suit == attackCard.Card.Suit)
                 {
-                    if (aCardBox.Rank > attackCard.Rank)
+                    if (aCardBox.Card.Rank > attackCard.Card.Rank)
                     {
                         defendCard = aCardBox;
                         if (aCardBox.Rank < defendCard.Rank)
@@ -780,6 +773,10 @@ namespace DurakGame
         #endregion
 
         #region MENU STRIP EVENT
+        /// <summary>
+        /// new 20 deck click event,
+        /// change the decksize to 20 and start a new game.
+        /// </summary>
         private void new20Deck_Click(object sender, EventArgs e)
         {
             deckSize = 20;
@@ -787,6 +784,10 @@ namespace DurakGame
             StartGame();
         }
 
+        /// <summary>
+        /// new 36 deck click event,
+        /// change the decksize to 36 and start a new game.
+        /// </summary>
         private void new36Deck_Click(object sender, EventArgs e)
         {
             deckSize = 36;
@@ -794,6 +795,10 @@ namespace DurakGame
             StartGame();
         }
 
+        /// <summary>
+        /// new 52 deck click event,
+        /// change the decksize to 52 and start a new game.
+        /// </summary>
         private void new52Deck_Click(object sender, EventArgs e)
         {
             deckSize = 52;
@@ -801,6 +806,10 @@ namespace DurakGame
             StartGame();
         }
 
+        /// <summary>
+        /// Quit tool strip click event,
+        /// close the form
+        /// </summary>
         private void quitToolStrip_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -816,6 +825,7 @@ namespace DurakGame
             //DisplayOnFieldCards();
             DisplayAllCardLists();
         }
+
         /// <summary>
         /// DisplayAllCardLists method,
         /// is to set all card on the game to face up
@@ -843,6 +853,11 @@ namespace DurakGame
             }
         }
 
+        /// <summary>
+        /// DisplayOnFieldCards method,
+        /// is to show all card on field
+        /// *It's for testing purposes
+        /// </summary>
         public void DisplayOnFieldCards()
         {
             foreach (Card card in onFieldCards)
@@ -851,9 +866,11 @@ namespace DurakGame
             }
         }
 
-
-
-        //displays player one cards
+        /// <summary>
+        /// DisplayPlayerOneCards method,
+        /// is to set all card on the pnlHumanHand to face up
+        /// *It's for testing purposes
+        /// </summary>
         public void DisplayPlayerOneCards()
         {
             foreach (Control control in pnlHumanHand.Controls)
@@ -863,7 +880,11 @@ namespace DurakGame
             }
         }
 
-        //displays player two cards
+        /// <summary>
+        /// DisplayPlayerTwoCards method,
+        /// is to set all card on the pnlComputerHand to face up
+        /// *It's for testing purposes
+        /// </summary>
         public void DisplayPlayerTwoCards()
         {
             foreach (Control control in pnlComputerHand.Controls)
@@ -873,7 +894,11 @@ namespace DurakGame
             }
         }
 
-        //displays river cards
+        /// <summary>
+        /// DisplayRiverCards method,
+        /// is to set all card on the flowRiver to face up
+        /// *It's for testing purposes
+        /// </summary>
         public void DisplayRiverCards()
         {
             foreach (Control control in flowRiver.Controls)
