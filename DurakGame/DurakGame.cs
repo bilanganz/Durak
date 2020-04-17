@@ -378,8 +378,6 @@ namespace DurakGame
         /// <param name="panel">panel to draw card into</param>
         private void DrawCard(Panel panel)
         {
-            // update the card remaining text
-            txtDeckCardsRemaining.Text = (playDeck.CardsRemaining - currentCard).ToString();
             // check which panel to draw card into
             if (panel == pnlHumanHand) // if its human
             {
@@ -405,6 +403,9 @@ namespace DurakGame
                 pnlComputerHand.Controls.Add(aCardBox);
                 currentCard++; // increment current hand
             }
+            // update the card remaining text
+            txtDeckCardsRemaining.Text = (playDeck.CardsRemaining - currentCard).ToString();
+
         }
 
         /// <summary>
