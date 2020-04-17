@@ -18,7 +18,7 @@ namespace DurakGame
         //Variable for RealignCard Method
         static private Size regularSize = new Size(89, 109);
         static private Size discardedSize = new Size(25, 30);
-        private const int POP = 6;
+        private const int POP = 10;
 
         //Counter Declaration
         private int roundNumber = 0;
@@ -153,9 +153,7 @@ namespace DurakGame
                             onFieldCards.Add(aCardBox.Card);
                             flowRiver.Controls.Add(aCardBox); // Add the control to the play panel
                             System.Diagnostics.Debug.Write("Human Attacked With " + aCardBox.ToString() + "\n");
-                            CheckWinner();
                             ComputerDefence(aCardBox);
-                            CheckWinner();
                         }
                         btnCeaseAttack.Enabled = true;
                     }
@@ -168,9 +166,7 @@ namespace DurakGame
                             onFieldCards.Add(aCardBox.Card);
                             flowRiver.Controls.Add(aCardBox); // Add the control to the play panel
                             System.Diagnostics.Debug.Write("Human Defended With " + aCardBox.ToString() + "\n");
-                            CheckWinner();
                             ComputerAttack();
-                            CheckWinner();
                         }
                         btnCeaseAttack.Enabled = false;
                     }
@@ -179,6 +175,11 @@ namespace DurakGame
 
                 // Realign the cards 
                 RealignCards(pnlHumanHand);
+            }
+
+            if(!cardRemaining)
+            {
+                CheckWinner();
             }
         }
         #endregion
@@ -255,7 +256,7 @@ namespace DurakGame
         public void CheckWinner()
         {
             //check if the playDeck have 0 card remaining.
-            if (playDeck.CardsRemaining == 0)
+            if (!cardRemaining)
             {
                 //Check for draw by checking the control count in both panel
                 if (pnlComputerHand.Controls.Count == 0 && pnlHumanHand.Controls.Count == 0)
@@ -364,10 +365,6 @@ namespace DurakGame
                     else
                         DrawCard(pnlComputerHand); // draw card to computer
                 }
-            }
-            else
-            {
-                CheckWinner();
             }
         }
 
@@ -572,6 +569,11 @@ namespace DurakGame
             flowRiver.Controls.Add(aCardBox);
             RealignCards(pnlComputerHand);
             System.Diagnostics.Debug.Write("Computer Played " + aCardBox.ToString() + " ");
+
+            if (!cardRemaining)
+            {
+                CheckWinner();
+            }
         }
 
         /// <summary>
@@ -602,6 +604,7 @@ namespace DurakGame
                 onFieldCards.Remove(card.Card);
                 System.Diagnostics.Debug.Write(panel.Name + " Picked Up " + card.ToString() + "\n");
             }
+            RealignCards(panel);
             EndTurn();
         }
         /// <summary>
@@ -632,7 +635,7 @@ namespace DurakGame
                 lblHumanAttacking.Visible = true;
                 ComputerPlayer.IsAttacking = false;
                 lblComputerAttacking.Visible = false;
-                if (flowRiver.Controls.Count != 0)
+                if (flowRiver.Controls.Count >= 1)
                 {
                     btnCeaseAttack.Enabled = true;
                 }

@@ -1,4 +1,9 @@
-﻿using System;
+﻿/**CardOutOfRangeException.cs - card out of range exception whe
+ * 
+ * Author: Group #2
+ * Since : 2020 - 03 - 03
+ */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
