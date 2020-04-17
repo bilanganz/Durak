@@ -485,27 +485,49 @@ namespace DurakGame
 
         /// <summary>
         /// ComputerDefence method,
-        /// 
+        /// Computer checks to see if it has a card that can be used to defend the attack card 
+        /// and chooses the lowest card possible in the deck to denfend with
         /// </summary>
         /// <param name="attackCard"></param>
         public void ComputerDefence(CardBox.CardBox attackCard)
         {
+            bool validDefend = false;
+            CardBox.CardBox defendCard = new CardBox.CardBox();
             foreach (CardBox.CardBox aCardBox in pnlComputerHand.Controls)
             {
-                if ((aCardBox.Card.Suit == attackCard.Card.Suit && aCardBox.Card.Rank > attackCard.Card.Rank) || (aCardBox.Card.Suit == trumpCard.Suit && attackCard.Card.Suit != trumpCard.Suit))
+                if (aCardBox.Card.Suit == attackCard.Card.Suit)
                 {
-                    ComputerPlaysCard(aCardBox);
-                    System.Diagnostics.Debug.Write("Computer Defended.");
-
-                    return;
+                    if(aCardBox.Card.Rank > attackCard.Card.Rank)
+                    {
+                        defendCard = aCardBox;
+                        if (aCardBox.Rank < defendCard.Rank)
+                        {
+                            defendCard = aCardBox;
+                        }
+                        validDefend = true;
+                    }
+                }
+                else if(aCardBox.Card.Suit == trumpCard.Suit && attackCard.Card.Suit != trumpCard.Suit)
+                {
+                    defendCard = aCardBox;
+                    validDefend = true;
                 }
             }
-            PickUpRiver(pnlComputerHand);
+            if (validDefend)
+            {
+                ComputerPlaysCard(defendCard);
+            }
+            else
+            {
+                PickUpRiver(pnlComputerHand);
+            }
         }
 
         /// <summary>
         /// ComputerAttack method,
-        /// 
+        /// if the deck still has a card remaing the computer will attack with it's lowest card
+        /// and if the card is empty the computer will attack with it's highest cards first
+        /// or if cards have been played the computer will attack with a valid card
         /// </summary>
         public void ComputerAttack()
         {
@@ -560,7 +582,7 @@ namespace DurakGame
 
         /// <summary>
         /// ComputerPlaysCard method,
-        /// is to
+        /// Takes the attack or defened card the computer has chosen and places it on the river after removing it from the computers hand
         /// </summary>
         /// <param name="aCardBox"></param>
         public void ComputerPlaysCard(CardBox.CardBox aCardBox)
