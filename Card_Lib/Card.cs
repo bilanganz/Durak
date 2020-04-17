@@ -16,7 +16,7 @@ namespace Card_Lib
     /// in several card game projects.
     /// </summary>
     public class Card : ICloneable, // Supports cloning, which creates a new
-                                           // instance of a class with the same value as an existing instance.
+                                    // instance of a class with the same value as an existing instance.
                                IComparable // Defines a generalized type specific
                                            // comparison method that a class implements
                                            // to sort its instances.
@@ -73,18 +73,15 @@ namespace Card_Lib
             get { return faceUp; }
             set { faceUp = value; }
         }
-
+        /// <summary>
+        /// TrumpSuit Property
+        /// Used to set the trump suit for the game.
+        /// </summary>
         static Suit trumpSuit;
         public Suit TrumpSuit
         {
-            set
-            {
-                trumpSuit = value;
-            }
-            get
-            {
-                return trumpSuit;
-            }
+            set { trumpSuit = value; }
+            get { return trumpSuit; }
         }
         #endregion
 
