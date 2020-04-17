@@ -262,7 +262,7 @@ namespace DurakGame
                 {
                     //Display message box
                     DialogResult d = MessageBox.Show("It's a draw!", "New game?", MessageBoxButtons.YesNo);
-                    if (d == DialogResult.Yes)
+                    if (d == DialogResult.Yes) // Check the dialog result
                     {
                         ResetGame();
                         StartGame();
@@ -276,7 +276,7 @@ namespace DurakGame
                 {
                     //Display message box
                     DialogResult d = MessageBox.Show("Computer has won the game", "New game?", MessageBoxButtons.YesNo);
-                    if (d == DialogResult.Yes)
+                    if (d == DialogResult.Yes) // Check the dialog result
                     {
                         ResetGame();
                         StartGame();
@@ -290,7 +290,7 @@ namespace DurakGame
                 {
                     //Display message box
                     DialogResult d = MessageBox.Show("Player has won the game", "New game?", MessageBoxButtons.YesNo);
-                    if (d == DialogResult.Yes)
+                    if (d == DialogResult.Yes) // Check the dialog result
                     {
                         ResetGame();
                         StartGame();
@@ -341,7 +341,7 @@ namespace DurakGame
             //check if there is card remaining to draw
             if (cardRemaining)
             {
-                if (playDeck.CardsRemaining > 1)
+                if (playDeck.CardsRemaining > 1) // check if deck card remaining > 1
                 {
                     //make sure that human have 6 cards
                     for (int c = pnlHumanHand.Controls.Count; c < 6 && playDeck.CardsRemaining > 0; c++)
@@ -357,15 +357,20 @@ namespace DurakGame
                     RealignCards(pnlHumanHand);
                     RealignCards(pnlComputerHand);
                 }
-                else if (playDeck.CardsRemaining == 1)
+                else if (playDeck.CardsRemaining == 1) // check if deck card remaining == 1
                 {
-                    if (HumanPlayer.IsAttacking)
-                        DrawCard(pnlHumanHand);
+                    if (HumanPlayer.IsAttacking) // check if human is attacking
+                        DrawCard(pnlHumanHand); // draw card to human
                     else
-                        DrawCard(pnlComputerHand);
+                        DrawCard(pnlComputerHand); // draw card to computer
                 }
             }
+            else
+            {
+                CheckWinner();
+            }
         }
+
         /// <summary>
         /// DrawCard method,
         /// draw card into player panel and hand
@@ -373,25 +378,35 @@ namespace DurakGame
         /// <param name="panel">panel to draw card into</param>
         private void DrawCard(Panel panel)
         {
+            // update the card remaining text
             txtDeckCardsRemaining.Text = (playDeck.CardsRemaining - currentCard).ToString();
-            if (panel == pnlHumanHand)
+            // check which panel to draw card into
+            if (panel == pnlHumanHand) // if its human
             {
+                // add to human hand
                 HumanPlayer.PlayHand.Add(playDeck.GetCard(currentCard));
+                // create new cardbox object
                 CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(currentCard), true);
+                // Event for the cardbox
                 aCardBox.Click += CardBox_Click;
                 aCardBox.MouseEnter += CardBox_MouseEnter;// wire CardBox_MouseEnter for the "POP" visual effect
                 aCardBox.MouseLeave += CardBox_MouseLeave;// wire CardBox_MouseLeave for the regular visual effect
+                // add cardbox object to the human panel
                 pnlHumanHand.Controls.Add(aCardBox);
-                currentCard++;
+                currentCard++; // increment current hand
             }
-            if (panel == pnlComputerHand)
+            if (panel == pnlComputerHand) // if its computer
             {
+                // add to computer hand
                 ComputerPlayer.PlayHand.Add(playDeck.GetCard(currentCard));
+                // create new cardbox object
                 CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(currentCard), false);
+                // add cardbox object to computer panel
                 pnlComputerHand.Controls.Add(aCardBox);
-                currentCard++;
+                currentCard++; // increment current hand
             }
         }
+
         /// <summary>
         /// RemoveRiverCard method,
         /// is to move every card on the field to the discarded card panel.
@@ -400,6 +415,7 @@ namespace DurakGame
         {
             try
             {
+                // set count to the number of control in flowRiver
                 int count = (flowRiver.Controls.Count - 1);
                 for (int i = count; i >= 0; i--)
                 {
@@ -412,17 +428,25 @@ namespace DurakGame
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                // write exception to debug
+                System.Diagnostics.Debug.Write(ex.ToString());
             }
             finally
             {
+                // update the discarded card remaining card
                 txtDicardCardsRemaining.Text = (discardedCardCount).ToString();
-                flowRiver.Controls.Clear();
-                RealignCards(pnlDiscardPile);
+                flowRiver.Controls.Clear();   // clear the flowRiver
+                RealignCards(pnlDiscardPile); // realign pnlDiscardPile
             }
 
         }
 
+        /// <summary>
+        /// Valid Attack method,
+        /// check whether the attack is valid or not.
+        /// </summary>
+        /// <param name="attackCard">card object</param>
+        /// <returns>boolean, true or flase</returns>
         public bool ValidAttack(Card attackCard)
         {
             if (flowRiver.Controls.Count < 1)
@@ -442,6 +466,12 @@ namespace DurakGame
             }
         }
 
+        /// <summary>
+        /// ValidDefend method, 
+        /// is to check whether the defend is valid or not
+        /// </summary>
+        /// <param name="defendCard">card object</param>
+        /// <returns>boolean, true or false</returns>
         public bool ValidDefend(Card defendCard)
         {
             Card lastCard = onFieldCards[onFieldCards.Count - 1];
