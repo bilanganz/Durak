@@ -454,7 +454,7 @@ namespace DurakGame
             {
                 foreach (CardBox.CardBox playedCard in flowRiver.Controls)
                 {
-                    if ((playedCard.Card.Suit == attackCard.Suit && playedCard.Card.Rank > attackCard.Rank) || (playedCard.Card.Suit == trumpCard.Suit && attackCard.Suit != trumpCard.Suit))
+                    if (playedCard.Rank== attackCard.Rank)
                     {
                         return true;
                     }
