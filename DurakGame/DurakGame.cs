@@ -31,7 +31,7 @@ namespace DurakGame
 
         //Default Deck Size
         static int deckSize = 36;
-        
+
         private Deck playDeck = new Deck(deckSize);
         private Cards onFieldCards = new Cards();
         private Cards discardedCards;
@@ -52,7 +52,7 @@ namespace DurakGame
         /// </summary>
         private void frmDurakGame_Load(object sender, EventArgs e)
         {
-            StartGame();   
+            StartGame();
         }
         /// <summary>
         /// Start game button click event, that reset and start a new game.
@@ -208,7 +208,7 @@ namespace DurakGame
 
             playDeck = new Deck(deckSize);
             playDeck.Shuffle(deckSize);
-            playDeck.LastCardDrawn +=LastCardDrawn;
+            playDeck.LastCardDrawn += LastCardDrawn;
             discardedCards = new Cards();
 
             txtRoundNumber.Text = roundNumber.ToString();
@@ -299,7 +299,9 @@ namespace DurakGame
             }
         }
 
-        //resets game
+        /// <summary>
+        /// ResetGame method, clear all panel on the game.
+        /// </summary>
         public void ResetGame()
         {
             pnlComputerHand.Controls.Clear();
@@ -309,20 +311,40 @@ namespace DurakGame
             pnlDiscardPile.Controls.Clear();
         }
 
-        private void DealHands(bool cardRemaing)
+        /// <summary>
+        /// DisplayTrumpCards method,
+        /// is to draw trump card, set the image of trump card and set it as the last card.
+        /// </summary>
+        public void DisplayTrumpCards()
         {
-            if (cardRemaing)
+            CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(12), true);
+            flowTrumpCard.Controls.Add(aCardBox);
+            playDeck.GetCard(12).TrumpSuit = playDeck.GetCard(12).Suit;
+            playDeck.changePosition(12, playDeck.GetCard(12));
+            trumpCard = playDeck.GetCard(12);
+        }
+        /// <summary>
+        /// DealHands method, is to deal hands at the end of every turn.
+        /// </summary>
+        /// <param name="cardRemaining">boolean for checking if there is card remaining to draw</param>
+        private void DealHands(bool cardRemaining)
+        {
+            //check if there is card remaining to draw
+            if (cardRemaining)
             {
                 if (playDeck.CardsRemaining > 1)
                 {
+                    //make sure that human have 6 cards
                     for (int c = pnlHumanHand.Controls.Count; c < 6 && playDeck.CardsRemaining > 0; c++)
                     {
                         DrawCard(pnlHumanHand);
                     }
+                    //make sure that computer have 6 cards
                     for (int c = pnlComputerHand.Controls.Count; c < 6 && playDeck.CardsRemaining > 0; c++)
                     {
                         DrawCard(pnlComputerHand);
                     }
+                    //realign cards in both panel
                     RealignCards(pnlHumanHand);
                     RealignCards(pnlComputerHand);
                 }
@@ -335,11 +357,15 @@ namespace DurakGame
                 }
             }
         }
-
+        /// <summary>
+        /// DrawCard method,
+        /// draw card into player panel and hand
+        /// </summary>
+        /// <param name="panel">panel to draw card into</param>
         private void DrawCard(Panel panel)
         {
             txtDeckCardsRemaining.Text = (playDeck.CardsRemaining - currentCard).ToString();
-            if (panel == pnlHumanHand) 
+            if (panel == pnlHumanHand)
             {
                 HumanPlayer.PlayHand.Add(playDeck.GetCard(currentCard));
                 CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(currentCard), true);
@@ -349,7 +375,7 @@ namespace DurakGame
                 pnlHumanHand.Controls.Add(aCardBox);
                 currentCard++;
             }
-            if (panel == pnlComputerHand) 
+            if (panel == pnlComputerHand)
             {
                 ComputerPlayer.PlayHand.Add(playDeck.GetCard(currentCard));
                 CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(currentCard), false);
@@ -357,17 +383,16 @@ namespace DurakGame
                 currentCard++;
             }
         }
-
+        /// <summary>
+        /// RemoveRiverCard method,
+        /// is to move every card on the field to the discarded card panel.
+        /// </summary>
         private void RemoveRiverCard()
         {
             try
             {
-                int count = (flowRiver.Controls.Count-1);
-                foreach(object card in flowRiver.Controls)
-                {
-                    System.Diagnostics.Debug.Write(card+"\n");
-                }
-                for (int i = count; i >= 0; i--)  
+                int count = (flowRiver.Controls.Count - 1);
+                for (int i = count; i >= 0; i--)
                 {
                     onFieldCards = new Cards();
                     flowRiver.Controls[i].Size = new Size(discardedSize.Width + POP, discardedSize.Height + POP);
@@ -376,7 +401,7 @@ namespace DurakGame
                     discardedCardCount++;
                 }
             }
-            catch( Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
@@ -386,18 +411,18 @@ namespace DurakGame
                 flowRiver.Controls.Clear();
                 RealignCards(pnlDiscardPile);
             }
-           
+
         }
 
         public bool ValidAttack(Card attackCard)
         {
-            if(flowRiver.Controls.Count < 1)
+            if (flowRiver.Controls.Count < 1)
             {
                 return true;
             }
             else
             {
-                foreach(CardBox.CardBox playedCard in flowRiver.Controls)
+                foreach (CardBox.CardBox playedCard in flowRiver.Controls)
                 {
                     if (attackCard.Rank == playedCard.Card.Rank)
                     {
@@ -426,7 +451,7 @@ namespace DurakGame
                 {
                     ComputerPlaysCard(aCardBox);
                     System.Diagnostics.Debug.Write("Computer Defended.");
-                    
+
                     return;
                 }
             }
@@ -440,9 +465,9 @@ namespace DurakGame
                 if (playDeck.CardsRemaining > 0)
                 {
                     CardBox.CardBox attackCard = pnlComputerHand.Controls.OfType<CardBox.CardBox>().First();
-                    foreach(CardBox.CardBox card in pnlComputerHand.Controls)
+                    foreach (CardBox.CardBox card in pnlComputerHand.Controls)
                     {
-                        if(card.Rank < attackCard.Rank)
+                        if (card.Rank < attackCard.Rank)
                         {
                             attackCard = card;
                         }
@@ -463,7 +488,7 @@ namespace DurakGame
                     ComputerPlaysCard(attackCard);
                     System.Diagnostics.Debug.Write("Computer Highest Attack.");
                 }
-                
+
             }
             else
             {
@@ -475,7 +500,7 @@ namespace DurakGame
                         {
                             ComputerPlaysCard(attackCard);
                             System.Diagnostics.Debug.Write("Computer Attacked.");
-                            
+
                             return;
                         }
                     }
@@ -483,7 +508,7 @@ namespace DurakGame
                 EndTurn();
             }
         }
-        
+
         public void ComputerPlaysCard(CardBox.CardBox aCardBox)
         {
             pnlComputerHand.Controls.Remove(aCardBox);
@@ -492,22 +517,22 @@ namespace DurakGame
             onFieldCards.Add(aCardBox.Card);
             flowRiver.Controls.Add(aCardBox);
             RealignCards(pnlComputerHand);
-            System.Diagnostics.Debug.Write("Computer Played " + aCardBox.ToString()+" ");
+            System.Diagnostics.Debug.Write("Computer Played " + aCardBox.ToString() + " ");
         }
 
         public void PickUpRiver(Panel panel)
         {
-            for(int i = flowRiver.Controls.Count -1; i >= 0; i--)
+            for (int i = flowRiver.Controls.Count - 1; i >= 0; i--)
             {
                 CardBox.CardBox card = flowRiver.Controls[i] as CardBox.CardBox;
                 panel.Controls.Add(card);
-                flowRiver.Controls.Remove(card); 
+                flowRiver.Controls.Remove(card);
                 if (panel == pnlComputerHand)
                 {
                     card.FaceUp = false;
                     card.Enabled = false;
                 }
-                if(panel == pnlHumanHand)
+                if (panel == pnlHumanHand)
                 {
                     card.Enabled = true;
                     card.Click += CardBox_Click;
@@ -545,7 +570,7 @@ namespace DurakGame
                 lblHumanAttacking.Visible = true;
                 ComputerPlayer.IsAttacking = false;
                 lblComputerAttacking.Visible = false;
-                if (flowRiver.Controls.Count!=0)
+                if (flowRiver.Controls.Count != 0)
                 {
                     btnCeaseAttack.Enabled = true;
                 }
@@ -554,74 +579,8 @@ namespace DurakGame
 
         }
 
-        //will display all card lists on the windows form
-        public void DisplayAllCardLists()
-        {
-            DisplayDiscardCards();
-            DisplayPlayerOneCards();
-            DisplayPlayerTwoCards();
-            DisplayRiverCards();
-        }
 
-        //displays discard cards
-        public void DisplayDiscardCards()
-        {
-            foreach (Control control in pnlDiscardPile.Controls)
-            {
-                CardBox.CardBox card = control as CardBox.CardBox;
-                card.FaceUp = true;
-            }
-        }
 
-        public void DisplayOnFieldCards()
-        {
-            foreach (Card card in onFieldCards)
-            {
-                MessageBox.Show(card.ToString());
-            }
-        }
-
-        //displays trump card
-        public void DisplayTrumpCards()
-        {
-            CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(12), true);
-            flowTrumpCard.Controls.Add(aCardBox);
-            playDeck.GetCard(12).TrumpSuit= playDeck.GetCard(12).Suit;
-            playDeck.changePosition(12, playDeck.GetCard(12));
-            trumpCard = playDeck.GetCard(12);
-        }
-
-        //displays player one cards
-        public void DisplayPlayerOneCards()
-        {
-            foreach (Control control in pnlHumanHand.Controls)
-            {
-                CardBox.CardBox card = control as CardBox.CardBox;
-                card.FaceUp = true;
-            }
-        }
-
-        //displays player two cards
-        public void DisplayPlayerTwoCards()
-        {
-            foreach (Control control in pnlComputerHand.Controls)
-            {
-                CardBox.CardBox card = control as CardBox.CardBox;
-                card.FaceUp = true;
-            }
-        }
-
-        //displays river cards
-        public void DisplayRiverCards()
-        {
-            foreach (Control control in flowRiver.Controls)
-            {
-                CardBox.CardBox card = control as CardBox.CardBox;
-                card.FaceUp = true;
-            }
-
-        }
-        
         #endregion
 
         #region HELPER METHOD
@@ -695,5 +654,75 @@ namespace DurakGame
         {
             this.Close();
         }
+
+        #region TESTING METHOD
+        /// <summary>
+        /// DisplayAllCardLists method,
+        /// is to set all card on the game to face up
+        /// *It's for testing purposes
+        /// </summary>
+        public void DisplayAllCardLists()
+        {
+            DisplayDiscardCards();
+            DisplayPlayerOneCards();
+            DisplayPlayerTwoCards();
+            DisplayRiverCards();
+        }
+
+        /// <summary>
+        /// DisplayDiscardCards method,
+        /// is to set all card on the pnlDiscardedCard to face up
+        /// *It's for testing purposes
+        /// </summary>
+        public void DisplayDiscardCards()
+        {
+            foreach (Control control in pnlDiscardPile.Controls)
+            {
+                CardBox.CardBox card = control as CardBox.CardBox;
+                card.FaceUp = true;
+            }
+        }
+
+        public void DisplayOnFieldCards()
+        {
+            foreach (Card card in onFieldCards)
+            {
+                MessageBox.Show(card.ToString());
+            }
+        }
+
+       
+
+        //displays player one cards
+        public void DisplayPlayerOneCards()
+        {
+            foreach (Control control in pnlHumanHand.Controls)
+            {
+                CardBox.CardBox card = control as CardBox.CardBox;
+                card.FaceUp = true;
+            }
+        }
+
+        //displays player two cards
+        public void DisplayPlayerTwoCards()
+        {
+            foreach (Control control in pnlComputerHand.Controls)
+            {
+                CardBox.CardBox card = control as CardBox.CardBox;
+                card.FaceUp = true;
+            }
+        }
+
+        //displays river cards
+        public void DisplayRiverCards()
+        {
+            foreach (Control control in flowRiver.Controls)
+            {
+                CardBox.CardBox card = control as CardBox.CardBox;
+                card.FaceUp = true;
+            }
+
+        }
+        #endregion
     }
 }
