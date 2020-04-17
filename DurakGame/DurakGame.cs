@@ -7,8 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Card_Lib;
 using CardBox;
+using Card_Lib;
 
 namespace DurakGame
 {
@@ -40,7 +40,9 @@ namespace DurakGame
         #endregion
 
         #region FORM AND CONTROL EVENT HANDLER
-        //initialize components of the form
+        /// <summary>
+        /// initialize components of the form
+        /// </summary>
         public frmDurakGame()
         {
             InitializeComponent();
@@ -54,6 +56,7 @@ namespace DurakGame
         {
             StartGame();
         }
+
         /// <summary>
         /// Start game button click event, that reset and start a new game.
         /// </summary>
@@ -63,40 +66,24 @@ namespace DurakGame
             StartGame();
         }
 
-        //button pickup clicked ends human turn and picks up cards
+        /// <summary>
+        /// Button pick up click event, is clicked to ends human turn and picks up cards 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnPickUp_Click(object sender, EventArgs e)
         {
             PickUpRiver(pnlHumanHand);
         }
 
-        //cease attack button ends human turn and computer starts attacking
+        /// <summary>
+        /// Button cease attack click event, is to cease attack button ends human turn and computer starts attacking
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnCeaseAttack_Click(object sender, EventArgs e)
         {
             EndTurn();
-        }
-
-        private void new20Deck_Click(object sender, EventArgs e)
-        {
-            deckSize = 20;
-            // myDeck = new GameDeck(deckSize);
-            ResetGame();
-            StartGame();
-        }
-
-        private void new36Deck_Click(object sender, EventArgs e)
-        {
-            deckSize = 36;
-            // myDeck = new GameDeck(deckSize);
-            ResetGame();
-            StartGame();
-        }
-
-        private void new52Deck_Click(object sender, EventArgs e)
-        {
-            deckSize = 52;
-            // myDeck = new GameDeck(deckSize);
-            ResetGame();
-            StartGame();
         }
 
         /// <summary>
@@ -143,6 +130,7 @@ namespace DurakGame
 
             }
         }
+
         /// <summary>
         /// CardBox Click event,
         /// </summary>
@@ -196,6 +184,10 @@ namespace DurakGame
         #endregion
 
         #region GAME METHOD
+        /// <summary>
+        /// StartGame method,
+        /// is a method to initialize game
+        /// </summary>
         private void StartGame()
         {
             //Reset all the counter
@@ -203,26 +195,31 @@ namespace DurakGame
             discardedCardCount = 0;
             roundNumber = 0;
 
+            //Set the Image of card box
             pbDeck.Image = (new Card()).GetCardImage();
             //MessageBox.Show(playDeck.CardsRemaining.ToString());
 
+            //Create a new deck
             playDeck = new Deck(deckSize);
-            playDeck.Shuffle(deckSize);
-            playDeck.LastCardDrawn += LastCardDrawn;
+            playDeck.Shuffle(deckSize); //shuffle the deck
+            playDeck.LastCardDrawn += LastCardDrawn; //wire LastCardDrawn to playDeck.LastCardDrawn
             discardedCards = new Cards();
 
+            //Update the text
             txtRoundNumber.Text = roundNumber.ToString();
             txtRiverCardsRemaning.Text = "0";
-            cardRemaining = true;
-
-            DealHands(cardRemaining);
-            DisplayTrumpCards();
-
-            CheckDeckSize();
-
-            btnPickUp.Enabled = false;
             txtDeckCardsRemaining.Text = (playDeck.CardsRemaining - currentCard).ToString();
             txtDicardCardsRemaining.Text = "0";
+
+            //Set cardRemaining to true
+            cardRemaining = true;
+
+            DealHands(cardRemaining); //Deal the deck to players
+            DisplayTrumpCards();      //Display the trump card of the game
+            CheckDeckSize();          //Checked decksize on menu strip
+
+            //Modify form properties
+            btnPickUp.Enabled = false;
             lblHumanAttacking.Visible = true;
             lblComputerAttacking.Visible = false;
         }
@@ -263,6 +260,7 @@ namespace DurakGame
                 //Check for draw by checking the control count in both panel
                 if (pnlComputerHand.Controls.Count == 0 && pnlHumanHand.Controls.Count == 0)
                 {
+                    //Display message box
                     DialogResult d = MessageBox.Show("It's a draw!", "New game?", MessageBoxButtons.YesNo);
                     if (d == DialogResult.Yes)
                     {
@@ -276,6 +274,7 @@ namespace DurakGame
                 }
                 else if (pnlComputerHand.Controls.Count == 0) // or if computer won the game
                 {
+                    //Display message box
                     DialogResult d = MessageBox.Show("Computer has won the game", "New game?", MessageBoxButtons.YesNo);
                     if (d == DialogResult.Yes)
                     {
@@ -289,6 +288,7 @@ namespace DurakGame
                 }
                 else if (pnlHumanHand.Controls.Count == 0) // or if human won the game
                 {
+                    //Display message box
                     DialogResult d = MessageBox.Show("Player has won the game", "New game?", MessageBoxButtons.YesNo);
                     if (d == DialogResult.Yes)
                     {
@@ -304,11 +304,11 @@ namespace DurakGame
         /// </summary>
         public void ResetGame()
         {
-            pnlComputerHand.Controls.Clear();
-            pnlHumanHand.Controls.Clear();
-            flowRiver.Controls.Clear();
-            flowTrumpCard.Controls.Clear();
-            pnlDiscardPile.Controls.Clear();
+            pnlComputerHand.Controls.Clear();  // clear pnlComputerHand
+            pnlHumanHand.Controls.Clear();     // clear pnlHumanHand
+            flowRiver.Controls.Clear();        // clear flowRiver
+            flowTrumpCard.Controls.Clear();    // clear flowTrumpCard
+            pnlDiscardPile.Controls.Clear();   // clear pnlDiscardPile
         }
 
         /// <summary>
@@ -317,12 +317,21 @@ namespace DurakGame
         /// </summary>
         public void DisplayTrumpCards()
         {
+            /*The reason of number 12, is because the program is designed to accomodate 2 players. 
+             *  Which makes the trump card is always been on 12th position.*/
+
+            //create a new cardbox object
             CardBox.CardBox aCardBox = new CardBox.CardBox(playDeck.GetCard(12), true);
+            // add the cardbox to flowTrumpCard
             flowTrumpCard.Controls.Add(aCardBox);
+            // set the trumpSuit to the 12th card suit
             playDeck.GetCard(12).TrumpSuit = playDeck.GetCard(12).Suit;
+            // move the 12th card to last card on the deck
             playDeck.changePosition(12, playDeck.GetCard(12));
+            // set the trump card
             trumpCard = playDeck.GetCard(12);
         }
+
         /// <summary>
         /// DealHands method, is to deal hands at the end of every turn.
         /// </summary>
@@ -443,6 +452,11 @@ namespace DurakGame
             return false;
         }
 
+        /// <summary>
+        /// ComputerDefence method,
+        /// 
+        /// </summary>
+        /// <param name="attackCard"></param>
         public void ComputerDefence(CardBox.CardBox attackCard)
         {
             foreach (CardBox.CardBox aCardBox in pnlComputerHand.Controls)
@@ -458,6 +472,10 @@ namespace DurakGame
             PickUpRiver(pnlComputerHand);
         }
 
+        /// <summary>
+        /// ComputerAttack method,
+        /// 
+        /// </summary>
         public void ComputerAttack()
         {
             if (flowRiver.Controls.Count == 0)
@@ -509,6 +527,11 @@ namespace DurakGame
             }
         }
 
+        /// <summary>
+        /// ComputerPlaysCard method,
+        /// is to
+        /// </summary>
+        /// <param name="aCardBox"></param>
         public void ComputerPlaysCard(CardBox.CardBox aCardBox)
         {
             pnlComputerHand.Controls.Remove(aCardBox);
@@ -520,6 +543,11 @@ namespace DurakGame
             System.Diagnostics.Debug.Write("Computer Played " + aCardBox.ToString() + " ");
         }
 
+        /// <summary>
+        /// PickUpRiver method,
+        /// is to move every card on the field into hand
+        /// </summary>
+        /// <param name="panel"></param>
         public void PickUpRiver(Panel panel)
         {
             for (int i = flowRiver.Controls.Count - 1; i >= 0; i--)
@@ -545,7 +573,10 @@ namespace DurakGame
             }
             EndTurn();
         }
-
+        /// <summary>
+        /// EndTurn method,
+        /// is to
+        /// </summary>
         public void EndTurn()
         {
             roundNumber++;
@@ -578,12 +609,14 @@ namespace DurakGame
             }
 
         }
-
-
-
         #endregion
 
         #region HELPER METHOD
+        /// <summary>
+        /// RealignCards method,
+        /// is to
+        /// </summary>
+        /// <param name="panelHand">panel to be realigned</param>
         private void RealignCards(Panel panelHand)
         {
             // Determine the number of cards/controls in the panel.
@@ -643,11 +676,26 @@ namespace DurakGame
 
         #endregion
 
-        private void pbDeck_Click(object sender, EventArgs e)
+        #region MENU STRIP EVENT
+        private void new20Deck_Click(object sender, EventArgs e)
         {
-            //DrawCard(pnlComputerHand);
-            //DisplayOnFieldCards();
-            DisplayAllCardLists();
+            deckSize = 20;
+            ResetGame();
+            StartGame();
+        }
+
+        private void new36Deck_Click(object sender, EventArgs e)
+        {
+            deckSize = 36;
+            ResetGame();
+            StartGame();
+        }
+
+        private void new52Deck_Click(object sender, EventArgs e)
+        {
+            deckSize = 52;
+            ResetGame();
+            StartGame();
         }
 
         private void quitToolStrip_Click(object sender, EventArgs e)
@@ -655,7 +703,16 @@ namespace DurakGame
             this.Close();
         }
 
+        #endregion
+
         #region TESTING METHOD
+
+        private void pbDeck_Click(object sender, EventArgs e)
+        {
+            //DrawCard(pnlComputerHand);
+            //DisplayOnFieldCards();
+            DisplayAllCardLists();
+        }
         /// <summary>
         /// DisplayAllCardLists method,
         /// is to set all card on the game to face up
@@ -691,7 +748,7 @@ namespace DurakGame
             }
         }
 
-       
+
 
         //displays player one cards
         public void DisplayPlayerOneCards()
