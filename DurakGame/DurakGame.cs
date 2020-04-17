@@ -15,25 +15,28 @@ namespace DurakGame
     public partial class frmDurakGame : Form
     {
         #region VARIABLE
-        private int roundNumber = 0;
-        private const int POP = 25;
+        //Variable for RealignCard Method
         static private Size regularSize = new Size(89, 109);
         static private Size discardedSize = new Size(25, 30);
+        private const int POP = 6;
 
+        //Counter Declaration
+        private int roundNumber = 0;
+        private int currentCard = 0;
+        private int discardedCardCount = 0;
+
+        //Player Declaration
         private Player HumanPlayer = new Player("Player One", true);
         private Player ComputerPlayer = new Player("Computer", false);
 
-
-        private int currentCard=0;
-        private int discardedCardCount = 0;
+        //Default Deck Size
+        static int deckSize = 36;
+        
         private Deck playDeck = new Deck(deckSize);
         private Cards onFieldCards = new Cards();
         private Cards discardedCards;
         private bool cardRemaining = true;
         private Card trumpCard = new Card();
-        
-        static int deckSize = 36;
-        
         #endregion
 
         #region FORM AND CONTROL EVENT HANDLER
@@ -44,11 +47,16 @@ namespace DurakGame
 
         }
 
+        /// <summary>
+        /// Event that occurs before a form is displayed for the first time, that call StartGame method.
+        /// </summary>
         private void frmDurakGame_Load(object sender, EventArgs e)
         {
             StartGame();   
         }
-        
+        /// <summary>
+        /// Start game button click event, that reset and start a new game.
+        /// </summary>
         private void btnStartGame_Click(object sender, EventArgs e)
         {
             ResetGame();
@@ -64,7 +72,6 @@ namespace DurakGame
         //cease attack button ends human turn and computer starts attacking
         private void btnCeaseAttack_Click(object sender, EventArgs e)
         {
-            RemoveRiverCard();
             EndTurn();
         }
 
@@ -91,13 +98,16 @@ namespace DurakGame
             ResetGame();
             StartGame();
         }
-        private void Reshuffle(object source, EventArgs args)
+
+        /// <summary>
+        /// LastCardDrawn event, that trigger when there is no remaining card to drawn from the deck.
+        /// </summary>
+        private void LastCardDrawn(object source, EventArgs args)
         {
             pbDeck.Image = null;
             cardRemaining = false;
             txtDeckCardsRemaining.Text = "0";
         }
-
         #endregion
 
         #region CARDBOX EVENT HANDLER
@@ -133,7 +143,9 @@ namespace DurakGame
 
             }
         }
-        
+        /// <summary>
+        /// CardBox Click event,
+        /// </summary>
         void CardBox_Click(object sender, EventArgs e)
         {
             // Convert sender to a CardBox
@@ -186,14 +198,17 @@ namespace DurakGame
         #region GAME METHOD
         private void StartGame()
         {
+            //Reset all the counter
             currentCard = 0;
             discardedCardCount = 0;
             roundNumber = 0;
+
             pbDeck.Image = (new Card()).GetCardImage();
-            playDeck = new Deck(deckSize);
             //MessageBox.Show(playDeck.CardsRemaining.ToString());
+
+            playDeck = new Deck(deckSize);
             playDeck.Shuffle(deckSize);
-            playDeck.LastCardDrawn +=Reshuffle;
+            playDeck.LastCardDrawn +=LastCardDrawn;
             discardedCards = new Cards();
 
             txtRoundNumber.Text = roundNumber.ToString();
@@ -203,23 +218,7 @@ namespace DurakGame
             DealHands(cardRemaining);
             DisplayTrumpCards();
 
-            if (deckSize == 20)
-            {
-                new20Deck.Checked = true;
-                new36Deck.Checked = false;
-                new52Deck.Checked = false;
-            }
-            else if (deckSize == 36)
-            {
-                new20Deck.Checked = false;
-                new36Deck.Checked = true;
-                new52Deck.Checked = false;
-            }else if (deckSize == 52)
-            {
-                new20Deck.Checked = false;
-                new36Deck.Checked = false;
-                new52Deck.Checked = true;
-            }
+            CheckDeckSize();
 
             btnPickUp.Enabled = false;
             txtDeckCardsRemaining.Text = (playDeck.CardsRemaining - currentCard).ToString();
@@ -227,12 +226,55 @@ namespace DurakGame
             lblHumanAttacking.Visible = true;
             lblComputerAttacking.Visible = false;
         }
-        
+
+        /// <summary>
+        /// CheckDeckSize method, is to checked the decksize thats being played on the menustrip.
+        /// </summary>
+        public void CheckDeckSize()
+        {
+            //Check if deckSize == 20
+            if (deckSize == 20)
+            {
+                new20Deck.Checked = true;
+                new36Deck.Checked = false;
+                new52Deck.Checked = false;
+            }
+            else if (deckSize == 36) // or deckSize == 36
+            {
+                new20Deck.Checked = false;
+                new36Deck.Checked = true;
+                new52Deck.Checked = false;
+            }
+            else if (deckSize == 52) // or deckSize == 52
+            {
+                new20Deck.Checked = false;
+                new36Deck.Checked = false;
+                new52Deck.Checked = true;
+            }
+        }
+        /// <summary>
+        /// CheckWinner method, is to find the winner of the game or its a draw.
+        /// </summary>
         public void CheckWinner()
         {
+            //check if the playDeck have 0 card remaining.
             if (playDeck.CardsRemaining == 0)
             {
-                if (pnlComputerHand.Controls.Count == 0)
+                //Check for draw by checking the control count in both panel
+                if (pnlComputerHand.Controls.Count == 0 && pnlHumanHand.Controls.Count == 0)
+                {
+                    DialogResult d = MessageBox.Show("It's a draw!", "New game?", MessageBoxButtons.YesNo);
+                    if (d == DialogResult.Yes)
+                    {
+                        ResetGame();
+                        StartGame();
+                    }
+                    else
+                    {
+                        this.Close();
+                    }
+                }
+                else if (pnlComputerHand.Controls.Count == 0) // or if computer won the game
                 {
                     DialogResult d = MessageBox.Show("Computer has won the game", "New game?", MessageBoxButtons.YesNo);
                     if (d == DialogResult.Yes)
@@ -245,7 +287,7 @@ namespace DurakGame
                         this.Close();
                     }
                 }
-                else if (pnlHumanHand.Controls.Count == 0)
+                else if (pnlHumanHand.Controls.Count == 0) // or if human won the game
                 {
                     DialogResult d = MessageBox.Show("Player has won the game", "New game?", MessageBoxButtons.YesNo);
                     if (d == DialogResult.Yes)
@@ -321,6 +363,10 @@ namespace DurakGame
             try
             {
                 int count = (flowRiver.Controls.Count-1);
+                foreach(object card in flowRiver.Controls)
+                {
+                    System.Diagnostics.Debug.Write(card+"\n");
+                }
                 for (int i = count; i >= 0; i--)  
                 {
                     onFieldCards = new Cards();
@@ -328,7 +374,6 @@ namespace DurakGame
                     flowRiver.Controls[i].Enabled = false;
                     pnlDiscardPile.Controls.Add(flowRiver.Controls[i]);
                     discardedCardCount++;
-                    RealignCards(pnlDiscardPile);
                 }
             }
             catch( Exception ex)
@@ -338,8 +383,8 @@ namespace DurakGame
             finally
             {
                 txtDicardCardsRemaining.Text = (discardedCardCount).ToString();
-                RealignCards(pnlDiscardPile);
                 flowRiver.Controls.Clear();
+                RealignCards(pnlDiscardPile);
             }
            
         }
@@ -435,7 +480,6 @@ namespace DurakGame
                         }
                     }
                 }
-                RemoveRiverCard();
                 EndTurn();
             }
         }
@@ -479,10 +523,12 @@ namespace DurakGame
 
         public void EndTurn()
         {
+            roundNumber++;
             txtRoundNumber.Text = roundNumber.ToString();
             txtRiverCardsRemaning.Text = flowRiver.Controls.Count.ToString();
-            roundNumber++;
-            DealHands(cardRemaining);         
+            DealHands(cardRemaining);
+
+            RemoveRiverCard();
             if (HumanPlayer.IsAttacking)
             {
                 HumanPlayer.IsAttacking = false;
@@ -505,6 +551,7 @@ namespace DurakGame
                 }
                 btnPickUp.Enabled = false;
             }
+
         }
 
         //will display all card lists on the windows form
